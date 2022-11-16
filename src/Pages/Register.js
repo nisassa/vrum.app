@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
     Link
@@ -7,7 +7,7 @@ import {
 function Register() {
     return (
         <div className="container my-4 mx-auto px-4 md:px-12">
-            <div className="bg-yellow-400 p-4 mb-10">
+            <div className="bg-yellow-400 p-4 mb-4">
                 <h1 className="text-white">Register</h1>
             </div>
             <div className="flex flex-col md:flex-row items-center w-full mb-8 space-x-4">

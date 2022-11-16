@@ -1,7 +1,7 @@
 import './App.css';
 import Nav from './Nav';
 import Register from "./Pages/Register";
-import {RegisterProvider} from "./Pages/Parts";
+import { RegisterProvider } from "./Pages/Parts";
 import Home from "./Pages/Home";
 
 import {

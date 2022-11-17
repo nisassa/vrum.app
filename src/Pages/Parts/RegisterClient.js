@@ -2,14 +2,14 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 
-function RegisterProvider() {
+function RegisterClient() {
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
       <div className='bg-yellow-400 p-4 mb-4'>
         <h1 className='text-white'>Register Provider</h1>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
-        <div className='w-full md:w-1/1 bg-red-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
+        <div className='w-full md:w-1/1 bg-blue-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
           <Formik
             initialValues={{
               name: '',
@@ -35,7 +35,7 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='Name'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+                      className='appearance-none block w-full bg-white-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                       id='grid-first-name'
                       type='text'
                       placeholder='Jane'
@@ -53,43 +53,12 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='lastname'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-last-name'
                       type='text'
                       placeholder='Doe'
                     />
                   </div>
-                </div>
-                <div className='flex flex-wrap -mx-3 mb-6 company-name'>
-                  <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    htmlFor='grid-last-name'
-                  >
-                    Company Name
-                  </label>
-                  <input
-                    name='company'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
-                    type='text'
-                    placeholder='Vrom SRL'
-                  />
-                </div>
-
-                <div className='flex flex-wrap -mx-3 mb-6 job-title'>
-                  <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    htmlFor='grid-last-name'
-                  >
-                    Job Title
-                  </label>
-                  <input
-                    name='job-title'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
-                    type='text'
-                    placeholder='Engineer'
-                  />
                 </div>
               </div>
               <div className='w-full md:w-1/3 contact-details px-3'>
@@ -105,7 +74,7 @@ function RegisterProvider() {
                   </label>
                   <Field
                     name='phone-number'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
                     type='text'
                     placeholder='+40770009770'
@@ -120,7 +89,7 @@ function RegisterProvider() {
                   </label>
                   <Field
                     name='email'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
                     type='text'
                     placeholder='company@domain.com'
@@ -137,7 +106,7 @@ function RegisterProvider() {
                   <div className='w-full relative'>
                     <Field
                       name='country'
-                      className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-state'
                       as='select'
                     >
@@ -167,7 +136,7 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='city'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-city'
                       type='text'
                       placeholder='Albuquerque'
@@ -183,7 +152,7 @@ function RegisterProvider() {
                     <div className='relative'>
                       <Field
                         name='state'
-                        className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                        className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                         id='grid-state'
                         as='select'
                       >
@@ -210,7 +179,7 @@ function RegisterProvider() {
                       Zip
                     </label>
                     <input
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-zip'
                       type='text'
                       placeholder='90210'
@@ -226,7 +195,7 @@ function RegisterProvider() {
                   </label>
                   <Field
                     name='address'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
                     type='text'
                     placeholder='Robert Robertson, 1234 NW Bobcat Lane'
@@ -247,7 +216,7 @@ function RegisterProvider() {
                   </label>
                   <Field
                     name='password'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-password'
                     type='password'
                     placeholder='******************'
@@ -265,7 +234,7 @@ function RegisterProvider() {
                   </label>
                   <Field
                     name='verify-password'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-password'
                     type='password'
                     placeholder='******************'
@@ -290,4 +259,4 @@ function RegisterProvider() {
     </div>
   );
 }
-export default RegisterProvider;
+export default RegisterClient;

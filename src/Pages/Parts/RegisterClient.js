@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import axios from 'axios';
 
 function RegisterClient() {
   const [serverState, setServerState] = useState();
@@ -10,10 +9,14 @@ function RegisterClient() {
     setServerState({ ok, msg });
   };
   const handleOnSubmit = (values, actions) => {
-    axios({
+    console.log(values);
+    Axios({
       method: 'POST',
-      url: 'http://vrum-api.test/provider/',
-      data: values
+      url: 'http://vrum-api.test/api/register/client',
+      data: values,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
       .then((response) => {
         actions.setSubmitting(false);
@@ -44,22 +47,22 @@ function RegisterClient() {
         <div className='w-full md:w-1/1 bg-blue-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
           <Formik
             initialValues={{
-              firstName: '',
-              lastName: '',
+              first_name: '',
+              last_name: '',
               phone: '',
               email: '',
               country: '',
               city: '',
               state: '',
-              zip: '',
-              address: '',
+              postcode: '',
+              line_1: '',
               password: '',
-              verifyPassword: ''
+              password_confirmation: ''
             }}
             onSubmit={(values) => {
-              console.log(values);
-              alert(JSON.stringify(values, null, 2));
-              handleOnSubmit();
+              // console.log(values);
+              // alert(JSON.stringify(values, null, 2));
+              handleOnSubmit(values);
             }}
           >
             <Form className='flex flex-wrap' method='POST'>
@@ -76,7 +79,7 @@ function RegisterClient() {
                       First Name
                     </label>
                     <Field
-                      name='firstName'
+                      name='first_name'
                       className='appearance-none block w-full bg-white-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                       id='grid-first-name'
                       type='text'
@@ -94,7 +97,7 @@ function RegisterClient() {
                       Last Name
                     </label>
                     <Field
-                      name='lastName'
+                      name='last_name'
                       className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-last-name'
                       type='text'
@@ -118,7 +121,7 @@ function RegisterClient() {
                     name='phone'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
-                    type='text'
+                    type='phone'
                     placeholder='+40770009770'
                   />
                 </div>
@@ -127,13 +130,13 @@ function RegisterClient() {
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
-                    Phone Number
+                    Email
                   </label>
                   <Field
                     name='email'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
-                    type='text'
+                    type='email'
                     placeholder='company@domain.com'
                   />
                 </div>
@@ -152,9 +155,9 @@ function RegisterClient() {
                       id='grid-state'
                       as='select'
                     >
-                      <option>New Mexico</option>
-                      <option>Missouri</option>
-                      <option>Texas</option>
+                      <option>MD</option>
+                      <option>RO</option>
+                      <option>US</option>
                     </Field>
                     <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
                       <svg
@@ -237,7 +240,7 @@ function RegisterClient() {
                     Your Address
                   </label>
                   <Field
-                    name='address'
+                    name='line_1'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
                     type='text'
@@ -273,10 +276,10 @@ function RegisterClient() {
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-password'
                   >
-                    Retype Password
+                    Confirm Password
                   </label>
                   <Field
-                    name='verifyPassword'
+                    name='password_confirmation'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-password'
                     type='password'

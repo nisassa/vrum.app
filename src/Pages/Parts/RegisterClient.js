@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
+import axios from 'axios';
 
 function RegisterClient() {
+  const [serverState, setServerState] = useState();
+  const handleServerResponse = (ok, msg) => {
+    setServerState({ ok, msg });
+  };
+  const handleOnSubmit = (values, actions) => {
+    axios({
+      method: 'POST',
+      url: 'http://vrum-api.test/provider/',
+      data: values
+    })
+      .then((response) => {
+        actions.setSubmitting(false);
+        actions.resetForm();
+        handleServerResponse(true, 'Thanks!');
+      })
+      .catch((error) => {
+        actions.setSubmitting(false);
+        handleServerResponse(false, error.response.data.error);
+      });
+  };
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
       <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
@@ -22,15 +44,25 @@ function RegisterClient() {
         <div className='w-full md:w-1/1 bg-blue-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
           <Formik
             initialValues={{
-              name: '',
+              firstName: '',
+              lastName: '',
+              phone: '',
               email: '',
-              password: ''
+              country: '',
+              city: '',
+              state: '',
+              zip: '',
+              address: '',
+              password: '',
+              verifyPassword: ''
             }}
             onSubmit={(values) => {
+              console.log(values);
               alert(JSON.stringify(values, null, 2));
+              handleOnSubmit();
             }}
           >
-            <Form className='flex flex-wrap'>
+            <Form className='flex flex-wrap' method='POST'>
               <div className='w-full md:w-1/3 personal-details px-3'>
                 <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                   Your details
@@ -44,7 +76,7 @@ function RegisterClient() {
                       First Name
                     </label>
                     <Field
-                      name='Name'
+                      name='firstName'
                       className='appearance-none block w-full bg-white-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
                       id='grid-first-name'
                       type='text'
@@ -62,7 +94,7 @@ function RegisterClient() {
                       Last Name
                     </label>
                     <Field
-                      name='lastname'
+                      name='lastName'
                       className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-last-name'
                       type='text'
@@ -83,14 +115,14 @@ function RegisterClient() {
                     Phone Number
                   </label>
                   <Field
-                    name='phone-number'
+                    name='phone'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-last-name'
                     type='text'
                     placeholder='+40770009770'
                   />
                 </div>
-                <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                <div className='flex flex-wrap -mx-3 mb-6 px-3 email'>
                   <label
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
@@ -188,7 +220,8 @@ function RegisterClient() {
                     >
                       Zip
                     </label>
-                    <input
+                    <Field
+                      name='zip'
                       className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-zip'
                       type='text'
@@ -243,7 +276,7 @@ function RegisterClient() {
                     Retype Password
                   </label>
                   <Field
-                    name='verify-password'
+                    name='verifyPassword'
                     className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='grid-password'
                     type='password'

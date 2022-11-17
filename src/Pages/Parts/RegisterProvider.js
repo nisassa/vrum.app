@@ -5,8 +5,18 @@ import { Link } from 'react-router-dom';
 function RegisterProvider() {
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
-      <div className='bg-yellow-400 p-4 mb-4'>
-        <h1 className='text-white'>Register Provider</h1>
+      <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
+        <div className='back flex-1 flex justify-start '>
+          <Link
+            className='w-30 py-2 px-4 my-4 bg-gray-300 text-black font-semibold rounded-lg '
+            to='/register'
+          >
+            Back
+          </Link>
+        </div>
+
+        <h1 className='flex-1 text-white'>Register Provider</h1>
+        <div className='flex-1'></div>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
         <div className='w-full md:w-1/1 bg-red-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>

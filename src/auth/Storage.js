@@ -21,7 +21,7 @@ const getToken = async () => {
 
 const storeUser = async (user) => {
     try {
-        await secureLocalStorage.getItem(userKey, JSON.stringify(user));
+        await secureLocalStorage.setItem(userKey, user);
     } catch (error) {
         console.log("Error storing the auth user", error);
     }

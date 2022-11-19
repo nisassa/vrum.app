@@ -1,17 +1,40 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
 import { useProfile } from '../../hooks/profile';
 
 function Login() {
 
-  const { userLogin } = useProfile();
+  const [apiErrors, setApiErrors] = useState({})
+  const [loginFailed, setLoginFailed] = useState(false)
+  const [isLoading, setisLoading] = useState(false)
 
-  const handleOnSubmit = (values, actions) => {
-    userLogin(values)
+  const { userLogin, restoreUserAndToken, isAuthenticated } = useProfile();
+
+  console.log('isAuthenticated ' + isAuthenticated);
+
+  const handleSubmit = async (values) => {
+    setLoginFailed(false)
+    setisLoading(true)
+    await userLogin(values)
+        .then((response) => {
+          setApiErrors({})
+          if (typeof response?.data?.token === 'undefined' || typeof response?.data?.token === null) {
+            setLoginFailed(true)
+          }
+          restoreUserAndToken()
+          setisLoading(false)
+        })
+        .catch((error) => {
+          setisLoading(false)
+          if (error.hasOwnProperty('response') && typeof error.response === 'object' && error.response.hasOwnProperty('data')) {
+            let responseData = error.response.data
+            if (responseData.hasOwnProperty('errors') && typeof responseData.errors === 'object' && Object.keys(responseData.errors).length > 0) {
+              setApiErrors(responseData.errors[0])
+            }
+          }
+        });
   };
-
 
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
@@ -21,19 +44,22 @@ function Login() {
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
         <div className='w-full md:w-1/1 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
+
           <Formik
             initialValues={{
               email: '',
               password: ''
             }}
-            onSubmit={(values) => {
-              // console.log(values);
-              // alert(JSON.stringify(values, null, 2));
-              handleOnSubmit(values);
-            }}
+            onSubmit={(values) => handleSubmit(values)}
           >
             <Form className='flex flex-wrap justify-center' method='POST'>
               <div className='w-full md:w-1/3 security'>
+                { loginFailed === true && (
+                    <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                      <p className="text-sm">The details you have provided do not match our records.</p>
+                    </div>
+                )}
+
                 <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                   Login
                 </h3>
@@ -47,12 +73,22 @@ function Login() {
                   </label>
                   <Field
                     name='email'
-                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        ( apiErrors.hasOwnProperty('email') && typeof apiErrors.email[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`)}`}
+                    id='input_email'
                     id='email-input'
                     type='email'
                     placeholder='user@domain.com'
                   />
+                  { apiErrors.hasOwnProperty('email') && typeof apiErrors.email[0] !== 'undefined' && (
+                      <p className="text-red-500 text-12">
+                        {apiErrors.email[0]}
+                      </p>
+                  )}
                 </div>
+
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
                   <label
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -61,12 +97,20 @@ function Login() {
                     Password
                   </label>
                   <Field
-                    name='password'
-                    className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-password'
-                    type='password'
-                    placeholder='******************'
+                      name='password'
+                      className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          ( apiErrors.hasOwnProperty('password') && typeof apiErrors.password[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`)}`}
+                      id='input_password'
+                      type='password'
+                      placeholder='******************'
                   />
+                  { apiErrors.hasOwnProperty('password') && typeof apiErrors.password[0] !== 'undefined' && (
+                      <p className="text-red-500 text-12">
+                        {apiErrors.password[0]}
+                      </p>
+                  )}
                   <Link className='w-full flex' to='/register'>
                     Forgot password?
                   </Link>
@@ -75,6 +119,7 @@ function Login() {
 
               <div className='w-full flex justify-center'>
                 <button
+                    disabled={isLoading}
                   type='submit'
                   className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                 >

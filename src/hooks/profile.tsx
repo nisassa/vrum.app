@@ -8,9 +8,10 @@ import React, {
 } from 'react';
 
 import { AxiosResponse } from 'axios';
-import { useMutation, useQueryClient, useQuery } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { endpoints } from '../config/apiConfig';
 import CallApi from '../services/apiService';
+import storage from '../auth/storage';
 
 interface IProfileContext {
   user: any;
@@ -18,7 +19,7 @@ interface IProfileContext {
   isAuthenticated: boolean;
   saveUser: (user: any) => void;
   userLogin: (user: any) => void;
-  isReady: boolean;
+  restoreUserAndToken: () => void;
 }
 
 const USER_KEY = `User`;
@@ -29,20 +30,17 @@ export const ProfileContext = createContext<IProfileContext>({
   isAuthenticated: false,
   saveUser: () => {},
   userLogin: () => {},
-  isReady: false
+  restoreUserAndToken: () => {},
 }) as Context<IProfileContext>;
 
 export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileProvider: FC<any> = ({ children }) => {
-  const USER_KEY = 'USER';
 
   const { mutateAsync: login } = useLogin();
 
-  const [user, setUser] = useState();
-  const [token, setToken] = useState('');
-
-  const isReady = false;
+  const [user, setUser] = useState<any>();
+  const [token, setToken] = useState<any>();
 
   useEffect(() => {
     restoreUser();
@@ -55,22 +53,27 @@ export const ProfileProvider: FC<any> = ({ children }) => {
   const isAuthenticated = !!user && !!token;
 
   const restoreUser = async () => {
-    // const user = await authStorage.getUser();
-    // if (user) setUser(JSON.parse(user));
+    const user = await storage.getUser();
+    if (user) setUser(user);
   };
 
   const restoreToken = async () => {
-    // const token = await authStorage.getToken();
-    // if (token) setToken(token);
+    const token = await storage.getToken();
+    if (token) setToken(token);
   };
 
   const saveUser = async (user: any) => {
-    // setUser(user);
-    // await Store.storeUser(user);
+    setUser(user);
+    await storage.storeUser(user);
+  };
+
+  const restoreUserAndToken = async () => {
+      await restoreToken();
+      await restoreUser();
   };
 
   const userLogin = async (credentials: any) => {
-    await login(credentials);
+     return await login(credentials);
   };
 
   return (
@@ -81,7 +84,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
         isAuthenticated,
         saveUser,
         userLogin,
-        isReady
+        restoreUserAndToken,
       }}
     >
       {children}
@@ -90,7 +93,6 @@ export const ProfileProvider: FC<any> = ({ children }) => {
 };
 
 const useLogin = () => {
-  // const { saveUser } = useProfile();
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<unknown>, any>(
     (body) =>
@@ -100,8 +102,12 @@ const useLogin = () => {
         data: body
       }),
     {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(USER_KEY);
+      onSuccess: async (response: any) => {
+          if (typeof response.data?.token !== 'undefined') {
+              await storage.storeToken(response.data?.token)
+              await storage.storeUser(response.data?.resource)
+          }
+          return queryClient.invalidateQueries(USER_KEY);
       }
     }
   );

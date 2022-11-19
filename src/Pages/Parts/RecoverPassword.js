@@ -30,9 +30,8 @@ function RecoverPassword() {
   };
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
-      <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
-        <h1 className='flex-1 text-white'>Recover Password Page</h1>
-        <div className='flex-1'></div>
+      <div className='bg-yellow-400 p-4 mb-4'>
+        <h1 className='w-full text-center text-white'>Recover Password Page</h1>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
         <div className='w-full md:w-1/1 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>

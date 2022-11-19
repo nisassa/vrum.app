@@ -9,7 +9,7 @@ function Register() {
         <h1 className='text-white'>Register</h1>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
-        <div className='w-full md:w-1/2 bg-red-100 rounded-lg shadow-md mb-4 md:mb-0 register-client'>
+        <div className='w-full md:w-1/2 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 register-client'>
           <div className='flex items-center px-12 py-8'>
             <div className='flex flex-col items-start ml-4'>
               <h1>Register as a client</h1>
@@ -22,7 +22,7 @@ function Register() {
             </div>
           </div>
         </div>
-        <div className='w-full md:w-1/2 bg-red-100 rounded-lg shadow-md mb-4 md:mb-0 register-provider'>
+        <div className='w-full md:w-1/2 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 register-provider'>
           <div className='flex items-center px-12 py-8'>
             <div className='flex flex-col items-start ml-4'>
               <h1>Register as a provider</h1>

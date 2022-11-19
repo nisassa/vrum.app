@@ -20,7 +20,6 @@ function RegisterProvider() {
 
         })
         .catch((error) => {
-          console.log("errors")
           if (error.hasOwnProperty('response') && typeof error.response === 'object' && error.response.hasOwnProperty('data')) {
             let responseData = error.response.data
             if (responseData.hasOwnProperty('errors') && typeof responseData.errors === 'object' && Object.keys(responseData.errors).length > 0) {
@@ -37,7 +36,6 @@ function RegisterProvider() {
       }, 3000)
     }
   }, [successMessage])
-
 
   return (
     <div className='container my-4 mx-auto px-4 md:px-4'>

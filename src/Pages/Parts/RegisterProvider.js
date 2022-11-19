@@ -9,7 +9,7 @@ function RegisterProvider() {
   const navigate = useNavigate()
 
   const [apiErrors, setApiErrors] = useState({})
-  const [successMessage, setSuccessMessage] = useState('Thanks for Registering! You can go to login now!')
+  const [successMessage, setSuccessMessage] = useState(false)
 
   const { mutateAsync: registerProvider, isLoading } = useRegister();
 

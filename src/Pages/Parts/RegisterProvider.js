@@ -172,7 +172,7 @@ function RegisterProvider() {
                   >
                     Country
                   </label>
-                  <div className='w-full relative'>
+                  <div className='w-full'>
                     <Field
                       name='country'
                       className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-500'

@@ -53,7 +53,7 @@ function RegisterClient() {
               email: '',
               country: '',
               city: '',
-              state: '',
+              state: 'RO',
               postcode: '',
               line_1: '',
               password: '',

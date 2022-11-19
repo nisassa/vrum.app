@@ -5,7 +5,7 @@ import { RegisterProvider } from './Pages/Parts';
 import Home from './Pages/Home';
 import RegisterClient from './Pages/Parts/RegisterClient';
 import { QueryClientProvider } from "react-query";
-import { ReactQueryClient } from './config/apiConfig'
+import { ReactQueryClient } from './Config/ApiConfig'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import React from 'react';
 
 function App() {
   return (
-    <div className='App'>
+      <QueryClientProvider client={ReactQueryClient}>
       <Router>
         <Nav />
         <Routes>
@@ -25,7 +25,7 @@ function App() {
           <Route path='/' element={<Home />} />
         </Routes>
       </Router>
-    </div>
+      </QueryClientProvider>
   );
 }
 

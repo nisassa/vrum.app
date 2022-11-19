@@ -1,19 +1,20 @@
 import { QueryClient } from "react-query";
-import settings from "./settings";
+import Settings from "./Settings";
 
 export const endpoints = {
-    columns: {
-        getAll: () =>
-            `${settings.apiUrl}/columns`,
-        createTask: () =>
-            `${settings.apiUrl}/tasks`,
+    users: {
+        login: () =>
+            `${Settings.apiUrl}/api/auth/login`,
+        profile: () =>
+            `${Settings.apiUrl}/api/user/me`,
     },
-    tasks: {
-        getAll: () =>
-            `${settings.apiUrl}/tasks`,
-        updateByID: (id) =>
-            `${settings.apiUrl}/tasks/${id}`
-
+    clients: {
+        register: () =>
+            `${Settings.apiUrl}/api/register/client`,
+    },
+    providers: {
+        register: () =>
+            `${Settings.apiUrl}/api/register/provider`,
     }
 };
 

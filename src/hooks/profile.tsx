@@ -11,7 +11,7 @@ import { AxiosResponse } from "axios";
 import { useMutation, useQueryClient, useQuery } from "react-query";
 import { endpoints } from "../config/apiConfig";
 import CallApi from "../services/apiService";
-import authStorage from "../auth/Storage";
+import authStorage from "../auth/storage";
 
 interface IProfileContext {
     user: any;

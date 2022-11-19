@@ -1,6 +1,6 @@
 
-const Settings = {
+const settings = {
     apiUrl: process.env.REACT_APP_API_URL,
 };
 
-export default Settings;
+export default settings;

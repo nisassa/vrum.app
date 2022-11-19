@@ -1,20 +1,20 @@
 import { QueryClient } from "react-query";
-import Settings from "./Settings";
+import settings from "./settings";
 
 export const endpoints = {
     users: {
         login: () =>
-            `${Settings.apiUrl}/api/auth/login`,
+            `${settings.apiUrl}/api/auth/login`,
         profile: () =>
-            `${Settings.apiUrl}/api/user/me`,
+            `${settings.apiUrl}/api/user/me`,
     },
     clients: {
         register: () =>
-            `${Settings.apiUrl}/api/register/client`,
+            `${settings.apiUrl}/api/register/client`,
     },
     providers: {
         register: () =>
-            `${Settings.apiUrl}/api/register/provider`,
+            `${settings.apiUrl}/api/register/provider`,
     }
 };
 

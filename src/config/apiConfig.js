@@ -7,6 +7,8 @@ export const endpoints = {
             `${settings.apiUrl}/api/auth/login`,
         profile: () =>
             `${settings.apiUrl}/api/user/me`,
+        forgotPassword: () =>
+            `${settings.apiUrl}/api/auth/password/email`,
     },
     clients: {
         register: () =>

@@ -113,6 +113,7 @@ const useLogin = () => {
   );
 };
 
+
 // export const updateProfile = () => {
 //   const queryClient = useQueryClient();
 //   return useMutation<AxiosResponse<unknown>, any>(
@@ -132,5 +133,3 @@ const useLogin = () => {
 //     }
 //   );
 // };
-
-export { useLogin };

@@ -35,7 +35,7 @@ function Login() {
           }
         });
   };
-  
+
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
       <div className='bg-yellow-400 p-4 mb-4'>
@@ -110,7 +110,7 @@ function Login() {
                         {apiErrors.password[0]}
                       </p>
                   )}
-                  <Link className='w-full flex' to='/register'>
+                  <Link className='w-full flex mt-2' to='/forgot-password'>
                     Forgot password?
                   </Link>
                 </div>

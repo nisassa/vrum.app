@@ -5,7 +5,8 @@ import {
   RegisterProvider,
   RegisterClient,
   Login,
-  RecoverPassword
+  RecoverPassword,
+  UserForgotPassword
 } from './Pages/Parts';
 import Home from './Pages/Home';
 import { QueryClientProvider } from "react-query";
@@ -19,15 +20,22 @@ function App() {
       <QueryClientProvider client={ReactQueryClient}>
         <ProfileProvider >
           <Router>
+
+            {/*guest nav*/}
             <Nav />
+
+            {/*Client logged component */}
+
+            {/*Provider logged component */}
+
             <Routes>
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/register/client' element={<RegisterClient />} />
               <Route path='/register/provider' element={<RegisterProvider />} />
               <Route path='/recover-password' element={<RecoverPassword />} />
+              <Route path='/forgot-password' element={<UserForgotPassword />} />
 
-              {/*<Route path="/register/client" element={ <RegisterClient/> } />*/}
               <Route path='/' element={<Home />} />
             </Routes>
           </Router>

@@ -10,15 +10,6 @@ function RegisterProvider() {
   return (
     <div className='container my-4 mx-auto px-4 md:px-4'>
       <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
-        <div className='back flex-1 flex justify-start '>
-          <Link
-            className='w-30 py-2  ml-4 px-4 my-4 bg-gray-300 text-black font-semibold rounded-lg '
-            to='/register'
-          >
-            Back
-          </Link>
-        </div>
-
         <h1 className='flex-1 text-white'>Register Provider</h1>
         <div className='flex-1'></div>
       </div>
@@ -41,7 +32,7 @@ function RegisterProvider() {
               password_confirmation: ''
             }}
             onSubmit={(values) => {
-              console.log(values);
+              console.log('submit provider');
 
               registerProvider(values);
             }}

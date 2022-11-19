@@ -31,15 +31,6 @@ function RegisterClient() {
   return (
     <div className='container my-4 mx-auto px-4 md:px-4'>
       <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
-        <div className='back flex-1 flex justify-start '>
-          <Link
-            className='w-30 py-2 ml-4 px-4 my-4 bg-gray-300 text-black font-semibold rounded-lg '
-            to='/register'
-          >
-            Back
-          </Link>
-        </div>
-
         <h1 className='flex-1 text-white'>Register Client</h1>
         <div className='flex-1'></div>
       </div>
@@ -51,15 +42,16 @@ function RegisterClient() {
               last_name: '',
               phone: '',
               email: '',
-              country: '',
+              country: 'RO',
               city: '',
-              state: 'RO',
+              state: '',
               postcode: '',
               line_1: '',
               password: '',
               password_confirmation: ''
             }}
             onSubmit={(values) => {
+
               // console.log(values);
               // alert(JSON.stringify(values, null, 2));
               handleOnSubmit(values);
@@ -148,10 +140,10 @@ function RegisterClient() {
                   >
                     Country
                   </label>
-                  <div className='w-full relative'>
+                  <div className='w-full'>
                     <Field
                       name='country'
-                      className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='appearance-none block w-full bg-white-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                       id='grid-state'
                       as='select'
                     >
@@ -254,9 +246,6 @@ function RegisterClient() {
                     type='password'
                     placeholder='******************'
                   />
-                  <p className='text-gray-600 text-xs italic'>
-                    Make it as long and as crazy as you'd like
-                  </p>
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
                   <label
@@ -272,9 +261,6 @@ function RegisterClient() {
                     type='password'
                     placeholder='******************'
                   />
-                  <p className='text-gray-600 text-xs italic'>
-                    Make it as long and as crazy as you'd like
-                  </p>
                 </div>
               </div>
               <div className='w-full flex justify-center'>

@@ -4,6 +4,8 @@ import Register from './Pages/Register';
 import { RegisterProvider } from './Pages/Parts';
 import Home from './Pages/Home';
 import RegisterClient from './Pages/Parts/RegisterClient';
+import { QueryClientProvider } from "react-query";
+import { ReactQueryClient } from './config/apiConfig'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

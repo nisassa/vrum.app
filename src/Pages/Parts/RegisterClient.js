@@ -35,7 +35,7 @@ function RegisterClient() {
         <div className='flex-1'></div>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
-        <div className='w-full md:w-1/1 bg-blue-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
+        <div className='w-full md:w-1/1 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
           <Formik
             initialValues={{
               first_name: '',

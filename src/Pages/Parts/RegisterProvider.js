@@ -29,6 +29,7 @@ function RegisterProvider() {
               first_name: '',
               last_name: '',
               provider_name: '',
+              booking_by_specialist: '',
               job_title: '',
               phone: '',
               email: '',
@@ -99,7 +100,6 @@ function RegisterProvider() {
                     placeholder='Vrom SRL'
                   />
                 </div>
-
                 <div className='flex flex-wrap -mx-3 mb-6 job-title'>
                   <label
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -113,6 +113,20 @@ function RegisterProvider() {
                     id='input_job_tile'
                     type='text'
                     placeholder='Engineer'
+                  />
+                </div>
+                <div className='flex flex-wrap -mx-3 mb-6 px-3 book-/by'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    htmlFor='grid-last-name'
+                  >
+                    Book by specilist
+                  </label>
+                  <Field
+                    name='booking_by_specialist'
+                    className='block  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='input_book_by'
+                    type='checkbox'
                   />
                 </div>
               </div>
@@ -140,7 +154,7 @@ function RegisterProvider() {
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
-                    Phone Number
+                    Email
                   </label>
                   <Field
                     name='email'

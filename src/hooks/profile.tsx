@@ -4,46 +4,43 @@ import React, {
   FC,
   useContext,
   useEffect,
-  useState,
-} from "react";
+  useState
+} from 'react';
 
-import { AxiosResponse } from "axios";
-import { useMutation, useQueryClient, useQuery } from "react-query";
-import { endpoints } from "../config/apiConfig";
-import CallApi from "../services/apiService";
-import authStorage from "../auth/storage";
+import { AxiosResponse } from 'axios';
+import { useMutation, useQueryClient, useQuery } from 'react-query';
+import { endpoints } from '../config/apiConfig';
+import CallApi from '../services/apiService';
 
 interface IProfileContext {
-    user: any;
-    token: string|null;
-    isAuthenticated: boolean;
-    saveUser: (user: any) => void;
-    userLogin: (user: any) => void;
-    isReady: boolean;
+  user: any;
+  token: string | null;
+  isAuthenticated: boolean;
+  saveUser: (user: any) => void;
+  userLogin: (user: any) => void;
+  isReady: boolean;
 }
 
 const USER_KEY = `User`;
 
-export const ProfileContext = createContext<IProfileContext>(
-    {
-        user: null,
-        token: null,
-        isAuthenticated: false,
-        saveUser: () => {},
-        userLogin: () => {},
-        isReady: false,
-    }
-) as Context<IProfileContext>;
+export const ProfileContext = createContext<IProfileContext>({
+  user: null,
+  token: null,
+  isAuthenticated: false,
+  saveUser: () => {},
+  userLogin: () => {},
+  isReady: false
+}) as Context<IProfileContext>;
 
 export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileProvider: FC<any> = ({ children }) => {
-  const USER_KEY = "USER"
+  const USER_KEY = 'USER';
 
   const { mutateAsync: login } = useLogin();
 
   const [user, setUser] = useState();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
 
   const isReady = false;
 
@@ -73,41 +70,41 @@ export const ProfileProvider: FC<any> = ({ children }) => {
   };
 
   const userLogin = async (credentials: any) => {
-      await login(credentials)
+    await login(credentials);
   };
 
   return (
     <ProfileContext.Provider
-        value={{
-            user,
-            token,
-            isAuthenticated,
-            saveUser,
-            userLogin,
-            isReady
-        }}
+      value={{
+        user,
+        token,
+        isAuthenticated,
+        saveUser,
+        userLogin,
+        isReady
+      }}
     >
-        {children}
+      {children}
     </ProfileContext.Provider>
   );
 };
 
 const useLogin = () => {
-    // const { saveUser } = useProfile();
-    const queryClient = useQueryClient();
-    return useMutation<AxiosResponse<unknown>, any>(
-        (body) =>
-            CallApi({
-                url: endpoints.users.login(),
-                method: "POST",
-                data: body,
-            }),
-        {
-            onSuccess: () => {
-                return queryClient.invalidateQueries(USER_KEY);
-            },
-        }
-    );
+  // const { saveUser } = useProfile();
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    (body) =>
+      CallApi({
+        url: endpoints.users.login(),
+        method: 'POST',
+        data: body
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(USER_KEY);
+      }
+    }
+  );
 };
 
 // export const updateProfile = () => {
@@ -130,6 +127,4 @@ const useLogin = () => {
 //   );
 // };
 
-export {
-    useLogin
-}
+export { useLogin };

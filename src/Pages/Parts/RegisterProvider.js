@@ -53,10 +53,11 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='first_name'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
+                      className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                       id='input_first_name'
                       type='text'
                       placeholder='Jane'
+                      autocomplete="off"
                     />
                     {/* <p className='hidetext-red-500 text-xs italic'>
                       Please fill out this field.
@@ -71,23 +72,25 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='last_name'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                       id='input_last_name'
                       type='text'
                       placeholder='Doe'
+                      autocomplete="off"
                     />
                   </div>
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 company-name'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
                     Company Name
                   </label>
                   <Field
                     name='provider_name'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    autocomplete="off"
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_provider_name'
                     type='text'
                     placeholder='Vrom SRL'
@@ -95,31 +98,33 @@ function RegisterProvider() {
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 job-title'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
                     Job Title
                   </label>
                   <Field
                     name='job_title'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='job_title'
                     type='text'
                     placeholder='Engineer'
+                    autocomplete="off"
                   />
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 book-/by'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
-                    Book by specilist
+                    Book by specialist
                   </label>
                   <Field
                     name='booking_by_specialist'
-                    className='block  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
                     id='input_book_by'
                     type='checkbox'
+                    autocomplete="off"
                   />
                 </div>
               </div>
@@ -129,38 +134,40 @@ function RegisterProvider() {
                 </h3>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
                     Phone Number
                   </label>
                   <Field
                     name='phone'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_phone'
                     type='text'
                     placeholder='+40770009770'
+                    autocomplete="off"
                   />
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
                     Email
                   </label>
                   <Field
                     name='email'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_email'
                     type='text'
                     placeholder='company@domain.com'
+                    autocomplete="off"
                   />
                 </div>
 
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 country'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-state'
                   >
                     Country
@@ -168,9 +175,10 @@ function RegisterProvider() {
                   <div className='w-full relative'>
                     <Field
                       name='country'
-                      className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-500'
                       id='country'
                       as='select'
+                      autocomplete="off"
                     >
                       <option>MD</option>
                       <option>RO</option>
@@ -198,10 +206,11 @@ function RegisterProvider() {
                     </label>
                     <Field
                       name='city'
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                       id='input_city'
                       type='text'
                       placeholder='Albuquerque'
+                      autocomplete="off"
                     />
                   </div>
                   <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -214,9 +223,10 @@ function RegisterProvider() {
                     <div className='relative'>
                       <Field
                         name='state'
-                        className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                        className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                         id='grid-state'
                         type='text'
+                        autocomplete="off"
                       />
                     </div>
                   </div>
@@ -228,27 +238,29 @@ function RegisterProvider() {
                       Zip
                     </label>
                     <Field
-                      className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                       name='postcode'
                       id='input_postcode'
                       type='text'
                       placeholder='90210'
+                      autocomplete="off"
                     />
                   </div>
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 address'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
                   >
                     Your Address
                   </label>
                   <Field
                     name='line_1'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_line_1'
                     type='text'
                     placeholder='Robert Robertson, 1234 NW Bobcat Lane'
+                    autocomplete="off"
                   />
                 </div>
               </div>
@@ -259,32 +271,34 @@ function RegisterProvider() {
 
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-password'
                   >
                     Password
                   </label>
                   <Field
                     name='password'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_password'
                     type='password'
                     placeholder='******************'
+                    autocomplete="off"
                   />
                 </div>
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
                   <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                    className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                     htmlFor='grid-password'
                   >
                     Retype Password
                   </label>
                   <Field
                     name='password_confirmation'
-                    className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    className='w-full bg-white border border-gray-200 text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700'
                     id='input_password_confirmation'
                     type='password'
                     placeholder='******************'
+                    autocomplete="off"
                   />
                 </div>
               </div>

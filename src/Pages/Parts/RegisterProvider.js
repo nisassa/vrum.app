@@ -1,11 +1,10 @@
 import React from 'react';
-import { Formik, Field, Form} from 'formik';
+import { Formik, Field, Form } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { useRegister } from "../../hooks/useProvider";
+import { useRegister } from '../../hooks/useProvider';
 
 function RegisterProvider() {
-
   const { mutateAsync: registerProvider, isLoading } = useRegister();
 
   return (
@@ -27,12 +26,22 @@ function RegisterProvider() {
         <div className='w-full md:w-1/1 bg-red-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
           <Formik
             initialValues={{
-              name: '',
+              first_name: '',
+              last_name: '',
+              provider_name: '',
+              job_title: '',
+              phone: '',
               email: '',
-              password: ''
+              country: '',
+              city: '',
+              state: '',
+              postcode: '',
+              line_1: '',
+              password: '',
+              password_confirmation: ''
             }}
             onSubmit={(values) => {
-                registerProvider(values)
+              registerProvider(values);
             }}
           >
             <Form className='flex flex-wrap'>
@@ -49,9 +58,9 @@ function RegisterProvider() {
                       First Name
                     </label>
                     <Field
-                      name='Name'
+                      name='first_name'
                       className='appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white'
-                      id='grid-first-name'
+                      id='input_first_name'
                       type='text'
                       placeholder='Jane'
                     />
@@ -67,9 +76,9 @@ function RegisterProvider() {
                       Last Name
                     </label>
                     <Field
-                      name='lastname'
+                      name='last_name'
                       className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      id='grid-last-name'
+                      id='input_last_name'
                       type='text'
                       placeholder='Doe'
                     />
@@ -82,10 +91,10 @@ function RegisterProvider() {
                   >
                     Company Name
                   </label>
-                  <input
-                    name='company'
+                  <Field
+                    name='provider_name'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
+                    id='input_provider_name'
                     type='text'
                     placeholder='Vrom SRL'
                   />
@@ -98,10 +107,10 @@ function RegisterProvider() {
                   >
                     Job Title
                   </label>
-                  <input
-                    name='job-title'
+                  <Field
+                    name='job_title'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
+                    id='input_job_tile'
                     type='text'
                     placeholder='Engineer'
                   />
@@ -119,9 +128,9 @@ function RegisterProvider() {
                     Phone Number
                   </label>
                   <Field
-                    name='phone-number'
+                    name='phone'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
+                    id='input_phone'
                     type='text'
                     placeholder='+40770009770'
                   />
@@ -136,7 +145,7 @@ function RegisterProvider() {
                   <Field
                     name='email'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
+                    id='input_email'
                     type='text'
                     placeholder='company@domain.com'
                   />
@@ -153,12 +162,12 @@ function RegisterProvider() {
                     <Field
                       name='country'
                       className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      id='grid-state'
+                      id='input_country'
                       as='select'
                     >
-                      <option>New Mexico</option>
-                      <option>Missouri</option>
-                      <option>Texas</option>
+                      <option>MD</option>
+                      <option>RO</option>
+                      <option>US</option>
                     </Field>
                     <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
                       <svg
@@ -183,7 +192,7 @@ function RegisterProvider() {
                     <Field
                       name='city'
                       className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      id='grid-city'
+                      id='input_city'
                       type='text'
                       placeholder='Albuquerque'
                     />
@@ -197,9 +206,9 @@ function RegisterProvider() {
                     </label>
                     <div className='relative'>
                       <Field
-                        name='state'
+                        name='county'
                         className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                        id='grid-state'
+                        id='input_county'
                         as='select'
                       >
                         <option>New Mexico</option>
@@ -224,9 +233,10 @@ function RegisterProvider() {
                     >
                       Zip
                     </label>
-                    <input
+                    <Field
                       className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                      id='grid-zip'
+                      name='postcode'
+                      id='input_postcode'
                       type='text'
                       placeholder='90210'
                     />
@@ -240,9 +250,9 @@ function RegisterProvider() {
                     Your Address
                   </label>
                   <Field
-                    name='address'
+                    name='line_1'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-last-name'
+                    id='input_line_1'
                     type='text'
                     placeholder='Robert Robertson, 1234 NW Bobcat Lane'
                   />
@@ -263,7 +273,7 @@ function RegisterProvider() {
                   <Field
                     name='password'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-password'
+                    id='input_password'
                     type='password'
                     placeholder='******************'
                   />
@@ -279,9 +289,9 @@ function RegisterProvider() {
                     Retype Password
                   </label>
                   <Field
-                    name='verify-password'
+                    name='password_confirmation'
                     className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-password'
+                    id='input_password_confirmation'
                     type='password'
                     placeholder='******************'
                   />

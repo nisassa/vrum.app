@@ -222,10 +222,10 @@ function RegisterProvider() {
                     </label>
                     <div className='relative'>
                       <Field
-                          name='state'
-                          className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                          id='grid-state'
-                          type='text'
+                        name='state'
+                        className='block appearance-none w-full bg-white-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                        id='grid-state'
+                        type='text'
                       />
                     </div>
                   </div>

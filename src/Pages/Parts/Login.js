@@ -13,7 +13,7 @@ function Login() {
 
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
-      <div className='flex justify-center items-center bg-yellow-400 p-4 mb-4'>
+      <div className='bg-yellow-400 p-4 mb-4'>
         <h1 className='w-full text-center text-white'>Login Page</h1>
       </div>
       <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>

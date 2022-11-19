@@ -1,13 +1,13 @@
 import './App.css';
 import Nav from './Nav';
-import Register from './Pages/Register';
 import {
   RegisterProvider,
   RegisterClient,
   Login,
   RecoverPassword,
-  UserForgotPassword
-} from './Pages/Parts';
+  UserForgotPassword,
+  RegisterMain
+} from './Pages/Auth';
 import Home from './Pages/Home';
 import { QueryClientProvider } from "react-query";
 import { ReactQueryClient } from './config/apiConfig'
@@ -30,7 +30,7 @@ function App() {
 
             <Routes>
               <Route path='/login' element={<Login />} />
-              <Route path='/register' element={<Register />} />
+              <Route path='/register' element={<RegisterMain />} />
               <Route path='/register/client' element={<RegisterClient />} />
               <Route path='/register/provider' element={<RegisterProvider />} />
               <Route path='/password/reset/:token/:email' element={<RecoverPassword />} />

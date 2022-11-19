@@ -3,11 +3,13 @@ import RegisterClient from './RegisterClient';
 import Login from './Login';
 import RecoverPassword from './RecoverPassword';
 import UserForgotPassword from './UserForgotPassword';
+import RegisterMain from './RegisterMain';
 
 export {
     RegisterProvider,
     RegisterClient,
     Login,
     RecoverPassword,
-    UserForgotPassword
+    UserForgotPassword,
+    RegisterMain
 };

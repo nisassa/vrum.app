@@ -9,7 +9,7 @@ import {
 } from './Pages/Parts';
 import Home from './Pages/Home';
 import { QueryClientProvider } from "react-query";
-import { ReactQueryClient } from './Config/ApiConfig'
+import { ReactQueryClient } from './config/apiConfig'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import React from 'react';

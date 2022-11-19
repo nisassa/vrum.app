@@ -2,7 +2,12 @@ import React from 'react';
 import { Formik, Field, Form} from 'formik';
 import { Link } from 'react-router-dom';
 
+import { useRegister } from "../../hooks/useProvider";
+
 function RegisterProvider() {
+
+  const { mutateAsync: registerProvider, isLoading } = useRegister();
+
   return (
     <div className='container my-4 mx-auto px-4 md:px-4'>
       <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
@@ -27,7 +32,7 @@ function RegisterProvider() {
               password: ''
             }}
             onSubmit={(values) => {
-              alert(JSON.stringify(values, null, 2));
+                registerProvider(values)
             }}
           >
             <Form className='flex flex-wrap'>

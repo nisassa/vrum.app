@@ -33,7 +33,7 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/register/client' element={<RegisterClient />} />
               <Route path='/register/provider' element={<RegisterProvider />} />
-              <Route path='/recover-password' element={<RecoverPassword />} />
+              <Route path='/password/reset/:token/:email' element={<RecoverPassword />} />
               <Route path='/forgot-password' element={<UserForgotPassword />} />
 
               <Route path='/' element={<Home />} />

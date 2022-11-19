@@ -9,6 +9,8 @@ export const endpoints = {
             `${settings.apiUrl}/api/user/me`,
         forgotPassword: () =>
             `${settings.apiUrl}/api/auth/password/email`,
+        resetPassword: () =>
+            `${settings.apiUrl}/api/auth/password/reset`,
     },
     clients: {
         register: () =>

@@ -11,19 +11,17 @@ function Login() {
 
   const { userLogin, restoreUserAndToken, isAuthenticated } = useProfile();
 
-  console.log('isAuthenticated ' + isAuthenticated);
-
   const handleSubmit = async (values) => {
     setLoginFailed(false)
     setisLoading(true)
     await userLogin(values)
         .then((response) => {
           setApiErrors({})
-          if (typeof response?.data?.token === 'undefined' || typeof response?.data?.token === null) {
+          if (typeof response?.data?.token === 'undefined' || response?.data?.token === null) {
             setLoginFailed(true)
           }
-          restoreUserAndToken()
           setisLoading(false)
+          restoreUserAndToken()
         })
         .catch((error) => {
           setisLoading(false)
@@ -53,15 +51,21 @@ function Login() {
           >
             <Form className='flex flex-wrap justify-center' method='POST'>
               <div className='w-full md:w-1/3 security'>
+                <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
+                  Login
+                </h3>
+
                 { loginFailed === true && (
-                    <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                    <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2" role="alert">
                       <p className="text-sm">The details you have provided do not match our records.</p>
                     </div>
                 )}
 
-                <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                  Login
-                </h3>
+                { isAuthenticated === true && (
+                    <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2" role="alert">
+                      <p className="text-sm">Logged in!</p>
+                    </div>
+                )}
 
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
                   <label

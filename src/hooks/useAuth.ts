@@ -20,5 +20,25 @@ const useForgotPassword = () => {
   );
 };
 
+const userPasswordReset = () => {
+    const queryClient = useQueryClient();
+    return useMutation<AxiosResponse<unknown>, any>(
+        (body) =>
+            CallApi({
+                url: endpoints.users.resetPassword(),
+                method: 'POST',
+                data: body
+            }),
+        {
+            onSuccess: () => {
+                return queryClient.invalidateQueries('User');
+            }
+        }
+    );
+};
 
-export { useForgotPassword };
+
+export {
+    useForgotPassword,
+    userPasswordReset
+};

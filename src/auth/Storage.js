@@ -23,7 +23,7 @@ const storeUser = async (user) => {
     try {
         await secureLocalStorage.setItem(userKey, user);
     } catch (error) {
-        console.log("Error storing the auth user", error);
+        console.log("Error storing the user", error);
     }
 };
 
@@ -31,7 +31,7 @@ const getUser = async () => {
     try {
         return await secureLocalStorage.getItem(userKey);
     } catch (error) {
-        console.log("Error getting the auth token", error);
+        console.log("Error getting the user", error);
     }
 };
 

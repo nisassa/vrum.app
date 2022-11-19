@@ -50,8 +50,6 @@ export const ProfileProvider: FC<any> = ({ children }) => {
     restoreToken();
   }, []);
 
-  const isAuthenticated = !!user && !!token;
-
   const restoreUser = async () => {
     const user = await storage.getUser();
     if (user) setUser(user);
@@ -59,7 +57,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
 
   const restoreToken = async () => {
     const token = await storage.getToken();
-    if (token) setToken(token);
+    setToken(token);
   };
 
   const saveUser = async (user: any) => {
@@ -81,7 +79,11 @@ export const ProfileProvider: FC<any> = ({ children }) => {
       value={{
         user,
         token,
-        isAuthenticated,
+        isAuthenticated:
+            typeof token === 'string'
+            && token.length > 5
+            && typeof user !== 'undefined'
+            && user.hasOwnProperty('id'),
         saveUser,
         userLogin,
         restoreUserAndToken,
@@ -103,9 +105,12 @@ const useLogin = () => {
       }),
     {
       onSuccess: async (response: any) => {
-          if (typeof response.data?.token !== 'undefined') {
-              await storage.storeToken(response.data?.token)
-              await storage.storeUser(response.data?.resource)
+          if (typeof response.data.token !== 'undefined' && response.data.token !== null) {
+              await storage.storeToken(response.data.token)
+              await storage.storeUser(response.data.resource)
+          } else {
+              await storage.storeToken(null)
+              await storage.storeUser(null)
           }
           return queryClient.invalidateQueries(USER_KEY);
       }

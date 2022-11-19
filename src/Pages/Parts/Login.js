@@ -2,32 +2,17 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import { useProfile } from '../../hooks/profile';
 
-function LoginView() {
-  const [serverState, setServerState] = useState();
-  const handleServerResponse = (ok, msg) => {
-    setServerState({ ok, msg });
-  };
+function Login() {
+
+  const { userLogin } = useProfile();
+
   const handleOnSubmit = (values, actions) => {
-    console.log(values);
-    Axios({
-      method: 'POST',
-      url: 'http://vrum-api.test/api/register/client',
-      data: values,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => {
-        actions.setSubmitting(false);
-        actions.resetForm();
-        handleServerResponse(true, 'Thanks!');
-      })
-      .catch((error) => {
-        actions.setSubmitting(false);
-        handleServerResponse(false, error.response.data.error);
-      });
+    userLogin(values)
   };
+
+
   return (
     <div className='container my-4 mx-auto px-4 md:px-12'>
       <div className='flex w-full justify-center items-center bg-yellow-400 p-4 mb-4'>
@@ -112,4 +97,4 @@ function LoginView() {
     </div>
   );
 }
-export default LoginView;
+export default Login;

@@ -18,6 +18,7 @@ interface IProfileContext {
     token: string|null;
     isAuthenticated: boolean;
     saveUser: (user: any) => void;
+    userLogin: (user: any) => void;
     isReady: boolean;
 }
 
@@ -29,6 +30,7 @@ export const ProfileContext = createContext<IProfileContext>(
         token: null,
         isAuthenticated: false,
         saveUser: () => {},
+        userLogin: () => {},
         isReady: false,
     }
 ) as Context<IProfileContext>;
@@ -36,6 +38,10 @@ export const ProfileContext = createContext<IProfileContext>(
 export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileProvider: FC<any> = ({ children }) => {
+  const USER_KEY = "USER"
+
+  const { mutateAsync: login } = useLogin();
+
   const [user, setUser] = useState();
   const [token, setToken] = useState("");
 
@@ -66,18 +72,42 @@ export const ProfileProvider: FC<any> = ({ children }) => {
     // await Store.storeUser(user);
   };
 
+  const userLogin = async (credentials: any) => {
+      await login(credentials)
+  };
+
   return (
     <ProfileContext.Provider
-    value={{
-        user,
-        token,
-        isAuthenticated,
-        saveUser,
-        isReady
-    }}
+        value={{
+            user,
+            token,
+            isAuthenticated,
+            saveUser,
+            userLogin,
+            isReady
+        }}
     >
+        {children}
     </ProfileContext.Provider>
   );
+};
+
+const useLogin = () => {
+    // const { saveUser } = useProfile();
+    const queryClient = useQueryClient();
+    return useMutation<AxiosResponse<unknown>, any>(
+        (body) =>
+            CallApi({
+                url: endpoints.users.login(),
+                method: "POST",
+                data: body,
+            }),
+        {
+            onSuccess: () => {
+                return queryClient.invalidateQueries(USER_KEY);
+            },
+        }
+    );
 };
 
 // export const updateProfile = () => {
@@ -100,3 +130,6 @@ export const ProfileProvider: FC<any> = ({ children }) => {
 //   );
 // };
 
+export {
+    useLogin
+}

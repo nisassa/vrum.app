@@ -1,6 +1,6 @@
 import RegisterProvider from './RegisterProvider';
 import RegisterClient from './RegisterClient';
-import LoginView from './LoginView';
+import Login from './Login';
 import RecoverPassword from './RecoverPassword';
 
-export { RegisterProvider, RegisterClient, LoginView, RecoverPassword };
+export { RegisterProvider, RegisterClient, Login, RecoverPassword };

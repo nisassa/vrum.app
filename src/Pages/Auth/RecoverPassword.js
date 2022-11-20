@@ -118,7 +118,7 @@ function RecoverPassword() {
                                   : `border-gray-300`)}`}
                           id='grid-password'
                           type='password'
-                          placeholder='******************'
+                          placeholder='***'
                       />
                       { apiErrors.hasOwnProperty('password') && typeof apiErrors.password[0] !== 'undefined' && (
                           <p className="text-red-500 text-12">
@@ -141,7 +141,7 @@ function RecoverPassword() {
                                   : `border-gray-300`)}`}
                           id='grid-password'
                           type='password'
-                          placeholder='******************'
+                          placeholder='***'
                       />
                       { apiErrors.hasOwnProperty('password_confirmation') && typeof apiErrors.password_confirmation[0] !== 'undefined' && (
                           <p className="text-red-500 text-12">
@@ -153,7 +153,7 @@ function RecoverPassword() {
 
                   <div className='w-full flex justify-center'>
                     <button
-                        disabled={isLoading}
+                        disabled={isLoading ? true : undefined}
                         type='submit'
                         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                     >
@@ -162,7 +162,7 @@ function RecoverPassword() {
                   </div>
                   <div className='w-full flex justify-center'>
                     <button
-                        disabled={isResending}
+                        disabled={isResending ? true : undefined}
                         type='button'
                         onClick={() => resend({email})}
                         className='bg-yellow-400 hover:bg-yellow-700 text-white mt-4 font-bold py-2 px-20 rounded'

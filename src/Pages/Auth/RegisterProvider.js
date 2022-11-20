@@ -78,9 +78,7 @@ function RegisterProvider() {
                         password: '',
                         password_confirmation: ''
                       }}
-                      onSubmit={(values) => {
-                        handleSubmit(values);
-                      }}
+                      onSubmit={(values) => handleSubmit(values)}
                   >
                     <Form className='flex flex-wrap'>
                       <div className='w-full md:w-1/3 personal-details px-3'>
@@ -113,12 +111,6 @@ function RegisterProvider() {
                                   {apiErrors.first_name[0]}
                                 </p>
                             )}
-
-                            {/*{errors.lastName && touched.first_name ? (*/}
-                            {/*    <p className='hidetext-red-500 text-xs italic'>*/}
-                            {/*      {errors.first_name}*/}
-                            {/*    </p>*/}
-                            {/*) : null}*/}
                           </div>
                           <div className='w-full md:w-1/2 md:pl-3'>
                             <label
@@ -214,6 +206,32 @@ function RegisterProvider() {
                           />
                         </div>
                       </div>
+                      <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                        <label
+                            className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
+                            htmlFor='grid-last-name'
+                        >
+                          Email
+                        </label>
+                        <Field
+                            name='email'
+                            className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                                apiErrors.hasOwnProperty('email') &&
+                                typeof apiErrors.email[0] !== 'undefined'
+                                    ? `border-red-500`
+                                    : `border-gray-300`
+                            }`}
+                            id='input_email'
+                            type='text'
+                            placeholder='example@gmail.com'
+                        />
+                        {apiErrors.hasOwnProperty('email') &&
+                        typeof apiErrors.email[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.email[0]}
+                            </p>
+                        )}
+                      </div>
                       <div className='w-full md:w-1/3 contact-details px-3'>
                         <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                           Contact details
@@ -244,33 +262,6 @@ function RegisterProvider() {
                               </p>
                           )}
                         </div>
-                        <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
-                          <label
-                              className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
-                              htmlFor='grid-last-name'
-                          >
-                            Email
-                          </label>
-                          <Field
-                              name='email'
-                              className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
-                                  apiErrors.hasOwnProperty('email') &&
-                                  typeof apiErrors.email[0] !== 'undefined'
-                                      ? `border-red-500`
-                                      : `border-gray-300`
-                              }`}
-                              id='input_email'
-                              type='text'
-                              placeholder='company@domain.com'
-                          />
-                          {apiErrors.hasOwnProperty('email') &&
-                          typeof apiErrors.email[0] !== 'undefined' && (
-                              <p className='text-red-500 text-12'>
-                                {apiErrors.email[0]}
-                              </p>
-                          )}
-                        </div>
-
                         <div className='flex flex-wrap -mx-3 mb-6 px-3 country'>
                           <label
                               className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
@@ -321,7 +312,7 @@ function RegisterProvider() {
                                 }`}
                                 id='input_city'
                                 type='text'
-                                placeholder='Albuquerque'
+                                placeholder='Brasov'
                             />
                             {apiErrors.hasOwnProperty('city') &&
                             typeof apiErrors.city[0] !== 'undefined' && (
@@ -433,7 +424,7 @@ function RegisterProvider() {
                               }`}
                               id='input_password'
                               type='password'
-                              placeholder='******************'
+                              placeholder='***'
                           />
                           {apiErrors.hasOwnProperty('password') &&
                           typeof apiErrors.password[0] !== 'undefined' && (
@@ -460,7 +451,7 @@ function RegisterProvider() {
                               }`}
                               id='input_password_confirmation'
                               type='password'
-                              placeholder='******************'
+                              placeholder='***'
                           />
                           {apiErrors.hasOwnProperty('password_confirmation') &&
                           typeof apiErrors.password_confirmation[0] !==
@@ -477,7 +468,7 @@ function RegisterProvider() {
                             disable={isLoading}
                             className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                         >
-                          Submit
+                          Register
                         </button>
                       </div>
                     </Form>

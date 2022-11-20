@@ -79,7 +79,7 @@ function UserForgotPassword() {
                     <button
                         type='submit'
                         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
-                        disabled={isLoading}
+                        disabled={isLoading ? true : undefined}
                     >
                       Send password reset link
                     </button>

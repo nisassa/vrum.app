@@ -116,7 +116,7 @@ function Login() {
                                   : `border-gray-300`)}`}
                           id='input_password'
                           type='password'
-                          placeholder='******************'
+                          placeholder='***'
                       />
                       { apiErrors.hasOwnProperty('password') && typeof apiErrors.password[0] !== 'undefined' && (
                           <p className="text-red-500 text-12">
@@ -131,7 +131,7 @@ function Login() {
 
                   <div className='w-full flex justify-center'>
                     <button
-                        disabled={isLoading}
+                        disabled={isLoading ? true : undefined}
                         type='submit'
                         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                     >

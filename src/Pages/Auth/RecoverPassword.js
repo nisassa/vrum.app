@@ -4,7 +4,7 @@ import {
   useNavigate,
   useParams
 } from "react-router-dom";
-import {useForgotPassword, userPasswordReset} from "../../hooks/useAuth";
+import {useForgotPassword, usePasswordReset} from "../../hooks/useAuth";
 
 function RecoverPassword() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function RecoverPassword() {
   const [apiErrors, setApiErrors] = useState({})
   const [message, setMessage] = useState(false)
   const [success, setSuccess] = useState(false)
-  const { mutateAsync: reset, isLoading } = userPasswordReset();
+  const { mutateAsync: reset, isLoading } = usePasswordReset();
   const { mutateAsync: resend, isResending } = useForgotPassword();
 
   useEffect(() => {

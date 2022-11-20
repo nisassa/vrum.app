@@ -12,7 +12,8 @@ const useForgotPassword = () => {
       CallApi({
         url: endpoints.users.forgotPassword(),
         method: 'POST',
-        data: body
+        data: body,
+        isProtected: false
       }),
     {
       onSuccess: () => {
@@ -22,14 +23,15 @@ const useForgotPassword = () => {
   );
 };
 
-const userPasswordReset = () => {
+const usePasswordReset = () => {
     const queryClient = useQueryClient();
     return useMutation<AxiosResponse<unknown>, any>(
         (body) =>
             CallApi({
                 url: endpoints.users.resetPassword(),
                 method: 'POST',
-                data: body
+                data: body,
+                isProtected: false
             }),
         {
             onSuccess: () => {
@@ -45,16 +47,23 @@ const useLogout = () => {
     return useMutation<AxiosResponse<unknown>, any>(
         (body) =>
             CallApi({
-                url: endpoints.users.resetPassword(),
+                url: endpoints.users.logout(),
                 method: 'POST',
-                data: body
+                data: body,
+                isProtected: true,
             }),
         {
             onSuccess: async () => {
                 await storage.removeToken()
                 await restoreUserAndToken()
                 return queryClient.invalidateQueries('User');
-            }
+            },
+            onError: async () => {
+                await storage.removeToken()
+                await restoreUserAndToken()
+                return queryClient.invalidateQueries('User');
+            },
+
         }
     );
 };
@@ -62,6 +71,6 @@ const useLogout = () => {
 
 export {
     useForgotPassword,
-    userPasswordReset,
+    usePasswordReset,
     useLogout
 };

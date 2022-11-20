@@ -13,6 +13,7 @@ export default function MainNav() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+
     await logout();
     navigate('/');
   }
@@ -58,8 +59,8 @@ export default function MainNav() {
                     {
                       isAuthenticated && (
                           <a
-                              className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                              onClick={logout}
+                              className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
+                              onClick={handleLogout}
                           >
                             Logout
                           </a>

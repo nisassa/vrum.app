@@ -18,7 +18,8 @@ const useRegister = () => {
       CallApi({
         url: endpoints.providers.register(),
         method: 'POST',
-        data: body
+        data: body,
+        isProtected: false
       }),
     {
       onSuccess: () => {

@@ -37,8 +37,8 @@ const getUser = async () => {
 
 const removeToken = async () => {
     try {
-        await secureLocalStorage.delete(key);
-        await secureLocalStorage.delete(userKey);
+        await secureLocalStorage.removeItem(key);
+        await secureLocalStorage.removeItem(userKey);
     } catch (error) {
         console.log("Error removing the auth token", error);
     }

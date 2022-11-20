@@ -108,7 +108,8 @@ const useLogin = () => {
       CallApi({
         url: endpoints.users.login(),
         method: 'POST',
-        data: body
+        data: body,
+        isProtected: false,
       }),
     {
       onSuccess: async (response: any) => {

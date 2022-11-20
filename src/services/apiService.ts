@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, Method } from "axios";
+import storage from '../auth/storage';
 
 export interface ICallApi extends AxiosRequestConfig {
   url: string;
@@ -7,6 +8,7 @@ export interface ICallApi extends AxiosRequestConfig {
   data?: unknown;
   params?: Record<string, unknown>;
   timeout?: 30000;
+  isProtected?: boolean;
 }
 
 const CallApi = <T>({
@@ -15,7 +17,8 @@ const CallApi = <T>({
   headers,
   data,
   params,
-  timeout
+  timeout,
+  isProtected = false
 }: ICallApi) => {
   const config: AxiosRequestConfig = {
     method,
@@ -27,7 +30,18 @@ const CallApi = <T>({
       ...headers,
     },
   };
-  return axios.request(config);
+
+  if (!isProtected) {
+    return axios.request(config);
+  }
+
+  return storage.getToken().then((token) => {
+    if (config.headers == undefined) {
+      config.headers = {};
+    }
+    config.headers.Authorization = `Bearer ${token}`
+    return axios.request(config);
+  });
 };
 
 export default CallApi;

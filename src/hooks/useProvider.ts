@@ -11,7 +11,6 @@ interface IData {
 }
 
 const useRegister = () => {
-  // const { saveUser } = useProfile();
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<unknown>, any>(
     (body) =>

@@ -85,11 +85,8 @@ export const ProfileProvider: FC<any> = ({ children }) => {
       value={{
         user,
         token,
-        isAuthenticated:
-            typeof token === 'string' && token.length > 5,
-        isServiceProvider:
-            typeof user !== 'undefined' && user.hasOwnProperty('provider')
-            && user.provider.hasOwnProperty('id') && !isNaN(Number(user.provider.id)),
+        isAuthenticated: typeof token === 'string' && token.length > 5,
+        isServiceProvider: typeof user === 'object' && !isNaN(Number(user?.provider?.id)),
         isReady,
         saveUser,
         userLogin,

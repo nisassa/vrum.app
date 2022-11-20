@@ -2,9 +2,9 @@ import { Navigate, Route, useLocation } from 'react-router-dom';
 import { useProfile } from "./hooks/profile";
 import NotFound from "./Pages/NotFound";
 
-export const PrivateRoute = ({children, isProvider}: {
+export const PrivateRoute = ({children, mustBeProvider}: {
     children: JSX.Element;
-    isProvider: Boolean
+    mustBeProvider: Boolean
 }) => {
     let location = useLocation();
 
@@ -18,11 +18,11 @@ export const PrivateRoute = ({children, isProvider}: {
         return <Navigate to="/login" state={{ from: location }} />;
     }
 
-    if (isAuthenticated && isProvider && !isServiceProvider) {
+    if (isAuthenticated && mustBeProvider && !isServiceProvider) {
         return <NotFound />;
     }
 
-    if (isAuthenticated && !isProvider && isServiceProvider) {
+    if (isAuthenticated && !mustBeProvider && isServiceProvider) {
         return <NotFound />;
     }
 

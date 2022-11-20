@@ -22,7 +22,7 @@ export const Router = () => {
             <Route
                 path="/client"
                 element={
-                    <PrivateRoute isProvider={false}>
+                    <PrivateRoute mustBeProvider={false}>
                         <ClientHome />
                     </PrivateRoute>
                 }
@@ -30,7 +30,7 @@ export const Router = () => {
             <Route
                 path="/provider"
                 element={
-                    <PrivateRoute isProvider={true}>
+                    <PrivateRoute mustBeProvider={true}>
                         <ProviderHome />
                     </PrivateRoute>
                 }

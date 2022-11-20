@@ -17,6 +17,8 @@ interface IProfileContext {
   user: any;
   token: string | null;
   isAuthenticated: boolean;
+  isServiceProvider: boolean;
+  isReady: boolean;
   saveUser: (user: any) => void;
   userLogin: (user: any) => void;
   restoreUserAndToken: () => void;
@@ -28,6 +30,8 @@ export const ProfileContext = createContext<IProfileContext>({
   user: null,
   token: null,
   isAuthenticated: false,
+  isServiceProvider: false,
+  isReady: false,
   saveUser: () => {},
   userLogin: () => {},
   restoreUserAndToken: () => {},
@@ -41,6 +45,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
 
   const [user, setUser] = useState<any>();
   const [token, setToken] = useState<any>();
+  const [isReady, setIsReady] = useState<any>();
 
   useEffect(() => {
     restoreUser();
@@ -58,6 +63,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
   const restoreToken = async () => {
     const token = await storage.getToken();
     setToken(token);
+    setIsReady(true)
   };
 
   const saveUser = async (user: any) => {
@@ -80,13 +86,14 @@ export const ProfileProvider: FC<any> = ({ children }) => {
         user,
         token,
         isAuthenticated:
-            typeof token === 'string'
-            && token.length > 5
-            && typeof user !== 'undefined'
-            && user.hasOwnProperty('id'),
+            typeof token === 'string' && token.length > 5,
+        isServiceProvider:
+            typeof user !== 'undefined' && user.hasOwnProperty('provider')
+            && user.provider.hasOwnProperty('id') && !isNaN(Number(user.provider.id)),
+        isReady,
         saveUser,
         userLogin,
-        restoreUserAndToken,
+        restoreUserAndToken
       }}
     >
       {children}

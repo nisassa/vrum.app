@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {useProfile} from "../hooks/profile";
+import {useLogout} from "../hooks/useAuth";
 
-function Nav() {
+export default function MainNav() {
+
+  const { isAuthenticated } = useProfile();
+  const {mutateAsync: logout} = useLogout()
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  }
+
   return (
     <nav className='bg-gray-800'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -27,18 +40,31 @@ function Nav() {
                   </Link>
                 </div>
                 <div className='flex'>
-                  <Link
-                    className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                    to='/login'
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                    to='/register'
-                  >
-                    Register
-                  </Link>
+                  {
+                      !isAuthenticated && (
+                          <>
+                              <Link
+                                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                                  to='/login'>
+                                Login
+                              </Link>
+                              <Link
+                                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                                  to='/register'>
+                                Register
+                              </Link>
+                          </>
+                    )}
+                    {
+                      isAuthenticated && (
+                          <a
+                              className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                              onClick={logout}
+                          >
+                            Logout
+                          </a>
+                      )
+                    }
                 </div>
               </div>
             </div>
@@ -129,5 +155,3 @@ function Nav() {
     </nav>
   );
 }
-
-export default Nav;

@@ -6,7 +6,7 @@ import {useLogout} from "../hooks/useAuth";
 
 export default function MainNav() {
 
-  const { isAuthenticated } = useProfile();
+  const { isAuthenticated, isServiceProvider } = useProfile();
   const {mutateAsync: logout} = useLogout()
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,12 +58,19 @@ export default function MainNav() {
                     )}
                     {
                       isAuthenticated && (
-                          <a
-                              className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
-                              onClick={handleLogout}
-                          >
-                            Logout
-                          </a>
+                          <>
+                            <Link
+                                className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                                to={isServiceProvider ? '/provider' : '/client'}>
+                              My dashboard
+                            </Link>
+                            <a
+                                className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
+                                onClick={handleLogout}
+                            >
+                              Logout
+                            </a>
+                          </>
                       )
                     }
                 </div>

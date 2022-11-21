@@ -1,5 +1,5 @@
 import React from 'react';
-
+import NotFound from './NotFound';
 function ClientDashboard() {
   return (
     <>
@@ -8,6 +8,7 @@ function ClientDashboard() {
           <h1 className='w-full text-center text-white'>Client Dashboard</h1>
         </div>
       </div>
+      <NotFound />
     </>
   );
 }

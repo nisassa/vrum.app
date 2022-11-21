@@ -148,18 +148,43 @@ export default function MainNav() {
                 >
                   Home
                 </Link>
-                <Link
-                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                  to='/login'
-                >
-                  Login
-                </Link>
-                <Link
-                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                  to='/register'
-                >
-                  Register
-                </Link>
+
+                {!isAuthenticated && (
+                  <>
+                    <Link
+                      className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                      to='/login'
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                      to='/register'
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <Link
+                      className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                      to={
+                        isServiceProvider
+                          ? '/provider/dashboard'
+                          : '/client/dashboard'
+                      }
+                    >
+                      Dashboard
+                    </Link>
+                    <a
+                      className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           )}

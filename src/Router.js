@@ -14,8 +14,7 @@ import {
   RegisterProvider,
   UserForgotPassword
 } from './Pages/Auth';
-import { PrivateRoute } from './PrivateRoute';
-import { RestrictForProviderRoute } from './RestrictForProviderRoute';
+import { PrivateRoute, RestrictedForProviderRoute } from './PrivateRoute';
 
 export const Router = () => {
   return (
@@ -23,9 +22,9 @@ export const Router = () => {
       <Route
         path='/'
         element={
-          <RestrictForProviderRoute>
+          <RestrictedForProviderRoute>
             <IndexPage />
-          </RestrictForProviderRoute>
+          </RestrictedForProviderRoute>
         }
       />
       <Route exact path='/login' element={<Login />} />

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, Method } from "axios";
+import axios, { AxiosRequestConfig, Method } from 'axios';
 import storage from '../auth/storage';
 
 export interface ICallApi extends AxiosRequestConfig {
@@ -27,8 +27,8 @@ const CallApi = <T>({
     url,
     timeout,
     headers: {
-      ...headers,
-    },
+      ...headers
+    }
   };
 
   if (!isProtected) {
@@ -39,7 +39,7 @@ const CallApi = <T>({
     if (config.headers == undefined) {
       config.headers = {};
     }
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `Bearer ${token}`;
     return axios.request(config);
   });
 };

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import {Link, useNavigate} from 'react-router-dom';
-import {useProfile} from "../hooks/profile";
-import {useLogout} from "../hooks/useAuth";
+import { Link, useNavigate } from 'react-router-dom';
+import { useProfile } from '../hooks/profile';
+import { useLogout } from '../hooks/useAuth';
 
 export default function MainNav() {
-
   const { isAuthenticated, isServiceProvider } = useProfile();
-  const {mutateAsync: logout} = useLogout()
+  const { mutateAsync: logout } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-
     await logout();
     navigate('/');
-  }
+  };
 
   return (
     <nav className='bg-gray-800'>
@@ -41,38 +39,42 @@ export default function MainNav() {
                   </Link>
                 </div>
                 <div className='flex'>
-                  {
-                      !isAuthenticated && (
-                          <>
-                              <Link
-                                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                                  to='/login'>
-                                Login
-                              </Link>
-                              <Link
-                                  className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                                  to='/register'>
-                                Register
-                              </Link>
-                          </>
-                    )}
-                    {
-                      isAuthenticated && (
-                          <>
-                            <Link
-                                className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                                to={isServiceProvider ? '/provider' : '/client'}>
-                              My dashboard
-                            </Link>
-                            <a
-                                className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
-                                onClick={handleLogout}
-                            >
-                              Logout
-                            </a>
-                          </>
-                      )
-                    }
+                  {!isAuthenticated && (
+                    <>
+                      <Link
+                        className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                        to='/login'
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                        to='/register'
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
+                  {isAuthenticated && (
+                    <>
+                      <Link
+                        className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
+                        to={
+                          isServiceProvider
+                            ? '/provider/dashboard'
+                            : '/client/dashboard'
+                        }
+                      >
+                        Dashboard
+                      </Link>
+                      <a
+                        className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

@@ -34,13 +34,12 @@ export const ProfileContext = createContext<IProfileContext>({
   isReady: false,
   saveUser: () => {},
   userLogin: () => {},
-  restoreUserAndToken: () => {},
+  restoreUserAndToken: () => {}
 }) as Context<IProfileContext>;
 
 export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileProvider: FC<any> = ({ children }) => {
-
   const { mutateAsync: login } = useLogin();
 
   const [user, setUser] = useState<any>();
@@ -63,7 +62,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
   const restoreToken = async () => {
     const token = await storage.getToken();
     setToken(token);
-    setIsReady(true)
+    setIsReady(true);
   };
 
   const saveUser = async (user: any) => {
@@ -72,12 +71,12 @@ export const ProfileProvider: FC<any> = ({ children }) => {
   };
 
   const restoreUserAndToken = async () => {
-      await restoreToken();
-      await restoreUser();
+    await restoreToken();
+    await restoreUser();
   };
 
   const userLogin = async (credentials: any) => {
-     return await login(credentials);
+    return await login(credentials);
   };
 
   return (
@@ -86,7 +85,8 @@ export const ProfileProvider: FC<any> = ({ children }) => {
         user,
         token,
         isAuthenticated: typeof token === 'string' && token.length > 5,
-        isServiceProvider: typeof user === 'object' && !isNaN(Number(user?.provider?.id)),
+        isServiceProvider:
+          typeof user === 'object' && !isNaN(Number(user?.provider?.id)),
         isReady,
         saveUser,
         userLogin,
@@ -106,23 +106,25 @@ const useLogin = () => {
         url: endpoints.users.login(),
         method: 'POST',
         data: body,
-        isProtected: false,
+        isProtected: false
       }),
     {
       onSuccess: async (response: any) => {
-          if (typeof response.data.token !== 'undefined' && response.data.token !== null) {
-              await storage.storeToken(response.data.token)
-              await storage.storeUser(response.data.resource)
-          } else {
-              await storage.storeToken(null)
-              await storage.storeUser(null)
-          }
-          return queryClient.invalidateQueries(USER_KEY);
+        if (
+          typeof response.data.token !== 'undefined' &&
+          response.data.token !== null
+        ) {
+          await storage.storeToken(response.data.token);
+          await storage.storeUser(response.data.resource);
+        } else {
+          await storage.storeToken(null);
+          await storage.storeUser(null);
+        }
+        return queryClient.invalidateQueries(USER_KEY);
       }
     }
   );
 };
-
 
 // export const updateProfile = () => {
 //   const queryClient = useQueryClient();

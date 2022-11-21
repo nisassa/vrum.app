@@ -3,12 +3,10 @@ import { useProfile } from './hooks/profile';
 import NotFound from './Pages/NotFound';
 import Loading from './components/Loading';
 
-export const PrivateRoute = ({
-  children,
-  mustBeProvider
+export const RestrictForProviderRoute = ({
+  children
 }: {
   children: JSX.Element;
-  mustBeProvider: Boolean;
 }) => {
   let location = useLocation();
 
@@ -18,16 +16,8 @@ export const PrivateRoute = ({
     return <Loading />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to='/login' state={{ from: location }} />;
-  }
-
-  if (isAuthenticated && mustBeProvider && !isServiceProvider) {
-    return <NotFound />;
-  }
-
-  if (isAuthenticated && !mustBeProvider && isServiceProvider) {
-    return <NotFound />;
+  if (isAuthenticated && isServiceProvider) {
+    return <Navigate to='/provider' state={{ from: location }} />;
   }
 
   return children;

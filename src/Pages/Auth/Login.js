@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProfile } from '../../hooks/profile';
+import Loading from '../../components/Loading';
 
 function Login() {
   const navigate = useNavigate();
@@ -53,7 +54,10 @@ function Login() {
   if (isAuthenticated && !isServiceProvider) {
     navigate('/client');
   }
-
+  console.log(isLoading);
+  if (isLoading === true) {
+    return <Loading />;
+  }
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-12'>

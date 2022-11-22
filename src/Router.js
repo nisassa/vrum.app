@@ -6,6 +6,7 @@ import ClientDashboard from './Pages/ClientDashboard';
 import ProviderHome from './Pages/ProviderHome';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
+import Dashboard from './Pages/Dashboard';
 import {
   Login,
   RecoverPassword,
@@ -57,7 +58,7 @@ export const Router = () => {
         path='/provider'
         element={
           <PrivateRoute mustBeProvider={true}>
-            <ProviderHome />
+            <Dashboard />
           </PrivateRoute>
         }
       />

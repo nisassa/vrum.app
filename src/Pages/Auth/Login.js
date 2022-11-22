@@ -54,10 +54,11 @@ function Login() {
   if (isAuthenticated && !isServiceProvider) {
     navigate('/client');
   }
-  console.log(isLoading);
-  if (isLoading === true) {
+
+  if (isLoading === true || isAuthenticated === true ) {
     return <Loading />;
   }
+
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-12'>

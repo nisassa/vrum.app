@@ -45,7 +45,11 @@ function RecoverPassword() {
           if (error.hasOwnProperty('response') && typeof error.response === 'object' && error.response.hasOwnProperty('data')) {
             let responseData = error.response.data
             if (responseData.hasOwnProperty('errors') && typeof responseData.errors === 'object' && Object.keys(responseData.errors).length > 0) {
-              setApiErrors(responseData.errors)
+              if (Array.isArray(responseData.errors)) {
+                setApiErrors(responseData.errors[0])
+              } else {
+                setApiErrors(responseData.errors)
+              }
             }
           }
         });

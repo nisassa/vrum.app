@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useForgotPassword } from '../../hooks/useAuth';
+import Loading from '../../components/Loading';
 
 function UserForgotPassword() {
   const [apiErrors, setApiErrors] = useState({})
@@ -24,6 +25,10 @@ function UserForgotPassword() {
             }
           }
         });
+  }
+
+  if (isLoading === true) {
+    return <Loading />;
   }
 
   return (

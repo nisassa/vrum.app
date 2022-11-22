@@ -4,7 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+if (localStorage.getItem('sidebar-expanded') == 'true') {
+  document.querySelector('body').classList.add('sidebar-expanded');
+} else {
+  document.querySelector('body').classList.remove('sidebar-expanded');
+}
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <App />

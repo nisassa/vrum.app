@@ -7,6 +7,9 @@ import ProviderHome from './Pages/ProviderHome';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
 import Dashboard from './Pages/Dashboard';
+import './css/style.css';
+
+import './charts/ChartjsConfig';
 import {
   Login,
   RecoverPassword,

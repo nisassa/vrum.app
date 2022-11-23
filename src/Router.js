@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import NotFound from './Pages/NotFound';
 import ClientHome from './Pages/ClientHome';
-import ClientDashboard from './Pages/ClientDashboard';
+import ClientAccount from './Pages/ClientAccount';
 import ProviderHome from './Pages/ProviderHome';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
@@ -50,10 +50,10 @@ export const Router = () => {
         }
       />
       <Route
-        path='/client/dashboard'
+        path='/client/account'
         element={
           <PrivateRoute mustBeProvider={false}>
-            <ClientDashboard />
+            <ClientAccount />
           </PrivateRoute>
         }
       />

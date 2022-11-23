@@ -12,9 +12,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { endpoints } from '../config/apiConfig';
 import CallApi from '../services/apiService';
 import storage from '../auth/storage';
+import { UserType } from '../types/client.interface';
 
 interface IProfileContext {
-  user: any;
+  user: UserType | null;
   token: string | null;
   isAuthenticated: boolean;
   isServiceProvider: boolean;

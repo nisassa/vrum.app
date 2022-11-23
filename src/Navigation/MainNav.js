@@ -8,12 +8,11 @@ import Loading from '../components/Loading';
 import UserAvatar from '../images/user-avatar-32.png';
 
 export default function MainNav() {
-  const { isAuthenticated, isServiceProvider } = useProfile();
+  const { isAuthenticated, isServiceProvider, user } = useProfile();
   const { mutateAsync: logout, isLoading } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
-
   const handleLogout = async () => {
     await logout();
     navigate('/');
@@ -54,7 +53,7 @@ export default function MainNav() {
       <nav className='bg-gray-800'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-16'>
-            <div className='flex items-center w-full'>
+            <div className='flex items-center w-full justify-between'>
               <div className='flex-shrink-0'>
                 <img
                   className='h-8 w-8'
@@ -62,16 +61,8 @@ export default function MainNav() {
                   alt='Workflow'
                 />
               </div>
-              <div className='hidden md:inline flex w-full items-center justify-between'>
+              <div className='hidden md:inline flex items-center justify-between'>
                 <div className='flex flex-row items-center justify-between ml-10'>
-                  <div className='flex'>
-                    <Link
-                      className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                      to='/'
-                    >
-                      Home
-                    </Link>
-                  </div>
                   <div className='flex'>
                     {!isAuthenticated && (
                       <>
@@ -108,7 +99,7 @@ export default function MainNav() {
                             />
                             <div className='flex items-center truncate'>
                               <span className='truncate ml-2 text-sm font-medium text-white'>
-                                Acme Inc.
+                                {`${user?.first_name} ${user?.last_name}`}
                               </span>
                               <svg
                                 className='w-3 h-3 shrink-0 ml-1 fill-current text-slate-400'
@@ -134,24 +125,16 @@ export default function MainNav() {
                               onFocus={() => setDropdownOpen(true)}
                               onBlur={() => setDropdownOpen(false)}
                             >
-                              <div className='pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200'>
-                                <div className='font-medium text-white-500'>
-                                  Acme Inc.
-                                </div>
-                                <div className='text-xs text-slate-500 italic'>
-                                  Administrator
-                                </div>
-                              </div>
                               <ul>
                                 <li>
                                   <Link
                                     className='font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
-                                    to='/'
+                                    to='client/account'
                                     onClick={() =>
                                       setDropdownOpen(!dropdownOpen)
                                     }
                                   >
-                                    Settings
+                                    My account
                                   </Link>
                                 </li>
                                 <li>
@@ -254,9 +237,9 @@ export default function MainNav() {
                   <>
                     <Link
                       className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                      to={'/client/settings'}
+                      to={'/client/account'}
                     >
-                      Settings
+                      My account
                     </Link>
                     <a
                       className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'

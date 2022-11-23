@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { endpoints } from '../config/apiConfig';
-import { ClientType } from '../types/client.interface';
+import { UserType } from '../types/client.interface';
 import CallApi from '../services/apiService';
 import { AxiosResponse } from 'axios';
 
 const CLIENT_KEY = 'getClient';
 
 interface IData {
-  data: ClientType[];
+  data: UserType[];
 }
 
 const useRegister = () => {

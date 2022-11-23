@@ -1,5 +1,5 @@
 import React from 'react';
-function ClientDashboard() {
+function ClientAccount() {
   return (
     <>
       <div className='container mx-auto my-4 mt-1o px-4 md:px-12'>
@@ -10,4 +10,4 @@ function ClientDashboard() {
     </>
   );
 }
-export default ClientDashboard;
+export default ClientAccount;

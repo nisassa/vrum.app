@@ -6,7 +6,7 @@ import ClientDashboard from './Pages/ClientDashboard';
 import ProviderHome from './Pages/ProviderHome';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
-import Dashboard from './Pages/Dashboard';
+import ProviderDashboard from './Pages/ProviderDashboard';
 import './css/style.css';
 
 import './charts/ChartjsConfig';
@@ -61,7 +61,7 @@ export const Router = () => {
         path='/provider'
         element={
           <PrivateRoute mustBeProvider={true}>
-            <Dashboard />
+            <ProviderDashboard />
           </PrivateRoute>
         }
       />

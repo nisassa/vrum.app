@@ -234,13 +234,6 @@ export default function MainNav() {
                 ref={ref}
                 className='px-2 pt-2 pb-3 space-y-1 flex flex-col  sm:px-3'
               >
-                <Link
-                  className='hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium'
-                  to='/'
-                >
-                  Home
-                </Link>
-
                 {!isAuthenticated && (
                   <>
                     <Link
@@ -261,13 +254,9 @@ export default function MainNav() {
                   <>
                     <Link
                       className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
-                      to={
-                        isServiceProvider
-                          ? '/provider/dashboard'
-                          : '/client/dashboard'
-                      }
+                      to={'/client/settings'}
                     >
-                      Dashboard
+                      Settings
                     </Link>
                     <a
                       className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'

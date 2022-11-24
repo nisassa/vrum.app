@@ -9,6 +9,7 @@ import React from 'react';
 import ProviderDashboard from './Pages/ProviderDashboard';
 import Account from './Pages/settings/Account';
 import Calendar from './Pages/Calendar';
+import Bookings from './Pages/bookings/Bookings';
 import {
   Login,
   RecoverPassword,
@@ -77,6 +78,14 @@ export const Router = () => {
         element={
           <PrivateRoute mustBeProvider={true}>
             <Account />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='provider/bookings'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <Bookings />
           </PrivateRoute>
         }
       />

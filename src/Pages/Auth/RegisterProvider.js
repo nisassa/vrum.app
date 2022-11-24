@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
-
 import { useRegister } from '../../hooks/useProvider';
-import Loading from '../../components/Loading';
+import LoadingSvg from "../../components/LoadingSvg";
+
 function RegisterProvider() {
+
   const navigate = useNavigate();
 
   const [apiErrors, setApiErrors] = useState({});
@@ -42,9 +43,8 @@ function RegisterProvider() {
       }, 3000);
     }
   }, [successMessage]);
-  if (isLoading === true) {
-    return <Loading />;
-  }
+
+  
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-4'>
@@ -115,12 +115,6 @@ function RegisterProvider() {
                               {apiErrors.first_name[0]}
                             </p>
                           )}
-
-                        {/*{errors.lastName && touched.first_name ? (*/}
-                        {/*    <p className='hidetext-red-500 text-xs italic'>*/}
-                        {/*      {errors.first_name}*/}
-                        {/*    </p>*/}
-                        {/*) : null}*/}
                       </div>
                       <div className='w-full md:w-1/2 md:pl-3'>
                         <label
@@ -479,7 +473,7 @@ function RegisterProvider() {
                       disabled={isLoading}
                       className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                     >
-                      Register
+                      {isLoading ? <LoadingSvg /> : 'Register'}
                     </button>
                   </div>
                 </Form>

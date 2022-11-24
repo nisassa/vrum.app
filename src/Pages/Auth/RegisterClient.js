@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../hooks/useClient';
-import Loading from '../../components/Loading';
+import LoadingSvg from "../../components/LoadingSvg";
 
 function RegisterClient() {
   const navigate = useNavigate();
@@ -42,10 +42,6 @@ function RegisterClient() {
       }, 3000);
     }
   }, [successMessage]);
-
-  if (isLoading === true) {
-    return <Loading />;
-  }
 
   return (
     <>
@@ -330,7 +326,7 @@ function RegisterClient() {
                       type='submit'
                       className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                     >
-                      Register
+                      {isLoading ? <LoadingSvg /> : 'Register'}
                     </button>
                   </div>
                 </Form>

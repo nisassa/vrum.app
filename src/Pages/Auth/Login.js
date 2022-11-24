@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProfile } from '../../hooks/profile';
-import Loading from '../../components/Loading';
+import LoadingSvg from '../../components/LoadingSvg';
 
 function Login() {
   const navigate = useNavigate();
@@ -53,10 +53,6 @@ function Login() {
 
   if (isAuthenticated && !isServiceProvider) {
     navigate('/client');
-  }
-
-  if (isLoading === true || isAuthenticated === true ) {
-    return <Loading />;
   }
 
   return (
@@ -160,12 +156,12 @@ function Login() {
 
                 <div className='w-full flex justify-center'>
                   <button
-                    disabled={isLoading ? true : undefined}
-                    type='submit'
-                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
-                  >
-                    Login
-                  </button>
+                      disabled={isLoading ? true : undefined}
+                      type='submit'
+                      className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
+                    >
+                      {( isLoading || isAuthenticated ) ? <LoadingSvg /> : 'Login'}
+                    </button>
                 </div>
               </Form>
             </Formik>

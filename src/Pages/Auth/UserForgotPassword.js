@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useForgotPassword } from '../../hooks/useAuth';
-import Loading from '../../components/Loading';
+import LoadingSvg from "../../components/LoadingSvg";
 
 function UserForgotPassword() {
   const [apiErrors, setApiErrors] = useState({})
@@ -25,10 +25,6 @@ function UserForgotPassword() {
             }
           }
         });
-  }
-
-  if (isLoading === true) {
-    return <Loading />;
   }
 
   return (
@@ -70,7 +66,6 @@ function UserForgotPassword() {
                                 ? `border-red-500`
                                 : `border-gray-300`)}`}
                         id='input_email'
-                        id='email-input'
                         type='email'
                         placeholder='user@domain.com'
                     />
@@ -86,7 +81,7 @@ function UserForgotPassword() {
                         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                         disabled={isLoading ? true : undefined}
                     >
-                      Send password reset link
+                      { isLoading ? <LoadingSvg /> : 'Send password reset link' }
                     </button>
                   </div>
                 </Form>

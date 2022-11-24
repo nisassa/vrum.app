@@ -5,6 +5,7 @@ import {
   useParams
 } from "react-router-dom";
 import {useForgotPassword, usePasswordReset} from "../../hooks/useAuth";
+import LoadingSvg from "../../components/LoadingSvg";
 
 function RecoverPassword() {
   const navigate = useNavigate();
@@ -161,7 +162,7 @@ function RecoverPassword() {
                         type='submit'
                         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
                     >
-                      Reset Password
+                      {( isLoading ) ? <LoadingSvg /> : 'Reset Password'}
                     </button>
                   </div>
                   <div className='w-full flex justify-center'>
@@ -170,7 +171,9 @@ function RecoverPassword() {
                         type='button'
                         onClick={() => resend({email})}
                         className='bg-yellow-400 hover:bg-yellow-700 text-white mt-4 font-bold py-2 px-20 rounded'
-                    >Resend Email</button>
+                    >
+                      {( isResending ) ? <LoadingSvg /> : 'Resend Email'}
+                    </button>
                   </div>
                 </Form>
               </Formik>

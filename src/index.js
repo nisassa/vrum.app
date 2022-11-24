@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './css/style.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// if (localStorage.getItem('sidebar-expanded') == 'true') {
-//   document.querySelector('body').classList.add('sidebar-expanded');
-// } else {
-//   document.querySelector('body').classList.remove('sidebar-expanded');
-// }
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+if (localStorage.getItem('sidebar-expanded') == 'true') {
+  document.querySelector('body').classList.add('sidebar-expanded');
+} else {
+  document.querySelector('body').classList.remove('sidebar-expanded');
+}
 
 root.render(
   <React.StrictMode>

@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Transition from '../../utils/Transition';
-import { useProfile } from '../../hooks/profile';
-import { useLogout } from '../../hooks/useAuth';
-import Loading from '../../components/Loading';
+import Transition from '../utils/Transition';
+import { useProfile } from '../hooks/profile';
+import { useLogout } from '../hooks/useAuth';
 
-import UserAvatar from '../../images/user-avatar-32.png';
-function UserMenu({ updateIsLoading }) {
+import UserAvatar from '../images/user-avatar-32.png';
+function UserMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -43,9 +42,7 @@ function UserMenu({ updateIsLoading }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    updateIsLoading(true);
     await logout();
-    updateIsLoading(false);
     navigate('/');
   };
 
@@ -103,10 +100,9 @@ function UserMenu({ updateIsLoading }) {
               <li>
                 <Link
                   className='font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
-                  to='/'
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  to='/settings/account/'
                 >
-                  Settings
+                  My account
                 </Link>
               </li>
               <li>

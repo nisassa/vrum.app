@@ -7,6 +7,8 @@ import ProviderHome from './Pages/ProviderHome';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
 import ProviderDashboard from './Pages/ProviderDashboard';
+import Account from './Pages/settings/Account';
+import Calendar from './Pages/Calendar';
 import {
   Login,
   RecoverPassword,
@@ -59,6 +61,22 @@ export const Router = () => {
         element={
           <PrivateRoute mustBeProvider={true}>
             <ProviderDashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='/calendar'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <Calendar />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='settings/account'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <Account />
           </PrivateRoute>
         }
       />

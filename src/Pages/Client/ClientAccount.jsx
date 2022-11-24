@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SettingsSidebar from '../partials/settings/SettingsSidebar';
-import AccountPanel from '../partials/settings/AccountPanel';
+import SettingsSidebar from '../../partials/settings/SettingsSidebar';
+import AccountPanel from '../../partials/settings/AccountPanel';
 function ClientAccount() {
   const [sync, setSync] = useState(false);
   return (

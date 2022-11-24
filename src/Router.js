@@ -1,15 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 
 import NotFound from './Pages/NotFound';
-import ClientHome from './Pages/ClientHome';
-import ClientAccount from './Pages/ClientAccount';
-import ProviderHome from './Pages/ProviderHome';
+import ClientHome from './Pages/Client/ClientHome';
+import ClientAccount from './Pages/Client/ClientAccount';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
-import ProviderDashboard from './Pages/ProviderDashboard';
-import Account from './Pages/settings/Account';
-import Calendar from './Pages/Calendar';
-import Bookings from './Pages/bookings/Bookings';
+import ProviderDashboard from './Pages/Provider/ProviderDashboard';
+import Account from './Pages/Provider/settings/Account';
+import Calendar from './Pages/Provider/Calendar';
+import Bookings from './Pages/Provider/Bookings';
 import {
   Login,
   RecoverPassword,
@@ -82,7 +81,7 @@ export const Router = () => {
         }
       />
       <Route
-        path='provider/bookings'
+        path='/bookings'
         element={
           <PrivateRoute mustBeProvider={true}>
             <Bookings />

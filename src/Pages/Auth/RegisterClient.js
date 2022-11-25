@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../hooks/useClient';
-import LoadingSvg from "../../components/LoadingSvg";
+import LoadingSvg from '../../components/LoadingSvg';
 
 function RegisterClient() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ function RegisterClient() {
         navigate('/login');
       }, 3000);
     }
-  }, [successMessage]);
+  }, [successMessage, navigate]);
 
   return (
     <>

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../hooks/useProvider';
-import LoadingSvg from "../../components/LoadingSvg";
+import LoadingSvg from '../../components/LoadingSvg';
 
 function RegisterProvider() {
-
   const navigate = useNavigate();
 
   const [apiErrors, setApiErrors] = useState({});
@@ -42,9 +41,8 @@ function RegisterProvider() {
         navigate('/login');
       }, 3000);
     }
-  }, [successMessage]);
+  }, [successMessage, navigate]);
 
-  
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-4'>

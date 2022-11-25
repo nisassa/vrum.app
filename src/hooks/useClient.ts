@@ -28,15 +28,59 @@ const useRegister = () => {
   );
 };
 
-const useSingleTask = (id: number) => {
-  // return useQuery<any>(`getSingleTask`, async () => {
-  //     return await CallApi<any>({
-  //         url: endpoints.tasks.updateByID(id),
-  //         method: "GET",
-  //     })
-  //         .then(({ data }) => data)
-  //         .catch((err) => err);
-  // });
+const UpdateClientProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    (body) =>
+      CallApi({
+        url: endpoints.users.profile(),
+        method: 'POST',
+        data: body,
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(CLIENT_KEY);
+      }
+    }
+  );
 };
 
-export { useRegister };
+// const getClientProfile = (id: number) => {
+//   return (
+//     useQuery <
+//     AxiosResponse<unknown>(`getClientProfile`, async () => {
+//       return await CallApi<any>({
+//         url: endpoints.users.profile(),
+//         method: 'GET'
+//       })
+//         .then(({ data }) => data)
+//         .catch((err) => err);
+//     })
+//   );
+// };
+
+// const useSingleTask = () => {
+//   return useQuery<any>(`getSingleTask`, async () => {
+//     return await CallApi<any>({
+//       url: endpoints.users.profile(),
+//       method: 'GET',
+//       isProtected: true
+//     })
+//       .then(({ data }) => data)
+//       .catch((err) => err);
+//   });
+// };
+
+// const useSingleTask = (id: number) => {
+// return useQuery<any>(`getSingleTask`, async () => {
+//     return await CallApi<any>({
+//         url: endpoints.tasks.updateByID(id),
+//         method: "GET",
+//     })
+//         .then(({ data }) => data)
+//         .catch((err) => err);
+// });
+// };
+
+export { useRegister, UpdateClientProfile };

@@ -33,7 +33,7 @@ const UpdateProviderProfile = () => {
   return useMutation<AxiosResponse<unknown>, any>(
     (body) =>
       CallApi({
-        url: endpoints.users.profile(),
+        url: endpoints.provider.update(),
         method: 'POST',
         data: body,
         isProtected: true

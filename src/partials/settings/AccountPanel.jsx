@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { UpdateClientProfile } from '../../hooks/useClient';
+import { UpdateProviderProfile } from '../../hooks/useProvider';
 import { useProfile } from '../../hooks/profile';
 import { usePhotoUpload } from '../../hooks/useFiles';
 import LoadingSvg from '../../components/LoadingSvg';
@@ -15,7 +15,7 @@ function AccountPanel() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { user } = useProfile();
-  const { mutateAsync: UpdateClient, isLoading } = UpdateClientProfile();
+  const { mutateAsync: UpdateProvider, isLoading } = UpdateProviderProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
 
   const handleSubmit = async (values) => {
@@ -23,7 +23,7 @@ function AccountPanel() {
 
     const photo =
       newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await UpdateClient({ ...values, photo })
+    await UpdateProvider({ ...values, photo })
       .then((i) => {
         setSuccessMessage('Your profile was updated successfully!');
       })
@@ -77,9 +77,11 @@ function AccountPanel() {
         {/* Picture */}
         <Formik
           initialValues={{
+            name: user.provider.name,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
+            invoice_email: user.email,
             postcode: user.postcode,
             line_1: user.line_1,
             line_2: user.line_2,
@@ -91,7 +93,8 @@ function AccountPanel() {
             password_confirmation: '',
             job_title: user.job_title,
             landline: user.landline,
-            photo: user.photo
+            photo: user.photo,
+            booking_by_specialist: user.provider.booking_by_specialist
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -128,6 +131,19 @@ function AccountPanel() {
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                     Business Info
                   </h3>
+                  <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Business name
+                    </label>
+                    <Field
+                      type='text'
+                      name='name'
+                      className='form-input w-full'
+                    />
+                  </div>
                   <div className='flex flex-wrap  mb-6'>
                     <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                       <label
@@ -319,32 +335,6 @@ function AccountPanel() {
                           </p>
                         )}
                     </div>
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-state'
-                    >
-                      State
-                    </label>
-
-                    <Field
-                      name='state'
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('state') &&
-                        typeof apiErrors.state[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-state'
-                      type='text'
-                    />
-                    {apiErrors.hasOwnProperty('state') &&
-                      typeof apiErrors.state[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.state[0]}
-                        </p>
-                      )}
                   </div>
                   <div className='flex flex-wrap -mx-3 mb-6 px-3'>
                     <label

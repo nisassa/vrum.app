@@ -21,6 +21,10 @@ export const endpoints = {
     providers: {
         register: () =>
             `${settings.apiUrl}/api/register/provider`,
+    },
+    files: {
+        upload: () =>
+            `${settings.apiUrl}/api/upload`,
     }
 };
 

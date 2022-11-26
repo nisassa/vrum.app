@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { UpdateClientProfile } from '../../hooks/useClient';
 import { useProfile } from '../../hooks/profile';
+import { usePhotoUpload } from '../../hooks/useFiles';
 import LoadingSvg from '../../components/LoadingSvg';
 import Image from '../../images/user-avatar-80.png';
+import settings from '../../config/settings';
+import Dropzone from '../../components/Dropzone';
 
 function AccountPanel() {
-  const [sync, setSync] = useState(false);
-  const navigate = useNavigate();
-
   const [apiErrors, setApiErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState(false);
+  const [newPhoto, setNewPhoto] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { user } = useProfile();
   const { mutateAsync: UpdateClient, isLoading } = UpdateClientProfile();
+  const { mutateAsync: upload, isUploading } = usePhotoUpload();
 
   const handleSubmit = async (values) => {
     setApiErrors({});
-    await UpdateClient(values)
+
+    const photo = (newPhoto && newPhoto.hasOwnProperty('path')) ? newPhoto.path : user.photo
+    await UpdateClient({...values, photo})
       .then((i) => {
         setSuccessMessage('Your profile was updated successfully!');
       })
@@ -37,10 +41,30 @@ function AccountPanel() {
             setApiErrors(responseData.errors[0]);
           }
         } else {
-          console.log('An error occured!');
+          console.log('An error occurred!');
         }
       });
   };
+
+  const onUploadImage = async (photo) => {
+    if (photo) {
+      let fd = new FormData();
+      fd.append('entity','user');
+      fd.append('photo', photo);
+      upload(fd)
+          .then((response) => {
+            if (response?.data?.document !== undefined) {
+              setNewPhoto(response?.data?.document)
+            }
+
+            if (Array.isArray(response?.data?.message?.photo)) {
+              console.log(response?.data?.message?.photo[0])
+            }
+          })
+          .catch((e) =>{ console.log(e)})
+    }
+  }
+
 
   return (
     <div className='grow'>
@@ -48,7 +72,6 @@ function AccountPanel() {
       <div className='p-6 space-y-6'>
         <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
         {/* Picture */}
-
         <Formik
           initialValues={{
             first_name: user.first_name,
@@ -76,14 +99,20 @@ function AccountPanel() {
               <div className='flex items-center'>
                 <div className='mr-4'>
                   <img
-                    className='w-20 h-20 rounded-full'
-                    src={Image}
+                    className='w-50 h-50 rounded-full'
+                    src={(newPhoto && newPhoto.hasOwnProperty('path')) ?
+                        `${settings.storageUrl}${newPhoto.path}`
+                        : user.photo ? `${settings.storageUrl}${user.photo}` : Image }
                     width='80'
                     height='80'
                     alt='User upload'
                   />
                 </div>
-                <Field type='file' name='photo' id='' />
+                <Dropzone
+                    multiple={false}
+                    maxSize={parseInt(settings.photoMaxSize, 500)}
+                    onDrop={onUploadImage}
+                />
               </div>
             </section>
             <section>
@@ -283,7 +312,7 @@ function AccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
+                      autoComplete='off'
                     />
                     {apiErrors.hasOwnProperty('password') &&
                       typeof apiErrors.password[0] !== 'undefined' && (
@@ -311,7 +340,7 @@ function AccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
+                      autoComplete='off'
                     />
                     {apiErrors.hasOwnProperty('password_confirmation') &&
                       typeof apiErrors.password_confirmation[0] !==

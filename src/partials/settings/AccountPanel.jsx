@@ -97,14 +97,13 @@ function AccountPanel() {
           <Form>
             <section>
               <div className='flex items-center'>
-                <div className='mr-4'>
+                <div className='mr-4 sm:w-1/3'>
                   <img
-                    className='w-50 h-50 rounded-full'
                     src={(newPhoto && newPhoto.hasOwnProperty('path')) ?
                         `${settings.storageUrl}${newPhoto.path}`
                         : user.photo ? `${settings.storageUrl}${user.photo}` : Image }
-                    width='80'
-                    height='80'
+                    width='120'
+                    height='120'
                     alt='User upload'
                   />
                 </div>

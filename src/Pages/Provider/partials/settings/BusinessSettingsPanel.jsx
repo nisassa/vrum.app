@@ -9,7 +9,6 @@ import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
 
 function BusinessSettingsPanel() {
-  const [sync, setSync] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
   const [newPhoto, setNewPhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -17,13 +16,18 @@ function BusinessSettingsPanel() {
   const { user } = useProfile();
   const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
+  const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
+  const [autoAloc, setAutoAloc] = useState(
+    user.provider.booking_auto_allocation
+  );
 
   const handleSubmit = async (values) => {
     setApiErrors({});
-
-    const photo =
-      newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await UpdateProvider({ ...values, photo })
+    await UpdateProvider({
+      ...values,
+      booking_by_specialist: bookBy,
+      booking_auto_allocation: autoAloc
+    })
       .then((i) => {
         setSuccessMessage('Your profile was updated successfully!');
       })
@@ -72,28 +76,21 @@ function BusinessSettingsPanel() {
     <div className='grow'>
       {/* Panel body */}
       <div className='p-6 space-y-6'>
-        <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
+        <h2 className='text-2xl text-slate-800 font-bold mb-5'>Profile</h2>
         {/* Picture */}
         <Formik
           initialValues={{
             name: user.provider.name,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            invoice_email: user.email,
-            postcode: user.postcode,
-            line_1: user.line_1,
-            line_2: user.line_2,
-            city: user.city,
-            county: user.county,
-            country: user.country,
-            phone: user.phone,
-            password: '',
-            password_confirmation: '',
-            job_title: user.job_title,
-            landline: user.landline,
-            photo: user.photo,
-            booking_by_specialist: user.provider.booking_by_specialist
+            invoice_email: user.provider.invoice_email,
+            postcode: user.provider.postcode,
+            line_1: user.provider.line_1,
+            line_2: user.provider.line_2,
+            city: user.provider.city,
+            county: user.provider.county,
+            country: user.provider.country,
+            landline: user.provider.landline,
+            booking_by_specialist: bookBy,
+            booking_auto_allocation: autoAloc
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -143,100 +140,6 @@ function BusinessSettingsPanel() {
                       className='form-input w-full'
                     />
                   </div>
-                  <div className='flex flex-wrap  mb-6'>
-                    <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-first-name'
-                      >
-                        First Name
-                      </label>
-                      <Field
-                        name='first_name'
-                        className={`form-input w-full ${
-                          apiErrors.hasOwnProperty('first_name') &&
-                          typeof apiErrors.first_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-first-name'
-                        type='text'
-                      />
-                      {apiErrors.hasOwnProperty('first_name') &&
-                        typeof apiErrors.first_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.first_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full md:w-1/2 md:pl-3'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Last Name
-                      </label>
-                      <Field
-                        name='last_name'
-                        className={`form-input w-full ${
-                          apiErrors.hasOwnProperty('last_name') &&
-                          typeof apiErrors.last_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-last-name'
-                        type='text'
-                      />
-                      {apiErrors.hasOwnProperty('last_name') &&
-                        typeof apiErrors.last_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.last_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Email
-                      </label>
-                      <Field
-                        disabled
-                        name='email'
-                        className='form-input w-full'
-                      />
-                    </div>
-                    <div className='flex flex-wrap flex-col  mb-6  book-/by'>
-                      <label
-                        className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Book by specialist
-                      </label>
-
-                      <div className='form-switch'>
-                        <Field
-                          name='booking_by_specialist'
-                          type='checkbox'
-                          id='toggle'
-                          className='sr-only'
-                          checked={sync}
-                          onChange={() => setSync(!sync)}
-                        />
-                        <label className='bg-slate-400' htmlFor='toggle'>
-                          <span
-                            className='bg-white shadow-sm'
-                            aria-hidden='true'
-                          ></span>
-                          <span className='sr-only'>Enable smart sync</span>
-                        </label>
-                      </div>
-                      <div className='text-sm text-slate-400 italic ml-2'>
-                        {sync ? 'On' : 'Off'}
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div className='sm:w-1/3 contact-details px-3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
@@ -264,6 +167,31 @@ function BusinessSettingsPanel() {
                       typeof apiErrors.phone[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.phone[0]}
+                        </p>
+                      )}
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Invoice Email
+                    </label>
+                    <Field
+                      name='invoice_email'
+                      className={`form-input w-full ${
+                        apiErrors.hasOwnProperty('invoice_email') &&
+                        typeof apiErrors.invoice_email[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-last-name'
+                      type='email'
+                    />
+                    {apiErrors.hasOwnProperty('invoice_email') &&
+                      typeof apiErrors.invoice_email[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.invoice_email[0]}
                         </p>
                       )}
                   </div>
@@ -390,64 +318,77 @@ function BusinessSettingsPanel() {
                 </div>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Security
+                    Booking settings
                   </h3>
 
                   <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Password
-                    </label>
-                    <Field
-                      name='password'
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('password') &&
-                        typeof apiErrors.password[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-password'
-                      type='password'
-                      placeholder='***'
-                      autocomplete='off'
-                    />
-                    {apiErrors.hasOwnProperty('password') &&
-                      typeof apiErrors.password[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.password[0]}
-                        </p>
-                      )}
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Enable book by specialist
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                            name='booking_by_specialist'
+                            type='checkbox'
+                            id='toggle'
+                            className='sr-only'
+                            checked={bookBy}
+                            onChange={() => setBookBy(!bookBy)}
+                          />
+                          <label className='bg-slate-400' htmlFor='toggle'>
+                            <span
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Enable smart sync</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {bookBy ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
                   </div>
                   <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Confirm Password
-                    </label>
-                    <Field
-                      name='password_confirmation'
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('password_confirmation') &&
-                        typeof apiErrors.password_confirmation[0] !==
-                          'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-password'
-                      type='password'
-                      placeholder='***'
-                      autocomplete='off'
-                    />
-                    {apiErrors.hasOwnProperty('password_confirmation') &&
-                      typeof apiErrors.password_confirmation[0] !==
-                        'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.password_confirmation[0]}
-                        </p>
-                      )}
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Enable auto allocation
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                            name='booking_auto_allocation'
+                            type='checkbox'
+                            id='toggle-auto-aloc'
+                            className='sr-only'
+                            checked={autoAloc}
+                            onChange={() => setAutoAloc(!autoAloc)}
+                          />
+                          <label
+                            className='bg-slate-400'
+                            htmlFor='toggle-auto-aloc'
+                          >
+                            <span
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Enable smart sync</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {autoAloc ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
                   </div>
                 </div>
               </div>

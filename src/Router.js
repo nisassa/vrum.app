@@ -74,7 +74,7 @@ export const Router = () => {
         }
       />
       <Route
-        path='settings/account'
+        path='settings/user'
         element={
           <PrivateRoute mustBeProvider={true}>
             <Account />

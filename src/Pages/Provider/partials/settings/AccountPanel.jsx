@@ -104,9 +104,13 @@ function AccountPanel() {
               <div className='flex items-center'>
                 <div className='mr-4 sm:w-1/3'>
                   <img
-                    src={(newPhoto && newPhoto.hasOwnProperty('path')) ?
-                        `${settings.storageUrl}${newPhoto.path}`
-                        : user.photo ? `${settings.storageUrl}${user.photo}` : Image }
+                    src={
+                      newPhoto && newPhoto.hasOwnProperty('path')
+                        ? `${settings.storageUrl}${newPhoto.path}`
+                        : user.photo
+                        ? `${settings.storageUrl}${user.photo}`
+                        : Image
+                    }
                     width='120'
                     height='120'
                     alt='User upload'
@@ -124,21 +128,9 @@ function AccountPanel() {
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Business Info
+                    Account Info
                   </h3>
-                  <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-last-name'
-                    >
-                      Business name
-                    </label>
-                    <Field
-                      type='text'
-                      name='name'
-                      className='form-input w-full'
-                    />
-                  </div>
+
                   <div className='flex flex-wrap  mb-6'>
                     <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                       <label
@@ -203,34 +195,29 @@ function AccountPanel() {
                         className='form-input w-full'
                       />
                     </div>
-                    <div className='flex flex-wrap flex-col  mb-6  book-/by'>
+                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 job_title'>
                       <label
-                        className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
+                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                         htmlFor='grid-last-name'
                       >
-                        Book by specialist
+                        Job Title
                       </label>
-
-                      <div className='form-switch'>
-                        <Field
-                          name='booking_by_specialist'
-                          type='checkbox'
-                          id='toggle'
-                          className='sr-only'
-                          checked={sync}
-                          onChange={() => setSync(!sync)}
-                        />
-                        <label className='bg-slate-400' htmlFor='toggle'>
-                          <span
-                            className='bg-white shadow-sm'
-                            aria-hidden='true'
-                          ></span>
-                          <span className='sr-only'>Enable smart sync</span>
-                        </label>
-                      </div>
-                      <div className='text-sm text-slate-400 italic ml-2'>
-                        {sync ? 'On' : 'Off'}
-                      </div>
+                      <Field
+                        name='job_title'
+                        className={`form-input w-full ${
+                          apiErrors.hasOwnProperty('job_title') &&
+                          typeof apiErrors.job_title[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        type='text'
+                      />
+                      {apiErrors.hasOwnProperty('job_title') &&
+                        typeof apiErrors.job_title[0] !== 'undefined' && (
+                          <p className='text-red-500 text-12'>
+                            {apiErrors.job_title[0]}
+                          </p>
+                        )}
                     </div>
                   </div>
                 </div>

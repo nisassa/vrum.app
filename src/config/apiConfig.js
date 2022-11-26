@@ -13,11 +13,10 @@ export const endpoints = {
     register: () => `${settings.apiUrl}/api/register/client`
   },
   providers: {
-    register: () => `${settings.apiUrl}/api/register/provider`
-  },
-  provider: {
+    register: () => `${settings.apiUrl}/api/register/provider`,
     update: () => `${settings.apiUrl}/api/provider`
   },
+
   files: {
     upload: () => `${settings.apiUrl}/api/upload`
   }

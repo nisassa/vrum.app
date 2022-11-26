@@ -28,12 +28,12 @@ const useRegister = () => {
   );
 };
 
-const UpdateProviderProfile = () => {
+const useUpdateProviderProfile = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<unknown>, any>(
     (body) =>
       CallApi({
-        url: endpoints.provider.update(),
+        url: endpoints.providers.update(),
         method: 'POST',
         data: body,
         isProtected: true
@@ -57,4 +57,4 @@ const useSingleTask = (id: number) => {
   // });
 };
 
-export { useRegister, UpdateProviderProfile };
+export { useRegister, useUpdateProviderProfile };

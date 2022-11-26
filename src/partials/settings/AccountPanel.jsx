@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { UpdateProviderProfile } from '../../hooks/useProvider';
+import { useUpdateProviderProfile } from '../../hooks/useProvider';
 import { useProfile } from '../../hooks/profile';
 import { usePhotoUpload } from '../../hooks/useFiles';
 import LoadingSvg from '../../components/LoadingSvg';
@@ -15,7 +15,7 @@ function AccountPanel() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { user } = useProfile();
-  const { mutateAsync: UpdateProvider, isLoading } = UpdateProviderProfile();
+  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
 
   const handleSubmit = async (values) => {

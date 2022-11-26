@@ -22,6 +22,7 @@ export default function Dropzone(props) {
   });
 
   const removeAll = () => {
+    props.onRemove(null)
     setMyFiles([]);
   };
 

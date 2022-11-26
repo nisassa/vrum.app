@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { UpdateClientProfile } from '../../hooks/useClient';
-import { useProfile } from '../../hooks/profile';
-import LoadingSvg from '../../components/LoadingSvg';
-import Image from '../../images/user-avatar-80.png';
+import { UpdateClientProfile } from '../../../../hooks/useClient';
+import { useProfile } from '../../../../hooks/profile';
+import LoadingSvg from '../../../../components/LoadingSvg';
+import Image from '../../../../images/user-avatar-80.png';
 
-function AccountPanel() {
+function ClientAccountPanel() {
   const [sync, setSync] = useState(false);
   const navigate = useNavigate();
 
@@ -46,7 +46,9 @@ function AccountPanel() {
     <div className='grow'>
       {/* Panel body */}
       <div className='p-6 space-y-6'>
-        <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
+        <h2 className='text-2xl text-slate-800 font-bold mb-5'>
+          My Client Account
+        </h2>
         {/* Picture */}
 
         <Formik
@@ -90,9 +92,9 @@ function AccountPanel() {
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Business Info
+                    Your details
                   </h3>
-                  <div className='flex flex-wrap  mb-6'>
+                  <div className='flex flex-wrap -mx-3 mb-6'>
                     <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                       <label
                         className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -110,6 +112,7 @@ function AccountPanel() {
                         }`}
                         id='grid-first-name'
                         type='text'
+                        placeholder='Jane'
                       />
                       {apiErrors.hasOwnProperty('first_name') &&
                         typeof apiErrors.first_name[0] !== 'undefined' && (
@@ -135,6 +138,7 @@ function AccountPanel() {
                         }`}
                         id='grid-last-name'
                         type='text'
+                        placeholder='Doe'
                       />
                       {apiErrors.hasOwnProperty('last_name') &&
                         typeof apiErrors.last_name[0] !== 'undefined' && (
@@ -155,35 +159,6 @@ function AccountPanel() {
                         name='email'
                         className='form-input w-full'
                       />
-                    </div>
-                    <div className='flex flex-wrap flex-col  mb-6  book-/by'>
-                      <label
-                        className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Book by specialist
-                      </label>
-
-                      <div className='form-switch'>
-                        <Field
-                          name='booking_by_specialist'
-                          type='checkbox'
-                          id='toggle'
-                          className='sr-only'
-                          checked={sync}
-                          onChange={() => setSync(!sync)}
-                        />
-                        <label className='bg-slate-400' htmlFor='toggle'>
-                          <span
-                            className='bg-white shadow-sm'
-                            aria-hidden='true'
-                          ></span>
-                          <span className='sr-only'>Enable smart sync</span>
-                        </label>
-                      </div>
-                      <div className='text-sm text-slate-400 italic ml-2'>
-                        {sync ? 'On' : 'Off'}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -208,6 +183,7 @@ function AccountPanel() {
                       }`}
                       id='grid-last-name'
                       type='phone'
+                      placeholder='+40770009770'
                     />
                     {apiErrors.hasOwnProperty('phone') &&
                       typeof apiErrors.phone[0] !== 'undefined' && (
@@ -275,6 +251,7 @@ function AccountPanel() {
                         }`}
                         id='grid-city'
                         type='text'
+                        placeholder='Brasov'
                       />
                       {apiErrors.hasOwnProperty('city') &&
                         typeof apiErrors.city[0] !== 'undefined' && (
@@ -283,84 +260,6 @@ function AccountPanel() {
                           </p>
                         )}
                     </div>
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-state'
-                    >
-                      State
-                    </label>
-
-                    <Field
-                      name='state'
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('state') &&
-                        typeof apiErrors.state[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-state'
-                      type='text'
-                    />
-                    {apiErrors.hasOwnProperty('state') &&
-                      typeof apiErrors.state[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.state[0]}
-                        </p>
-                      )}
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-zip'
-                    >
-                      Zip
-                    </label>
-                    <Field
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('state') &&
-                        typeof apiErrors.state[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      name='postcode'
-                      id='input_postcode'
-                      type='text'
-                      placeholder='90210'
-                    />
-                    {apiErrors.hasOwnProperty('state') &&
-                      typeof apiErrors.state[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.state[0]}
-                        </p>
-                      )}
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 address'>
-                    <label
-                      className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
-                      htmlFor='grid-last-name'
-                    >
-                      Your Address
-                    </label>
-                    <Field
-                      name='line_1'
-                      className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('line_1') &&
-                        typeof apiErrors.line_1[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='input_line_1'
-                      type='text'
-                      placeholder='Robert Robertson, 1234 NW Bobcat Lane'
-                    />
-                    {apiErrors.hasOwnProperty('line_1') &&
-                      typeof apiErrors.line_1[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.line_1[0]}
-                        </p>
-                      )}
                   </div>
                 </div>
                 <div className='sm:w-1/3'>
@@ -385,6 +284,7 @@ function AccountPanel() {
                       }`}
                       id='grid-password'
                       type='password'
+                      placeholder='***'
                       autocomplete='off'
                     />
                     {apiErrors.hasOwnProperty('password') &&
@@ -412,6 +312,7 @@ function AccountPanel() {
                       }`}
                       id='grid-password'
                       type='password'
+                      placeholder='***'
                       autocomplete='off'
                     />
                     {apiErrors.hasOwnProperty('password_confirmation') &&
@@ -453,4 +354,4 @@ function AccountPanel() {
   );
 }
 
-export default AccountPanel;
+export default ClientAccountPanel;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import AccountPanel from '../../partials/settings/AccountPanel';
+import ClientAccountPanel from './partials/settings/ClientAccountPanel';
 function ClientAccount() {
   const [sync, setSync] = useState(false);
   return (
@@ -19,7 +19,7 @@ function ClientAccount() {
           <div className='bg-white shadow-lg rounded-sm mb-8'>
             <div className='flex flex-col md:flex-row md:-mr-px'>
               <SettingsSidebar />
-              <AccountPanel />
+              <ClientAccountPanel />
             </div>
           </div>
         </div>

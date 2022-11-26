@@ -28,6 +28,24 @@ const useRegister = () => {
   );
 };
 
+const UpdateProviderProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    (body) =>
+      CallApi({
+        url: endpoints.users.profile(),
+        method: 'POST',
+        data: body,
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(PROVIDERS_KEY);
+      }
+    }
+  );
+};
+
 const useSingleTask = (id: number) => {
   // return useQuery<any>(`getSingleTask`, async () => {
   //     return await CallApi<any>({
@@ -39,4 +57,4 @@ const useSingleTask = (id: number) => {
   // });
 };
 
-export { useRegister };
+export { useRegister, UpdateProviderProfile };

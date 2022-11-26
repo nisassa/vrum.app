@@ -14,7 +14,9 @@ export const endpoints = {
   },
   providers: {
     register: () => `${settings.apiUrl}/api/register/provider`,
-    update: () => `${settings.apiUrl}/api/provider`
+    update: () => `${settings.apiUrl}/api/provider`,
+    getImages: () => `${settings.apiUrl}/api/provider/photo-gallery`,
+    deleteImages: (id) => `${settings.apiUrl}/api/provider/photo-gallery/${id}`
   },
 
   files: {

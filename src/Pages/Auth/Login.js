@@ -10,8 +10,7 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [isLoading, setisLoading] = useState(false);
 
-  const { userLogin, restoreUserAndToken, isAuthenticated, isServiceProvider } =
-    useProfile();
+  const { userLogin, restoreUserAndToken, isAuthenticated, isServiceProvider } = useProfile();
 
   const handleSubmit = async (values) => {
     setLoginFailed(false);

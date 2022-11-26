@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import SettingsSidebar from '../Provider/partials/settings/SettingsSidebar';
 import ClientAccountPanel from './partials/settings/ClientAccountPanel';
 function ClientAccount() {
-  const [sync, setSync] = useState(false);
   return (
     <>
       <main className='container mx-auto my-4 mt-1o px-4 md:px-12'>

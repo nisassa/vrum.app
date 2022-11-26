@@ -9,7 +9,7 @@ import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
 
 function AccountPanel() {
-  const [sync, setSync] = useState(false);
+  const { saveUser } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
   const [newPhoto, setNewPhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -24,7 +24,10 @@ function AccountPanel() {
     const photo =
       newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
     await updateClient({ ...values, photo })
-      .then((i) => {
+      .then((response) => {
+        if (response?.data?.resource !== undefined) {
+          saveUser(response.data.resource)
+        }
         setSuccessMessage('Your profile was updated successfully!');
       })
       .catch((error) => {

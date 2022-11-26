@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { useUpdateProviderProfile } from '../../../../hooks/useProvider';
+import { useUpdateProviderProfile, useProviderImages, useDeletePhoto } from '../../../../hooks/useProvider';
 import { useProfile } from '../../../../hooks/profile';
 import { usePhotoUpload } from '../../../../hooks/useFiles';
 import LoadingSvg from '../../../../components/LoadingSvg';
-import Image from '../../../../images/user-avatar-80.png';
 import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
 
 function BusinessSettingsPanel() {
+
   const [apiErrors, setApiErrors] = useState({});
-  const [newPhoto, setNewPhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { user } = useProfile();
-  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
-  const { mutateAsync: upload, isUploading } = usePhotoUpload();
+
+  const { user, saveUser } = useProfile();
+
+  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();;
+  const { data: photoGallery, isLoading: isLoadingGallery, } = useProviderImages();
+  const { mutateAsync: deletePhoto, isLoading: isDeleting } = useDeletePhoto();
+  const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
+
   const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
-  const [autoAloc, setAutoAloc] = useState(
-    user.provider.booking_auto_allocation
-  );
+  const [autoAlloc, setAutoAlloc] = useState(user.provider.booking_auto_allocation);
 
   const handleSubmit = async (values) => {
     setApiErrors({});
     await UpdateProvider({
       ...values,
       booking_by_specialist: bookBy,
-      booking_auto_allocation: autoAloc
+      booking_auto_allocation: autoAlloc
     })
-      .then((i) => {
+      .then((response) => {
+        if (response?.data?.resource !== undefined) {
+          saveUser(response.data.resource)
+        }
         setSuccessMessage('Your profile was updated successfully!');
       })
       .catch((error) => {
@@ -55,13 +60,11 @@ function BusinessSettingsPanel() {
   const onUploadImage = async (photo) => {
     if (photo) {
       let fd = new FormData();
-      fd.append('entity', 'user');
+      fd.append('entity', 'photo_gallery');
       fd.append('photo', photo);
+
       upload(fd)
         .then((response) => {
-          if (response?.data?.document !== undefined) {
-            setNewPhoto(response?.data?.document);
-          }
           if (Array.isArray(response?.data?.message?.photo)) {
             console.log(response?.data?.message?.photo[0]);
           }
@@ -71,6 +74,27 @@ function BusinessSettingsPanel() {
         });
     }
   };
+
+
+  const gallery = photoGallery !== undefined && photoGallery.map((file) => {
+    return (
+        <div class={'ml-2'}>
+          <img
+            src={ `${settings.storageUrl}${file.photo}`}
+            width='120'
+            height='120'
+            alt={file.name}
+          />
+          <button
+              onClick={() => deletePhoto(file.id)}
+              className='mt-2 bg-red-500 text-white active:bg-red-600 ml-4 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
+              type='button'
+          >
+            { isUploading || isDeleting ? <LoadingSvg/> : `Remove`}
+          </button>
+        </div>
+    );
+  });
 
   return (
     <div className='grow'>
@@ -90,7 +114,7 @@ function BusinessSettingsPanel() {
             country: user.provider.country,
             landline: user.provider.landline,
             booking_by_specialist: bookBy,
-            booking_auto_allocation: autoAloc
+            booking_auto_allocation: autoAlloc
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -98,26 +122,16 @@ function BusinessSettingsPanel() {
         >
           <Form>
             <section>
-              <div className='flex items-center'>
-                <div className='mr-4 sm:w-1/3'>
-                  <img
-                    src={
-                      newPhoto && newPhoto.hasOwnProperty('path')
-                        ? `${settings.storageUrl}${newPhoto.path}`
-                        : user.photo
-                        ? `${settings.storageUrl}${user.photo}`
-                        : Image
-                    }
-                    width='120'
-                    height='120'
-                    alt='User upload'
-                  />
+              <div className='flex container sm:w-full overflow-x-auto'>
+                <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center justify-center items-center'>
+                  { isLoadingGallery ? <LoadingSvg /> : gallery }
                 </div>
                 <Dropzone
                   multiple={false}
                   maxSize={parseInt(settings.photoMaxSize, 500)}
                   onDrop={onUploadImage}
-                  onRemove={setNewPhoto}
+                  galleryImages={photoGallery?.length > 0 ? photoGallery.length : undefined}
+                  maxNrOfFiles={parseInt(settings.maxGalleryImages)}
                 />
               </div>
             </section>
@@ -153,20 +167,20 @@ function BusinessSettingsPanel() {
                       Phone Number
                     </label>
                     <Field
-                      name='phone'
+                      name='landline'
                       className={`form-input w-full ${
-                        apiErrors.hasOwnProperty('phone') &&
-                        typeof apiErrors.phone[0] !== 'undefined'
+                        apiErrors.hasOwnProperty('landline') &&
+                        typeof apiErrors.landline[0] !== 'undefined'
                           ? `border-red-500`
                           : `border-gray-300`
                       }`}
-                      id='grid-last-name'
-                      type='phone'
+                      id='grid-landline'
+                      type='landline'
                     />
-                    {apiErrors.hasOwnProperty('phone') &&
-                      typeof apiErrors.phone[0] !== 'undefined' && (
+                    {apiErrors.hasOwnProperty('landline') &&
+                      typeof apiErrors.landline[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
-                          {apiErrors.phone[0]}
+                          {apiErrors.landline[0]}
                         </p>
                       )}
                   </div>
@@ -370,8 +384,8 @@ function BusinessSettingsPanel() {
                             type='checkbox'
                             id='toggle-auto-aloc'
                             className='sr-only'
-                            checked={autoAloc}
-                            onChange={() => setAutoAloc(!autoAloc)}
+                            checked={autoAlloc}
+                            onChange={() => setAutoAlloc(!autoAlloc)}
                           />
                           <label
                             className='bg-slate-400'
@@ -385,7 +399,7 @@ function BusinessSettingsPanel() {
                           </label>
                         </div>
                         <div className='text-sm text-slate-400 italic ml-2'>
-                          {autoAloc ? 'On' : 'Off'}
+                          {autoAlloc ? 'On' : 'Off'}
                         </div>
                       </div>
                     </section>

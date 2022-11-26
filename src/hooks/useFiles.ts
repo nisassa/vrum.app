@@ -16,7 +16,7 @@ const usePhotoUpload = () => {
             }),
             {
                 onSuccess: () => {
-                    return queryClient.invalidateQueries('getUserPhoto');
+                    return queryClient.invalidateQueries('getProviderImages');
                 }
             }
     );

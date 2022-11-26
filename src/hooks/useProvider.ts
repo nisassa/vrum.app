@@ -1,13 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { endpoints } from '../config/apiConfig';
 import { ProviderType } from '../types/provider.interface';
+import { PhotoGalleryType } from '../types/photoGallery.interface';
 import CallApi from '../services/apiService';
 import { AxiosResponse } from 'axios';
 
 const PROVIDERS_KEY = 'getProvider';
 
-interface IData {
-  data: ProviderType[];
+interface PhotoGalleryData {
+  data: PhotoGalleryType[];
 }
 
 const useRegister = () => {
@@ -27,7 +28,6 @@ const useRegister = () => {
     }
   );
 };
-
 const useUpdateProviderProfile = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<unknown>, any>(
@@ -46,15 +46,42 @@ const useUpdateProviderProfile = () => {
   );
 };
 
-const useSingleTask = (id: number) => {
-  // return useQuery<any>(`getSingleTask`, async () => {
-  //     return await CallApi<any>({
-  //         url: endpoints.tasks.updateByID(id),
-  //         method: "GET",
-  //     })
-  //         .then(({ data }) => data)
-  //         .catch((err) => err);
-  // });
+const useProviderImages = () => {
+    return useQuery<any>(
+        [`getProviderImages`],
+        async () => {
+            const response = await CallApi<PhotoGalleryData[]>({
+                url: endpoints.providers.getImages(),
+                method: "GET",
+                isProtected: true
+            });
+            return response.data.resource;
+        },
+        { keepPreviousData: false, enabled: true }
+    );
 };
 
-export { useRegister, useUpdateProviderProfile };
+const useDeletePhoto = () => {
+    const queryClient = useQueryClient();
+    return useMutation<AxiosResponse<unknown>, any>(
+        (id) =>
+            CallApi({
+                url: endpoints.providers.deleteImages(id),
+                method: 'DELETE',
+                isProtected: true
+            }),
+        {
+            onSuccess: () => {
+                return queryClient.invalidateQueries('getProviderImages');
+            }
+        }
+    );
+};
+
+
+export {
+    useRegister,
+    useUpdateProviderProfile,
+    useProviderImages,
+    useDeletePhoto
+};

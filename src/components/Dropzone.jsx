@@ -9,7 +9,7 @@ export default function Dropzone(props) {
     setMyFiles([...acceptedFiles]);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop
   });
 
@@ -28,7 +28,8 @@ export default function Dropzone(props) {
 
   return (
     <section className='container sm:w-2/3 border-dashed border-2 border-gray-600 px-2 py-4'>
-      <div {...getRootProps({ className: 'dropzone' })} className='px-4 py-4'>
+      <div {...getRootProps({ className: 'dropzone' })}
+           className={`px-4 py-4 ${ isDragActive ? 'bg-green-100' : ''}`}>
         <input {...getInputProps()} />
         <p>Upload new photo</p>
       </div>

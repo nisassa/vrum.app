@@ -7,6 +7,7 @@ import IndexPage from './Pages/IndexPage';
 import React from 'react';
 import ProviderDashboard from './Pages/Provider/ProviderDashboard';
 import Account from './Pages/Provider/tabs/Account';
+import BusinessSettings from './Pages/Provider/tabs/BusinessSettings';
 import Calendar from './Pages/Provider/Calendar';
 import Bookings from './Pages/Provider/Bookings';
 import {
@@ -77,6 +78,14 @@ export const Router = () => {
         element={
           <PrivateRoute mustBeProvider={true}>
             <Account />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='settings/business'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <BusinessSettings />
           </PrivateRoute>
         }
       />

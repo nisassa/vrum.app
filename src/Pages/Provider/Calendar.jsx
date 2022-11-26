@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
 
 function Calendar() {
   const today = new Date();

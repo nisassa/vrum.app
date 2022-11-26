@@ -6,7 +6,7 @@ import ClientAccount from './Pages/Client/ClientAccount';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
 import ProviderDashboard from './Pages/Provider/ProviderDashboard';
-import Account from './Pages/Provider/settings/Account';
+import Account from './Pages/Provider/tabs/Account';
 import Calendar from './Pages/Provider/Calendar';
 import Bookings from './Pages/Provider/Bookings';
 import {

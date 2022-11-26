@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import SearchForm from '../../partials/actions/SearchForm';
+import Sidebar from './partials/Sidebar';
+import Header from './partials/Header';
+import DeleteButton from './partials/actions/DeleteButton';
+import SearchForm from './partials/actions/SearchForm';
 import DropdownTransaction from '../../components/DropdownTransaction';
-import TransactionsTable from '../../partials/finance/TransactionsTable';
+import TransactionsTable from './partials/finance/TransactionsTable';
 import PaginationClassic from '../../components/PaginationClassic';
 
 function Bookings() {

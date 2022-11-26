@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { useUpdateProviderProfile } from '../../../../hooks/useProvider';
+import { useUpdateClientProfile } from '../../../../hooks/useClient';
 import { useProfile } from '../../../../hooks/profile';
 import { usePhotoUpload } from '../../../../hooks/useFiles';
 import LoadingSvg from '../../../../components/LoadingSvg';
@@ -15,7 +15,7 @@ function AccountPanel() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { user } = useProfile();
-  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
+  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
 
   const handleSubmit = async (values) => {
@@ -23,7 +23,7 @@ function AccountPanel() {
 
     const photo =
       newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await UpdateProvider({ ...values, photo })
+    await updateClient({ ...values, photo })
       .then((i) => {
         setSuccessMessage('Your profile was updated successfully!');
       })

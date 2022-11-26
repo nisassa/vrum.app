@@ -28,7 +28,7 @@ const useRegister = () => {
   );
 };
 
-const UpdateClientProfile = () => {
+const useUpdateClientProfile = () => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<unknown>, any>(
     (body) =>
@@ -83,4 +83,4 @@ const UpdateClientProfile = () => {
 // });
 // };
 
-export { useRegister, UpdateClientProfile };
+export { useRegister, useUpdateClientProfile };

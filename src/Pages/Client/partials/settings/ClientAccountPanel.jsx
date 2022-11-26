@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { UpdateClientProfile } from '../../../../hooks/useClient';
+import { useUpdateClientProfile } from '../../../../hooks/useClient';
 import { useProfile } from '../../../../hooks/profile';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import Image from '../../../../images/user-avatar-80.png';
@@ -13,11 +13,11 @@ function ClientAccountPanel() {
   const [apiErrors, setApiErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState(false);
   const { user } = useProfile();
-  const { mutateAsync: UpdateClient, isLoading } = UpdateClientProfile();
+  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
 
   const handleSubmit = async (values) => {
     setApiErrors({});
-    await UpdateClient(values)
+    await updateClient(values)
       .then((i) => {
         setSuccessMessage('Your profile was updated successfully!');
       })

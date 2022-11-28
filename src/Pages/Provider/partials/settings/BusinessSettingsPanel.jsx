@@ -78,7 +78,7 @@ function BusinessSettingsPanel() {
 
   const gallery = photoGallery !== undefined && photoGallery.map((file) => {
     return (
-        <div class={'ml-2'}>
+        <div class={'ml-2 relative group block'}>
           <img
             src={ `${settings.storageUrl}${file.photo}`}
             width='120'
@@ -86,12 +86,17 @@ function BusinessSettingsPanel() {
             alt={file.name}
           />
           <button
+              className={`btn absolute ${isUploading || isDeleting? `opacity-1` : `opacity-0`} top-0 right-0 group-hover:opacity-100 group-hover:bg-slate-100 group-hover:bg-opacity-75 text-rose-500`}
               onClick={() => deletePhoto(file.id)}
-              className='mt-2 bg-red-500 text-white active:bg-red-600 ml-4 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
-              type='button'
+              title={'remove'}
           >
-            { isUploading || isDeleting ? <LoadingSvg/> : `Remove`}
+            { isUploading || isDeleting
+                ? <LoadingSvg/>
+                : <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 16 16">
+                    <path d="M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z" />
+                  </svg>}
           </button>
+
         </div>
     );
   });
@@ -123,7 +128,7 @@ function BusinessSettingsPanel() {
           <Form>
             <section>
               <div className='flex container sm:w-full overflow-x-auto'>
-                <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center justify-center items-center'>
+                <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center border-2 justify-center items-center px-4 py-4'>
                   { isLoadingGallery ? <LoadingSvg /> : gallery }
                 </div>
                 <Dropzone

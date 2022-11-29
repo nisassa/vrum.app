@@ -16,7 +16,7 @@ function AccountPanel() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState([{ type: '', msg: '' }]);
+  const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
   const { user } = useProfile();
   const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
@@ -32,13 +32,13 @@ function AccountPanel() {
         if (response?.data?.resource !== undefined) {
           saveUser(response.data.resource);
         }
-        setToastType([
+        setToastData([
           { type: 'success', msg: ' Your profile was updated successfully' }
         ]);
         setToastOpen(true);
       })
       .catch((error) => {
-        setToastType([{ type: 'error', msg: ' An error occurred!' }]);
+        setToastData([{ type: 'error', msg: ' An error occurred!' }]);
         setToastOpen(true);
         if (
           error &&
@@ -75,7 +75,7 @@ function AccountPanel() {
         })
         .catch((e) => {
           console.log(e);
-          setToastType([{ type: 'error', msg: ' An error occurred!' }]);
+          setToastData([{ type: 'error', msg: ' An error occurred!' }]);
           setToastOpen(true);
         });
     }
@@ -85,7 +85,7 @@ function AccountPanel() {
     console.log(toastType);
     const hideToast = setTimeout(() => {
       setToastOpen(false);
-    }, 10000);
+    }, 8000);
   }, [toastOpen]);
 
   return (

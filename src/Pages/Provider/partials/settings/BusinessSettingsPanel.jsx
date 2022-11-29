@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form } from 'formik';
-import { useUpdateProviderProfile, useProviderImages, useDeletePhoto } from '../../../../hooks/useProvider';
+import {
+  useUpdateProviderProfile,
+  useProviderImages,
+  useDeletePhoto
+} from '../../../../hooks/useProvider';
 import { useProfile } from '../../../../hooks/profile';
 import { usePhotoUpload } from '../../../../hooks/useFiles';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
-
+import Toast2 from '../../../../components/Toast2';
 function BusinessSettingsPanel() {
-
   const [apiErrors, setApiErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const { user, saveUser } = useProfile();
 
-  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();;
-  const { data: photoGallery, isLoading: isLoadingGallery, } = useProviderImages();
+  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
+  const { data: photoGallery, isLoading: isLoadingGallery } =
+    useProviderImages();
   const { mutateAsync: deletePhoto, isLoading: isDeleting } = useDeletePhoto();
   const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
 
   const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
-  const [autoAlloc, setAutoAlloc] = useState(user.provider.booking_auto_allocation);
+  const [autoAlloc, setAutoAlloc] = useState(
+    user.provider.booking_auto_allocation
+  );
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
   const handleSubmit = async (values) => {
     setApiErrors({});
@@ -32,11 +40,16 @@ function BusinessSettingsPanel() {
     })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
-          saveUser(response.data.resource)
+          saveUser(response.data.resource);
         }
-        setSuccessMessage('Your profile was updated successfully!');
+        setToastData([
+          { type: 'success', msg: ' Your profile was updated successfully' }
+        ]);
+        setToastOpen(true);
       })
       .catch((error) => {
+        setToastData([{ type: 'error', msg: ' An error occurred!' }]);
+        setToastOpen(true);
         if (
           error &&
           error.hasOwnProperty('response') &&
@@ -75,34 +88,52 @@ function BusinessSettingsPanel() {
     }
   };
 
-
-  const gallery = photoGallery !== undefined && photoGallery.map((file) => {
-    return (
+  const gallery =
+    photoGallery !== undefined &&
+    photoGallery.map((file) => {
+      return (
         <div class={'ml-2 relative group block'}>
           <img
-            src={ `${settings.storageUrl}${file.photo}`}
+            src={`${settings.storageUrl}${file.photo}`}
             width='120'
             height='120'
             alt={file.name}
           />
           <button
-              className={`btn absolute ${isUploading || isDeleting? `opacity-1` : `opacity-0`} top-0 right-0 group-hover:opacity-100 group-hover:bg-slate-100 group-hover:bg-opacity-75 text-rose-500`}
-              onClick={() => deletePhoto(file.id)}
-              title={'remove'}
+            className={`btn absolute ${
+              isUploading || isDeleting ? `opacity-1` : `opacity-0`
+            } top-0 right-0 group-hover:opacity-100 group-hover:bg-slate-100 group-hover:bg-opacity-75 text-rose-500`}
+            onClick={() => deletePhoto(file.id)}
+            title={'remove'}
           >
-            { isUploading || isDeleting
-                ? <LoadingSvg/>
-                : <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 16 16">
-                    <path d="M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z" />
-                  </svg>}
+            {isUploading || isDeleting ? (
+              <LoadingSvg />
+            ) : (
+              <svg
+                className='w-4 h-4 fill-current shrink-0'
+                viewBox='0 0 16 16'
+              >
+                <path d='M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z' />
+              </svg>
+            )}
           </button>
-
         </div>
-    );
-  });
+      );
+    });
+
+  useEffect(() => {
+    console.log(toastType);
+    const hideToast = setTimeout(() => {
+      setToastOpen(false);
+    }, 8000);
+  }, [toastOpen]);
 
   return (
     <div className='grow'>
+      {toastOpen}
+      <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
+        {toastType[0].msg}
+      </Toast2>
       {/* Panel body */}
       <div className='p-6 space-y-6'>
         <h2 className='text-2xl text-slate-800 font-bold mb-5'>Profile</h2>
@@ -129,13 +160,15 @@ function BusinessSettingsPanel() {
             <section>
               <div className='flex container sm:w-full overflow-x-auto'>
                 <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center border-2 justify-center items-center px-4 py-4'>
-                  { isLoadingGallery ? <LoadingSvg /> : gallery }
+                  {isLoadingGallery ? <LoadingSvg /> : gallery}
                 </div>
                 <Dropzone
                   multiple={false}
                   maxSize={parseInt(settings.photoMaxSize, 500)}
                   onDrop={onUploadImage}
-                  galleryImages={photoGallery?.length > 0 ? photoGallery.length : undefined}
+                  galleryImages={
+                    photoGallery?.length > 0 ? photoGallery.length : undefined
+                  }
                   maxNrOfFiles={parseInt(settings.maxGalleryImages)}
                 />
               </div>
@@ -174,6 +207,7 @@ function BusinessSettingsPanel() {
                     <Field
                       name='landline'
                       className={`form-input w-full ${
+                        apiErrors &&
                         apiErrors.hasOwnProperty('landline') &&
                         typeof apiErrors.landline[0] !== 'undefined'
                           ? `border-red-500`
@@ -182,7 +216,8 @@ function BusinessSettingsPanel() {
                       id='grid-landline'
                       type='landline'
                     />
-                    {apiErrors.hasOwnProperty('landline') &&
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('landline') &&
                       typeof apiErrors.landline[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.landline[0]}
@@ -199,6 +234,7 @@ function BusinessSettingsPanel() {
                     <Field
                       name='invoice_email'
                       className={`form-input w-full ${
+                        apiErrors &&
                         apiErrors.hasOwnProperty('invoice_email') &&
                         typeof apiErrors.invoice_email[0] !== 'undefined'
                           ? `border-red-500`
@@ -207,7 +243,8 @@ function BusinessSettingsPanel() {
                       id='grid-last-name'
                       type='email'
                     />
-                    {apiErrors.hasOwnProperty('invoice_email') &&
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('invoice_email') &&
                       typeof apiErrors.invoice_email[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.invoice_email[0]}
@@ -225,6 +262,7 @@ function BusinessSettingsPanel() {
                       <Field
                         name='country'
                         className={`form-input w-full ${
+                          apiErrors &&
                           apiErrors.hasOwnProperty('country') &&
                           typeof apiErrors.country[0] !== 'undefined'
                             ? `border-red-500`
@@ -247,7 +285,8 @@ function BusinessSettingsPanel() {
                         </svg>
                       </div>
                     </div>
-                    {apiErrors.hasOwnProperty('country') &&
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('country') &&
                       typeof apiErrors.country[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.country[0]}
@@ -266,6 +305,7 @@ function BusinessSettingsPanel() {
                       <Field
                         name='city'
                         className={`form-input w-full ${
+                          apiErrors &&
                           apiErrors.hasOwnProperty('city') &&
                           typeof apiErrors.city[0] !== 'undefined'
                             ? `border-red-500`
@@ -274,7 +314,8 @@ function BusinessSettingsPanel() {
                         id='grid-city'
                         type='text'
                       />
-                      {apiErrors.hasOwnProperty('city') &&
+                      {apiErrors &&
+                        apiErrors.hasOwnProperty('city') &&
                         typeof apiErrors.city[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
                             {apiErrors.city[0]}
@@ -291,6 +332,7 @@ function BusinessSettingsPanel() {
                     </label>
                     <Field
                       className={`form-input w-full ${
+                        apiErrors &&
                         apiErrors.hasOwnProperty('state') &&
                         typeof apiErrors.state[0] !== 'undefined'
                           ? `border-red-500`
@@ -301,7 +343,8 @@ function BusinessSettingsPanel() {
                       type='text'
                       placeholder='90210'
                     />
-                    {apiErrors.hasOwnProperty('state') &&
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('state') &&
                       typeof apiErrors.state[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.state[0]}
@@ -318,6 +361,7 @@ function BusinessSettingsPanel() {
                     <Field
                       name='line_1'
                       className={`form-input w-full ${
+                        apiErrors &&
                         apiErrors.hasOwnProperty('line_1') &&
                         typeof apiErrors.line_1[0] !== 'undefined'
                           ? `border-red-500`
@@ -327,7 +371,8 @@ function BusinessSettingsPanel() {
                       type='text'
                       placeholder='Robert Robertson, 1234 NW Bobcat Lane'
                     />
-                    {apiErrors.hasOwnProperty('line_1') &&
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('line_1') &&
                       typeof apiErrors.line_1[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.line_1[0]}

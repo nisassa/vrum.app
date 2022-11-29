@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form } from 'formik';
 import { useUpdateClientProfile } from '../../../../hooks/useClient';
 import { useProfile } from '../../../../hooks/profile';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import Image from '../../../../images/user-avatar-80.png';
+import Toast2 from '../../../../components/Toast2';
 
 function ClientAccountPanel() {
   const { saveUser } = useProfile();
@@ -12,6 +13,9 @@ function ClientAccountPanel() {
   const { user } = useProfile();
   const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
 
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
+
   const handleSubmit = async (values) => {
     setApiErrors({});
     await updateClient(values)
@@ -19,9 +23,14 @@ function ClientAccountPanel() {
         if (response?.data?.resource !== undefined) {
           saveUser(response.data.resource);
         }
-        setSuccessMessage('Your profile was updated successfully!');
+        setToastData([
+          { type: 'success', msg: ' Your profile was updated successfully' }
+        ]);
+        setToastOpen(true);
       })
       .catch((error) => {
+        setToastData([{ type: 'error', msg: ' An error occurred!' }]);
+        setToastOpen(true);
         if (
           error &&
           error.hasOwnProperty('response') &&
@@ -41,9 +50,19 @@ function ClientAccountPanel() {
         }
       });
   };
+  useEffect(() => {
+    console.log(toastType);
+    const hideToast = setTimeout(() => {
+      setToastOpen(false);
+    }, 8000);
+  }, [toastOpen]);
 
   return (
     <div className='grow'>
+      {toastOpen}
+      <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
+        {toastType[0].msg}
+      </Toast2>
       {/* Panel body */}
       <div className='p-6 space-y-6'>
         <h2 className='text-2xl text-slate-800 font-bold mb-5'>
@@ -105,6 +124,8 @@ function ClientAccountPanel() {
                       <Field
                         name='first_name'
                         className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors &&
                           apiErrors.hasOwnProperty('first_name') &&
                           typeof apiErrors.first_name[0] !== 'undefined'
                             ? `border-red-500`
@@ -114,7 +135,9 @@ function ClientAccountPanel() {
                         type='text'
                         placeholder='Jane'
                       />
-                      {apiErrors.hasOwnProperty('first_name') &&
+                      {apiErrors &&
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('first_name') &&
                         typeof apiErrors.first_name[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
                             {apiErrors.first_name[0]}
@@ -131,6 +154,8 @@ function ClientAccountPanel() {
                       <Field
                         name='last_name'
                         className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors &&
                           apiErrors.hasOwnProperty('last_name') &&
                           typeof apiErrors.last_name[0] !== 'undefined'
                             ? `border-red-500`
@@ -140,7 +165,9 @@ function ClientAccountPanel() {
                         type='text'
                         placeholder='Doe'
                       />
-                      {apiErrors.hasOwnProperty('last_name') &&
+                      {apiErrors &&
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('last_name') &&
                         typeof apiErrors.last_name[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
                             {apiErrors.last_name[0]}
@@ -176,6 +203,8 @@ function ClientAccountPanel() {
                     <Field
                       name='phone'
                       className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors &&
                         apiErrors.hasOwnProperty('phone') &&
                         typeof apiErrors.phone[0] !== 'undefined'
                           ? `border-red-500`
@@ -185,7 +214,9 @@ function ClientAccountPanel() {
                       type='phone'
                       placeholder='+40770009770'
                     />
-                    {apiErrors.hasOwnProperty('phone') &&
+                    {apiErrors &&
+                      apiErrors &&
+                      apiErrors.hasOwnProperty('phone') &&
                       typeof apiErrors.phone[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.phone[0]}
@@ -202,6 +233,8 @@ function ClientAccountPanel() {
                     <Field
                       name='country'
                       className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors &&
                         apiErrors.hasOwnProperty('country') &&
                         typeof apiErrors.country[0] !== 'undefined'
                           ? `border-red-500`
@@ -215,7 +248,9 @@ function ClientAccountPanel() {
                       <option>US</option>
                     </Field>
 
-                    {apiErrors.hasOwnProperty('country') &&
+                    {apiErrors &&
+                      apiErrors &&
+                      apiErrors.hasOwnProperty('country') &&
                       typeof apiErrors.country[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.country[0]}
@@ -234,6 +269,8 @@ function ClientAccountPanel() {
                       <Field
                         name='city'
                         className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors &&
                           apiErrors.hasOwnProperty('city') &&
                           typeof apiErrors.city[0] !== 'undefined'
                             ? `border-red-500`
@@ -243,7 +280,9 @@ function ClientAccountPanel() {
                         type='text'
                         placeholder='Brasov'
                       />
-                      {apiErrors.hasOwnProperty('city') &&
+                      {apiErrors &&
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('city') &&
                         typeof apiErrors.city[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
                             {apiErrors.city[0]}
@@ -267,6 +306,8 @@ function ClientAccountPanel() {
                     <Field
                       name='password'
                       className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors &&
                         apiErrors.hasOwnProperty('password') &&
                         typeof apiErrors.password[0] !== 'undefined'
                           ? `border-red-500`
@@ -277,7 +318,9 @@ function ClientAccountPanel() {
                       placeholder='***'
                       autocomplete='off'
                     />
-                    {apiErrors.hasOwnProperty('password') &&
+                    {apiErrors &&
+                      apiErrors &&
+                      apiErrors.hasOwnProperty('password') &&
                       typeof apiErrors.password[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
                           {apiErrors.password[0]}
@@ -294,6 +337,8 @@ function ClientAccountPanel() {
                     <Field
                       name='password_confirmation'
                       className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors &&
                         apiErrors.hasOwnProperty('password_confirmation') &&
                         typeof apiErrors.password_confirmation[0] !==
                           'undefined'
@@ -305,7 +350,9 @@ function ClientAccountPanel() {
                       placeholder='***'
                       autocomplete='off'
                     />
-                    {apiErrors.hasOwnProperty('password_confirmation') &&
+                    {apiErrors &&
+                      apiErrors &&
+                      apiErrors.hasOwnProperty('password_confirmation') &&
                       typeof apiErrors.password_confirmation[0] !==
                         'undefined' && (
                         <p className='text-red-500 text-12'>

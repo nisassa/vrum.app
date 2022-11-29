@@ -13,9 +13,6 @@ import Dropzone from '../../../../components/Dropzone';
 import Toast2 from '../../../../components/Toast2';
 function BusinessSettingsPanel() {
   const [apiErrors, setApiErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
   const { user, saveUser } = useProfile();
 
   const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
@@ -25,9 +22,9 @@ function BusinessSettingsPanel() {
   const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
 
   const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
-  const [autoAlloc, setAutoAlloc] = useState(
-    user.provider.booking_auto_allocation
-  );
+  const [autoAlloc, setAutoAlloc] = useState(user.provider.booking_auto_allocation);
+  const [showServicePrices, setShowServicePrices] = useState(user.provider.show_service_prices_to_client);
+
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
@@ -36,7 +33,8 @@ function BusinessSettingsPanel() {
     await UpdateProvider({
       ...values,
       booking_by_specialist: bookBy,
-      booking_auto_allocation: autoAlloc
+      booking_auto_allocation: autoAlloc,
+      show_service_prices_to_client: showServicePrices
     })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
@@ -122,7 +120,6 @@ function BusinessSettingsPanel() {
     });
 
   useEffect(() => {
-    console.log(toastType);
     const hideToast = setTimeout(() => {
       setToastOpen(false);
     }, 8000);
@@ -150,7 +147,8 @@ function BusinessSettingsPanel() {
             country: user.provider.country,
             landline: user.provider.landline,
             booking_by_specialist: bookBy,
-            booking_auto_allocation: autoAlloc
+            booking_auto_allocation: autoAlloc,
+            show_service_prices_to_client: user.provider.show_service_prices_to_client
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -418,7 +416,7 @@ function BusinessSettingsPanel() {
                       </div>
                     </section>
                   </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
                     <section>
                       <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
                         Enable auto allocation
@@ -450,6 +448,39 @@ function BusinessSettingsPanel() {
                         </div>
                         <div className='text-sm text-slate-400 italic ml-2'>
                           {autoAlloc ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 '>
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Show service prices to clients
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                              name='show_service_prices_to_client'
+                              type='checkbox'
+                              id='toggle_show_prices'
+                              className='sr-only'
+                              checked={showServicePrices}
+                              onChange={() => setShowServicePrices(!showServicePrices)}
+                          />
+                          <label className='bg-slate-400' htmlFor='toggle_show_prices'>
+                            <span
+                                className='bg-white shadow-sm'
+                                aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Show service prices</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {showServicePrices ? 'On' : 'Off'}
                         </div>
                       </div>
                     </section>

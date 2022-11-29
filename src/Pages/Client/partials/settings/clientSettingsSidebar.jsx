@@ -10,7 +10,7 @@ function SettingsSidebar() {
       {/* Group 1 */}
       <div>
         <div className='text-xs font-semibold text-slate-400 uppercase mb-3'>
-          Business settings
+          My Service
         </div>
         <ul className='flex flex-nowrap md:block mr-3 md:mr-0'>
           <li className='mr-0.5 md:mr-0 md:mb-0.5'>

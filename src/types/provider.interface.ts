@@ -7,6 +7,7 @@ export interface ProviderType {
   vip: number;
   booking_by_specialist: number;
   booking_approved_by_provider: number;
+  show_service_prices_to_client: number;
   discard: number;
   line_1: string;
   line_2: string;

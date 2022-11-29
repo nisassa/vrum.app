@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useProfile } from '../hooks/profile';
 import { useLogout } from '../hooks/useAuth';
 import Loading from '../components/Loading';
-
+import settings from '../config/settings';
 import UserAvatar from '../images/user-avatar-32.png';
 
 export default function MainNav() {
@@ -92,7 +92,11 @@ export default function MainNav() {
                           >
                             <img
                               className='w-8 h-8 rounded-full'
-                              src={UserAvatar}
+                              src={
+                                user.photo
+                                  ? `${settings.storageUrl}${user.photo}`
+                                  : UserAvatar
+                              }
                               width='32'
                               height='32'
                               alt='User'

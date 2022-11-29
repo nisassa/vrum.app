@@ -17,7 +17,7 @@ function ClientAccountPanel() {
     await updateClient(values)
       .then((response) => {
         if (response?.data?.resource !== undefined) {
-          saveUser(response.data.resource)
+          saveUser(response.data.resource);
         }
         setSuccessMessage('Your profile was updated successfully!');
       })
@@ -199,32 +199,22 @@ function ClientAccountPanel() {
                     >
                       Country
                     </label>
-                    <div className='w-full'>
-                      <Field
-                        name='country'
-                        className={`form-input w-full ${
-                          apiErrors.hasOwnProperty('country') &&
-                          typeof apiErrors.country[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-state'
-                        as='select'
-                      >
-                        <option>MD</option>
-                        <option>RO</option>
-                        <option>US</option>
-                      </Field>
-                      <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
-                        <svg
-                          className='fill-current h-4 w-4'
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'
-                        >
-                          <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                        </svg>
-                      </div>
-                    </div>
+                    <Field
+                      name='country'
+                      className={`form-input w-full ${
+                        apiErrors.hasOwnProperty('country') &&
+                        typeof apiErrors.country[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-state'
+                      as='select'
+                    >
+                      <option>MD</option>
+                      <option>RO</option>
+                      <option>US</option>
+                    </Field>
+
                     {apiErrors.hasOwnProperty('country') &&
                       typeof apiErrors.country[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>

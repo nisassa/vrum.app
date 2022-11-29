@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Transition from '../utils/Transition';
 import { useProfile } from '../hooks/profile';
 import { useLogout } from '../hooks/useAuth';
-
+import settings from '../config/settings';
 import UserAvatar from '../images/user-avatar-32.png';
 function UserMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -58,7 +58,9 @@ function UserMenu() {
         >
           <img
             className='w-8 h-8 rounded-full'
-            src={UserAvatar}
+            src={
+              user.photo ? `${settings.storageUrl}${user.photo}` : UserAvatar
+            }
             width='32'
             height='32'
             alt='User'
@@ -100,7 +102,7 @@ function UserMenu() {
               <li>
                 <Link
                   className='font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
-                  to='/settings/account/'
+                  to='/settings/user/'
                 >
                   My account
                 </Link>

@@ -7,6 +7,7 @@ import LoadingSvg from '../../../../components/LoadingSvg';
 import Image from '../../../../images/user-avatar-80.png';
 import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
+import Toast2 from '../../../../components/Toast2';
 
 function AccountPanel() {
   const { saveUser } = useProfile();
@@ -14,6 +15,8 @@ function AccountPanel() {
   const [newPhoto, setNewPhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [toastSuccessOpen, setToastSuccessOpen] = useState(false);
+
   const { user } = useProfile();
   const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
@@ -26,9 +29,12 @@ function AccountPanel() {
     await updateClient({ ...values, photo })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
-          saveUser(response.data.resource)
+          saveUser(response.data.resource);
         }
-        setSuccessMessage('Your profile was updated successfully!');
+        setToastSuccessOpen(true);
+        const hideToast = setTimeout(() => {
+          setToastSuccessOpen(false);
+        }, 5000);
       })
       .catch((error) => {
         if (
@@ -74,6 +80,15 @@ function AccountPanel() {
   return (
     <div className='grow'>
       {/* Panel body */}
+      {toastSuccessOpen}
+      <Toast2
+        type='success'
+        open={toastSuccessOpen}
+        setOpen={setToastSuccessOpen}
+      >
+        Your profile was updated successfully
+      </Toast2>
+
       <div className='p-6 space-y-6'>
         <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
         {/* Picture */}

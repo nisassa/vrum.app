@@ -19,7 +19,7 @@ import {
   UserForgotPassword
 } from './Pages/Auth';
 import { PrivateRoute, RestrictedForProviderRoute } from './PrivateRoute';
-
+import MyTeam from './Pages/Provider/tabs/MyTeam';
 export const Router = () => {
   return (
     <Routes>
@@ -86,6 +86,14 @@ export const Router = () => {
         element={
           <PrivateRoute mustBeProvider={true}>
             <BusinessSettings />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='my-team'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <MyTeam />
           </PrivateRoute>
         }
       />

@@ -45,6 +45,23 @@ const useUpdateClientProfile = () => {
     }
   );
 };
+const useDeleteClientProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    (body) =>
+      CallApi({
+        url: endpoints.users.profile(),
+        method: 'delete',
+        data: body,
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(CLIENT_KEY);
+      }
+    }
+  );
+};
 
 // const getClientProfile = (id: number) => {
 //   return (
@@ -83,4 +100,4 @@ const useUpdateClientProfile = () => {
 // });
 // };
 
-export { useRegister, useUpdateClientProfile };
+export { useRegister, useUpdateClientProfile, useDeleteClientProfile };

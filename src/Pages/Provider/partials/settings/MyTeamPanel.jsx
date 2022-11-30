@@ -1,58 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form } from 'formik';
 import {
-  useUpdateClientProfile,
-  useDeleteClientProfile
-} from '../../../../hooks/useClient';
+  useUpdateProviderProfile,
+  useProviderImages,
+  useDeletePhoto
+} from '../../../../hooks/useProvider';
 import { useProfile } from '../../../../hooks/profile';
-import { useLogout } from '../../../../hooks/useAuth';
-
 import { usePhotoUpload } from '../../../../hooks/useFiles';
 import LoadingSvg from '../../../../components/LoadingSvg';
-import Image from '../../../../images/user-avatar-80.png';
 import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
 import Toast2 from '../../../../components/Toast2';
-import storage from '../../../../auth/storage';
-import { useNavigate } from 'react-router-dom';
-
-function AccountPanel() {
-  const { saveUser, restoreUserAndToken } = useProfile();
+function MyTeamPanel() {
   const [apiErrors, setApiErrors] = useState({});
-  const [newPhoto, setNewPhoto] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const { user, saveUser } = useProfile();
+
+  const { mutateAsync: UpdateProvider, isLoading } = useUpdateProviderProfile();
+  const { data: photoGallery, isLoading: isLoadingGallery } =
+    useProviderImages();
+  const { mutateAsync: deletePhoto, isLoading: isDeleting } = useDeletePhoto();
+  const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
+
+  const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
+  const [autoAlloc, setAutoAlloc] = useState(
+    user.provider.booking_auto_allocation
+  );
+  const [showServicePrices, setShowServicePrices] = useState(
+    user.provider.show_service_prices_to_client
+  );
+
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
-  const { user } = useProfile();
-  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
-  const { mutateAsync: logout } = useLogout();
-
-  const { mutateAsync: deleteUser, isLoading: isDeleting } =
-    useDeleteClientProfile();
-  const { mutateAsync: upload, isUploading } = usePhotoUpload();
-  const navigate = useNavigate();
-
-  const deleteAccount = async () => {
-    await deleteUser()
-      .then((response) => {
-        console.log('Deleted');
-        logout();
-        navigate('/login');
-      })
-      .catch((error) => {
-        console.log('Deleted: ERrror');
-        console.log(error);
-      });
-  };
-
   const handleSubmit = async (values) => {
     setApiErrors({});
-
-    const photo =
-      newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await updateClient({ ...values, photo })
+    await UpdateProvider({
+      ...values,
+      booking_by_specialist: bookBy,
+      booking_auto_allocation: autoAlloc,
+      show_service_prices_to_client: showServicePrices
+    })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
           saveUser(response.data.resource);
@@ -84,27 +71,57 @@ function AccountPanel() {
         }
       });
   };
+
   const onUploadImage = async (photo) => {
     if (photo) {
       let fd = new FormData();
-      fd.append('entity', 'user');
+      fd.append('entity', 'photo_gallery');
       fd.append('photo', photo);
+
       upload(fd)
         .then((response) => {
-          if (response?.data?.document !== undefined) {
-            setNewPhoto(response?.data?.document);
-          }
           if (Array.isArray(response?.data?.message?.photo)) {
             console.log(response?.data?.message?.photo[0]);
           }
         })
         .catch((e) => {
           console.log(e);
-          setToastData([{ type: 'error', msg: ' An error occurred!' }]);
-          setToastOpen(true);
         });
     }
   };
+
+  const gallery =
+    photoGallery !== undefined &&
+    photoGallery.map((file) => {
+      return (
+        <div class={'ml-2 relative group block'}>
+          <img
+            src={`${settings.storageUrl}${file.photo}`}
+            width='120'
+            height='120'
+            alt={file.name}
+          />
+          <button
+            className={`btn absolute ${
+              isUploading || isDeleting ? `opacity-1` : `opacity-0`
+            } top-0 right-0 group-hover:opacity-100 group-hover:bg-slate-100 group-hover:bg-opacity-75 text-rose-500`}
+            onClick={() => deletePhoto(file.id)}
+            title={'remove'}
+          >
+            {isUploading || isDeleting ? (
+              <LoadingSvg />
+            ) : (
+              <svg
+                className='w-4 h-4 fill-current shrink-0'
+                viewBox='0 0 16 16'
+              >
+                <path d='M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z' />
+              </svg>
+            )}
+          </button>
+        </div>
+      );
+    });
 
   useEffect(() => {
     const hideToast = setTimeout(() => {
@@ -114,35 +131,29 @@ function AccountPanel() {
 
   return (
     <div className='grow'>
-      {/* Panel body */}
       {toastOpen}
       <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
         {toastType[0].msg}
       </Toast2>
-
+      {/* Panel body */}
       <div className='p-6 space-y-6'>
-        <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
+        <h2 className='text-2xl text-slate-800 font-bold mb-5'>Profile</h2>
         {/* Picture */}
         <Formik
           initialValues={{
             name: user.provider.name,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            invoice_email: user.email,
-            postcode: user.postcode,
-            line_1: user.line_1,
-            line_2: user.line_2,
-            city: user.city,
-            county: user.county,
-            country: user.country,
-            phone: user.phone,
-            password: '',
-            password_confirmation: '',
-            job_title: user.job_title,
-            landline: user.landline,
-            photo: user.photo,
-            booking_by_specialist: user.provider.booking_by_specialist
+            invoice_email: user.provider.invoice_email,
+            postcode: user.provider.postcode,
+            line_1: user.provider.line_1,
+            line_2: user.provider.line_2,
+            city: user.provider.city,
+            county: user.provider.county,
+            country: user.provider.country,
+            landline: user.provider.landline,
+            booking_by_specialist: bookBy,
+            booking_auto_allocation: autoAlloc,
+            show_service_prices_to_client:
+              user.provider.show_service_prices_to_client
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -150,26 +161,18 @@ function AccountPanel() {
         >
           <Form>
             <section>
-              <div className='flex items-center'>
-                <div className='mr-4 sm:w-1/3'>
-                  <img
-                    src={
-                      newPhoto && newPhoto.hasOwnProperty('path')
-                        ? `${settings.storageUrl}${newPhoto.path}`
-                        : user.photo
-                        ? `${settings.storageUrl}${user.photo}`
-                        : Image
-                    }
-                    width='120'
-                    height='120'
-                    alt='User upload'
-                  />
+              <div className='flex container sm:w-full overflow-x-auto'>
+                <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center border-2 justify-center items-center px-4 py-4'>
+                  {isLoadingGallery ? <LoadingSvg /> : gallery}
                 </div>
                 <Dropzone
                   multiple={false}
                   maxSize={parseInt(settings.photoMaxSize, 500)}
                   onDrop={onUploadImage}
-                  onRemove={setNewPhoto}
+                  galleryImages={
+                    photoGallery?.length > 0 ? photoGallery.length : undefined
+                  }
+                  maxNrOfFiles={parseInt(settings.maxGalleryImages)}
                 />
               </div>
             </section>
@@ -177,103 +180,20 @@ function AccountPanel() {
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Account Info
+                    Business Info
                   </h3>
-
-                  <div className='flex flex-wrap  mb-6'>
-                    <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-first-name'
-                      >
-                        First Name
-                      </label>
-                      <Field
-                        name='first_name'
-                        className={`form-input w-full ${
-                          apiErrors &&
-                          apiErrors.hasOwnProperty('first_name') &&
-                          typeof apiErrors.first_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-first-name'
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('first_name') &&
-                        typeof apiErrors.first_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.first_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full md:w-1/2 md:pl-3'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Last Name
-                      </label>
-                      <Field
-                        name='last_name'
-                        className={`form-input w-full ${
-                          apiErrors &&
-                          apiErrors.hasOwnProperty('last_name') &&
-                          typeof apiErrors.last_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-last-name'
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('last_name') &&
-                        typeof apiErrors.last_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.last_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Email
-                      </label>
-                      <Field
-                        disabled
-                        name='email'
-                        className='form-input w-full'
-                      />
-                    </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 job_title'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Job Title
-                      </label>
-                      <Field
-                        name='job_title'
-                        className={`form-input w-full ${
-                          apiErrors &&
-                          apiErrors.hasOwnProperty('job_title') &&
-                          typeof apiErrors.job_title[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('job_title') &&
-                        typeof apiErrors.job_title[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.job_title[0]}
-                          </p>
-                        )}
-                    </div>
+                  <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Business name
+                    </label>
+                    <Field
+                      type='text'
+                      name='name'
+                      className='form-input w-full'
+                    />
                   </div>
                 </div>
                 <div className='sm:w-1/3 contact-details px-3'>
@@ -288,22 +208,49 @@ function AccountPanel() {
                       Phone Number
                     </label>
                     <Field
-                      name='phone'
+                      name='landline'
                       className={`form-input w-full ${
                         apiErrors &&
-                        apiErrors.hasOwnProperty('phone') &&
-                        typeof apiErrors.phone[0] !== 'undefined'
+                        apiErrors.hasOwnProperty('landline') &&
+                        typeof apiErrors.landline[0] !== 'undefined'
                           ? `border-red-500`
                           : `border-gray-300`
                       }`}
-                      id='grid-last-phone'
-                      type='phone'
+                      id='grid-landline'
+                      type='landline'
                     />
                     {apiErrors &&
-                      apiErrors.hasOwnProperty('phone') &&
-                      typeof apiErrors.phone[0] !== 'undefined' && (
+                      apiErrors.hasOwnProperty('landline') &&
+                      typeof apiErrors.landline[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
-                          {apiErrors.phone[0]}
+                          {apiErrors.landline[0]}
+                        </p>
+                      )}
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Invoice Email
+                    </label>
+                    <Field
+                      name='invoice_email'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('invoice_email') &&
+                        typeof apiErrors.invoice_email[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-last-name'
+                      type='email'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('invoice_email') &&
+                      typeof apiErrors.invoice_email[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.invoice_email[0]}
                         </p>
                       )}
                   </div>
@@ -438,68 +385,115 @@ function AccountPanel() {
                 </div>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Security
+                    Booking settings
                   </h3>
 
                   <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Password
-                    </label>
-                    <Field
-                      name='password'
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('password') &&
-                        typeof apiErrors.password[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-password'
-                      type='password'
-                      placeholder='***'
-                      autocomplete='off'
-                    />
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('password') &&
-                      typeof apiErrors.password[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.password[0]}
-                        </p>
-                      )}
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Enable book by specialist
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                            name='booking_by_specialist'
+                            type='checkbox'
+                            id='toggle'
+                            className='sr-only'
+                            checked={bookBy}
+                            onChange={() => setBookBy(!bookBy)}
+                          />
+                          <label className='bg-slate-400' htmlFor='toggle'>
+                            <span
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Enable smart sync</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {bookBy ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
                   </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Confirm Password
-                    </label>
-                    <Field
-                      name='password_confirmation'
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('password_confirmation') &&
-                        typeof apiErrors.password_confirmation[0] !==
-                          'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-password'
-                      type='password'
-                      placeholder='***'
-                      autocomplete='off'
-                    />
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('password_confirmation') &&
-                      typeof apiErrors.password_confirmation[0] !==
-                        'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.password_confirmation[0]}
-                        </p>
-                      )}
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Enable auto allocation
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                            name='booking_auto_allocation'
+                            type='checkbox'
+                            id='toggle-auto-aloc'
+                            className='sr-only'
+                            checked={autoAlloc}
+                            onChange={() => setAutoAlloc(!autoAlloc)}
+                          />
+                          <label
+                            className='bg-slate-400'
+                            htmlFor='toggle-auto-aloc'
+                          >
+                            <span
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Enable smart sync</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {autoAlloc ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 '>
+                    <section>
+                      <h2 className='text-xl leading-snug text-slate-800 font-bold mb-1'>
+                        Show service prices to clients
+                      </h2>
+                      <div className='text-sm'>
+                        With this update, online-only files will no longer
+                        appear to take up hard drive space.
+                      </div>
+                      <div className='flex items-center mt-5'>
+                        <div className='form-switch'>
+                          <Field
+                            name='show_service_prices_to_client'
+                            type='checkbox'
+                            id='toggle_show_prices'
+                            className='sr-only'
+                            checked={showServicePrices}
+                            onChange={() =>
+                              setShowServicePrices(!showServicePrices)
+                            }
+                          />
+                          <label
+                            className='bg-slate-400'
+                            htmlFor='toggle_show_prices'
+                          >
+                            <span
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
+                            ></span>
+                            <span className='sr-only'>Show service prices</span>
+                          </label>
+                        </div>
+                        <div className='text-sm text-slate-400 italic ml-2'>
+                          {showServicePrices ? 'On' : 'Off'}
+                        </div>
+                      </div>
+                    </section>
                   </div>
                 </div>
               </div>
@@ -527,22 +521,9 @@ function AccountPanel() {
             </section>
           </Form>
         </Formik>
-        <button
-          onClick={() => {
-            if (
-              window.confirm(
-                'Are you sure that you want to delete your account?'
-              )
-            ) {
-              deleteAccount();
-            }
-          }}
-        >
-          {isDeleting ? <LoadingSvg /> : 'Delete Account '}
-        </button>
       </div>
     </div>
   );
 }
 
-export default AccountPanel;
+export default MyTeamPanel;

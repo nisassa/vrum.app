@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
-import SettingsSidebar from '../partials/settings/SettingsSidebar';
-import BusinessSettingsPanel from '../partials/settings/BusinessSettingsPanel';
+import MyTeamPanel from '../partials/settings/MyTeamPanel';
 
-function BusinessSettings() {
+function MyTeam() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -24,15 +23,14 @@ function BusinessSettings() {
             <div className='mb-8'>
               {/* Title */}
               <h1 className='text-2xl md:text-3xl text-slate-800 font-bold'>
-                Business Settings ✨
+                My Team ✨
               </h1>
             </div>
 
             {/* Content */}
             <div className='bg-white shadow-lg rounded-sm mb-8'>
               <div className='flex flex-col md:flex-row md:-mr-px'>
-                <SettingsSidebar />
-                <BusinessSettingsPanel />
+                <MyTeamPanel />
               </div>
             </div>
           </div>
@@ -42,4 +40,4 @@ function BusinessSettings() {
   );
 }
 
-export default BusinessSettings;
+export default MyTeam;

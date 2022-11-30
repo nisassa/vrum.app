@@ -8,7 +8,7 @@ import settings from '../config/settings';
 import UserAvatar from '../images/user-avatar-32.png';
 
 export default function MainNav() {
-  const { isAuthenticated, isServiceProvider, user } = useProfile();
+  const { isAuthenticated, isServiceProvider, user, isReady } = useProfile();
   const { mutateAsync: logout, isLoading } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +47,9 @@ export default function MainNav() {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+  console.log(isAuthenticated);
   if (isAuthenticated && isServiceProvider) return;
+
   return (
     <>
       <nav className='bg-gray-800'>
@@ -64,7 +66,7 @@ export default function MainNav() {
               <div className='hidden md:inline flex items-center justify-between'>
                 <div className='flex flex-row items-center justify-between ml-10'>
                   <div className='flex'>
-                    {!isAuthenticated && (
+                    {isReady && isAuthenticated === false && (
                       <>
                         <Link
                           className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'
@@ -221,7 +223,7 @@ export default function MainNav() {
                 ref={ref}
                 className='px-2 pt-2 pb-3 space-y-1 flex flex-col  sm:px-3'
               >
-                {!isAuthenticated && (
+                {isReady && !isAuthenticated && (
                   <>
                     <Link
                       className=' hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium'

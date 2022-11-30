@@ -1,24 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Formik, Field, Form } from 'formik';
-import { useUpdateClientProfile } from '../../../../hooks/useClient';
+import React, { useEffect, useState } from 'react';
 import { useProfile } from '../../../../hooks/profile';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import Image from '../../../../images/user-avatar-80.png';
+import { Formik, Field, Form } from 'formik';
+import {
+  useUpdateClientProfile,
+  useDeleteClientProfile
+} from '../../../../hooks/useClient';
+import { useLogout } from '../../../../hooks/useAuth';
+
+import { usePhotoUpload } from '../../../../hooks/useFiles';
+import settings from '../../../../config/settings';
+import Dropzone from '../../../../components/Dropzone';
 import Toast2 from '../../../../components/Toast2';
+import { useNavigate } from 'react-router-dom';
 
 function ClientAccountPanel() {
-  const { saveUser } = useProfile();
+  const { saveUser, restoreUserAndToken, user } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState(false);
-  const { user } = useProfile();
-  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
-
+  const [newPhoto, setNewPhoto] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
+  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
+  const { mutateAsync: logout } = useLogout();
+
+  const { mutateAsync: deleteUser, isLoading: isDeleting } =
+    useDeleteClientProfile();
+  const { mutateAsync: upload, isUploading } = usePhotoUpload();
+  const navigate = useNavigate();
+
+  const deleteAccount = async () => {
+    await deleteUser()
+      .then((response) => {
+        console.log('Deleted');
+        logout();
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.log('Deleted: ERrror');
+        console.log(error);
+      });
+  };
+
   const handleSubmit = async (values) => {
     setApiErrors({});
-    await updateClient(values)
+
+    const photo =
+      newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
+    await updateClient({ ...values, photo })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
           saveUser(response.data.resource);
@@ -46,35 +78,55 @@ function ClientAccountPanel() {
             setApiErrors(responseData.errors[0]);
           }
         } else {
-          console.log('An error occured!');
+          console.log('An error occurred!');
         }
       });
   };
+  const onUploadImage = async (photo) => {
+    if (photo) {
+      let fd = new FormData();
+      fd.append('entity', 'user');
+      fd.append('photo', photo);
+      upload(fd)
+        .then((response) => {
+          if (response?.data?.document !== undefined) {
+            setNewPhoto(response?.data?.document);
+          }
+          if (Array.isArray(response?.data?.message?.photo)) {
+            console.log(response?.data?.message?.photo[0]);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          setToastData([{ type: 'error', msg: ' An error occurred!' }]);
+          setToastOpen(true);
+        });
+    }
+  };
+
   useEffect(() => {
-    console.log(toastType);
     const hideToast = setTimeout(() => {
       setToastOpen(false);
     }, 8000);
   }, [toastOpen]);
-
+  console.log(user);
   return (
     <div className='grow'>
+      {/* Panel body */}
       {toastOpen}
       <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
         {toastType[0].msg}
       </Toast2>
-      {/* Panel body */}
-      <div className='p-6 space-y-6'>
-        <h2 className='text-2xl text-slate-800 font-bold mb-5'>
-          My Client Account
-        </h2>
-        {/* Picture */}
 
+      <div className='p-6 space-y-6'>
+        <h2 className='text-2xl text-slate-800 font-bold mb-5'>My Account</h2>
+        {/* Picture */}
         <Formik
           initialValues={{
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
+            invoice_email: user.email,
             postcode: user.postcode,
             line_1: user.line_1,
             line_2: user.line_2,
@@ -84,7 +136,6 @@ function ClientAccountPanel() {
             phone: user.phone,
             password: '',
             password_confirmation: '',
-            job_title: user.job_title,
             landline: user.landline,
             photo: user.photo
           }}
@@ -95,25 +146,36 @@ function ClientAccountPanel() {
           <Form>
             <section>
               <div className='flex items-center'>
-                <div className='mr-4'>
+                <div className='mr-4 sm:w-1/3'>
                   <img
-                    className='w-20 h-20 rounded-full'
-                    src={Image}
-                    width='80'
-                    height='80'
+                    src={
+                      newPhoto && newPhoto.hasOwnProperty('path')
+                        ? `${settings.storageUrl}${newPhoto.path}`
+                        : user.photo
+                        ? `${settings.storageUrl}${user.photo}`
+                        : Image
+                    }
+                    width='120'
+                    height='120'
                     alt='User upload'
                   />
                 </div>
-                <Field type='file' name='photo' id='' />
+                <Dropzone
+                  multiple={false}
+                  maxSize={parseInt(settings.photoMaxSize, 500)}
+                  onDrop={onUploadImage}
+                  onRemove={setNewPhoto}
+                />
               </div>
             </section>
             <section>
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className='sm:w-1/3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Your details
+                    Account Info
                   </h3>
-                  <div className='flex flex-wrap -mx-3 mb-6'>
+
+                  <div className='flex flex-wrap  mb-6'>
                     <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                       <label
                         className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
@@ -125,7 +187,6 @@ function ClientAccountPanel() {
                         name='first_name'
                         className={`form-input w-full ${
                           apiErrors &&
-                          apiErrors &&
                           apiErrors.hasOwnProperty('first_name') &&
                           typeof apiErrors.first_name[0] !== 'undefined'
                             ? `border-red-500`
@@ -133,10 +194,8 @@ function ClientAccountPanel() {
                         }`}
                         id='grid-first-name'
                         type='text'
-                        placeholder='Jane'
                       />
                       {apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('first_name') &&
                         typeof apiErrors.first_name[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
@@ -155,7 +214,6 @@ function ClientAccountPanel() {
                         name='last_name'
                         className={`form-input w-full ${
                           apiErrors &&
-                          apiErrors &&
                           apiErrors.hasOwnProperty('last_name') &&
                           typeof apiErrors.last_name[0] !== 'undefined'
                             ? `border-red-500`
@@ -163,10 +221,8 @@ function ClientAccountPanel() {
                         }`}
                         id='grid-last-name'
                         type='text'
-                        placeholder='Doe'
                       />
                       {apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('last_name') &&
                         typeof apiErrors.last_name[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
@@ -204,18 +260,15 @@ function ClientAccountPanel() {
                       name='phone'
                       className={`form-input w-full ${
                         apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('phone') &&
                         typeof apiErrors.phone[0] !== 'undefined'
                           ? `border-red-500`
                           : `border-gray-300`
                       }`}
-                      id='grid-last-name'
+                      id='grid-last-phone'
                       type='phone'
-                      placeholder='+40770009770'
                     />
                     {apiErrors &&
-                      apiErrors &&
                       apiErrors.hasOwnProperty('phone') &&
                       typeof apiErrors.phone[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
@@ -230,26 +283,25 @@ function ClientAccountPanel() {
                     >
                       Country
                     </label>
-                    <Field
-                      name='country'
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('country') &&
-                        typeof apiErrors.country[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-state'
-                      as='select'
-                    >
-                      <option>MD</option>
-                      <option>RO</option>
-                      <option>US</option>
-                    </Field>
-
+                    <div className='w-full'>
+                      <Field
+                        name='country'
+                        className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors.hasOwnProperty('country') &&
+                          typeof apiErrors.country[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        id='grid-state'
+                        as='select'
+                      >
+                        <option>MD</option>
+                        <option>RO</option>
+                        <option>US</option>
+                      </Field>
+                    </div>
                     {apiErrors &&
-                      apiErrors &&
                       apiErrors.hasOwnProperty('country') &&
                       typeof apiErrors.country[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
@@ -270,7 +322,6 @@ function ClientAccountPanel() {
                         name='city'
                         className={`form-input w-full ${
                           apiErrors &&
-                          apiErrors &&
                           apiErrors.hasOwnProperty('city') &&
                           typeof apiErrors.city[0] !== 'undefined'
                             ? `border-red-500`
@@ -278,10 +329,8 @@ function ClientAccountPanel() {
                         }`}
                         id='grid-city'
                         type='text'
-                        placeholder='Brasov'
                       />
                       {apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('city') &&
                         typeof apiErrors.city[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
@@ -289,6 +338,62 @@ function ClientAccountPanel() {
                           </p>
                         )}
                     </div>
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-zip'
+                    >
+                      Zip
+                    </label>
+                    <Field
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('state') &&
+                        typeof apiErrors.state[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      name='postcode'
+                      id='input_postcode'
+                      type='text'
+                      placeholder='90210'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('state') &&
+                      typeof apiErrors.state[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.state[0]}
+                        </p>
+                      )}
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 address'>
+                    <label
+                      className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Your Address
+                    </label>
+                    <Field
+                      name='line_1'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('line_1') &&
+                        typeof apiErrors.line_1[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='input_line_1'
+                      type='text'
+                      placeholder='Robert Robertson, 1234 NW Bobcat Lane'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('line_1') &&
+                      typeof apiErrors.line_1[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.line_1[0]}
+                        </p>
+                      )}
                   </div>
                 </div>
                 <div className='sm:w-1/3'>
@@ -307,7 +412,6 @@ function ClientAccountPanel() {
                       name='password'
                       className={`form-input w-full ${
                         apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('password') &&
                         typeof apiErrors.password[0] !== 'undefined'
                           ? `border-red-500`
@@ -319,7 +423,6 @@ function ClientAccountPanel() {
                       autocomplete='off'
                     />
                     {apiErrors &&
-                      apiErrors &&
                       apiErrors.hasOwnProperty('password') &&
                       typeof apiErrors.password[0] !== 'undefined' && (
                         <p className='text-red-500 text-12'>
@@ -338,7 +441,6 @@ function ClientAccountPanel() {
                       name='password_confirmation'
                       className={`form-input w-full ${
                         apiErrors &&
-                        apiErrors &&
                         apiErrors.hasOwnProperty('password_confirmation') &&
                         typeof apiErrors.password_confirmation[0] !==
                           'undefined'
@@ -351,7 +453,6 @@ function ClientAccountPanel() {
                       autocomplete='off'
                     />
                     {apiErrors &&
-                      apiErrors &&
                       apiErrors.hasOwnProperty('password_confirmation') &&
                       typeof apiErrors.password_confirmation[0] !==
                         'undefined' && (
@@ -386,6 +487,26 @@ function ClientAccountPanel() {
             </section>
           </Form>
         </Formik>
+
+        <button
+          onClick={() => {
+            if (
+              window.confirm(
+                'Are you sure that you want to delete your account?'
+              )
+            ) {
+              deleteAccount();
+            }
+          }}
+          className='btn border-slate-200 hover:border-slate-300 text-rose-500'
+        >
+          <svg className='w-4 h-4 fill-current shrink-0' viewBox='0 0 16 16'>
+            <path d='M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z' />
+          </svg>
+          <span className='ml-2'>
+            {isDeleting ? <LoadingSvg /> : ' Delete '}
+          </span>
+        </button>
       </div>
     </div>
   );

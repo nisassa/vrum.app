@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import SettingsSidebar from '../partials/settings/SettingsSidebar';
-import AccountPanel from '../partials/settings/AccountPanel';
+import ClientAccountPanel from '../../Client/partials/settings/ClientAccountPanel';
 
 function Account() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +31,7 @@ function Account() {
             {/* Content */}
             <div className='bg-white shadow-lg rounded-sm mb-8'>
               <div className='flex flex-col md:flex-row md:-mr-px'>
-                <AccountPanel />
+                <ClientAccountPanel />
               </div>
             </div>
           </div>

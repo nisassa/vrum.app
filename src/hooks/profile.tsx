@@ -17,7 +17,7 @@ import { UserType } from '../types/client.interface';
 interface IProfileContext {
   user: UserType | null;
   token: string | null;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | undefined;
   isServiceProvider: boolean;
   isReady: boolean;
   saveUser: (user: any) => void;
@@ -30,7 +30,7 @@ const USER_KEY = `User`;
 export const ProfileContext = createContext<IProfileContext>({
   user: null,
   token: null,
-  isAuthenticated: false,
+  isAuthenticated: undefined,
   isServiceProvider: false,
   isReady: false,
   saveUser: () => {},

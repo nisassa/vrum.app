@@ -31,7 +31,6 @@ function BusinessSettings() {
             {/* Content */}
             <div className='bg-white shadow-lg rounded-sm mb-8'>
               <div className='flex flex-col md:flex-row md:-mr-px'>
-                <SettingsSidebar />
                 <BusinessSettingsPanel />
               </div>
             </div>

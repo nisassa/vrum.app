@@ -57,11 +57,13 @@ export default function MainNav() {
           <div className='flex items-center justify-between h-16'>
             <div className='flex items-center w-full justify-between'>
               <div className='flex-shrink-0'>
-                <img
-                  className='h-8 w-8'
-                  src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
-                  alt='Workflow'
-                />
+                <Link to='/'>
+                  <img
+                    className='h-8 w-8'
+                    src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
+                    alt='Workflow'
+                  />
+                </Link>
               </div>
               <div className='hidden md:inline flex items-center justify-between'>
                 <div className='flex flex-row items-center justify-between ml-10'>

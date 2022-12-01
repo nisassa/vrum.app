@@ -49,8 +49,8 @@ function RegisterProvider() {
         <div className='bg-yellow-400 p-4 mb-4'>
           <h1 className='w-full text-center text-white'>Register Provider</h1>
         </div>
-        <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
-          <div className='w-full md:w-1/1 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
+        <div className='flex flex-col md:flex-row bg-white shadow-lg rounded-sm mb-8'>
+          <div className='w-full md:w-1/1 mb-4 md:mb-0 px-4 py-4'>
             {successMessage !== false && (
               <div
                 className='bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3'
@@ -97,7 +97,7 @@ function RegisterProvider() {
                         </label>
                         <Field
                           name='first_name'
-                          className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          className={`form-input w-full ${
                             apiErrors.hasOwnProperty('first_name') &&
                             typeof apiErrors.first_name[0] !== 'undefined'
                               ? `border-red-500`
@@ -123,7 +123,7 @@ function RegisterProvider() {
                         </label>
                         <Field
                           name='last_name'
-                          className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          className={`form-input w-full ${
                             apiErrors.hasOwnProperty('last_name') &&
                             typeof apiErrors.last_name[0] !== 'undefined'
                               ? `border-red-500`
@@ -150,7 +150,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='provider_name'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('last_name') &&
                           typeof apiErrors.last_name[0] !== 'undefined'
                             ? `border-red-500`
@@ -176,7 +176,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='job_title'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('job_title') &&
                           typeof apiErrors.job_title[0] !== 'undefined'
                             ? `border-red-500`
@@ -221,7 +221,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='phone'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('phone') &&
                           typeof apiErrors.phone[0] !== 'undefined'
                             ? `border-red-500`
@@ -247,7 +247,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='email'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('email') &&
                           typeof apiErrors.email[0] !== 'undefined'
                             ? `border-red-500`
@@ -275,7 +275,7 @@ function RegisterProvider() {
                       <div className='w-full'>
                         <Field
                           name='country'
-                          className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          className={`form-input w-full ${
                             apiErrors.hasOwnProperty('country') &&
                             typeof apiErrors.country[0] !== 'undefined'
                               ? `border-red-500`
@@ -307,7 +307,7 @@ function RegisterProvider() {
                         </label>
                         <Field
                           name='city'
-                          className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          className={`form-input w-full ${
                             apiErrors.hasOwnProperty('first_name') &&
                             typeof apiErrors.first_name[0] !== 'undefined'
                               ? `border-red-500`
@@ -334,7 +334,7 @@ function RegisterProvider() {
                         <div className='relative'>
                           <Field
                             name='state'
-                            className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                            className={`form-input w-full ${
                               apiErrors.hasOwnProperty('state') &&
                               typeof apiErrors.state[0] !== 'undefined'
                                 ? `border-red-500`
@@ -359,7 +359,7 @@ function RegisterProvider() {
                           Zip
                         </label>
                         <Field
-                          className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                          className={`form-input w-full ${
                             apiErrors.hasOwnProperty('state') &&
                             typeof apiErrors.state[0] !== 'undefined'
                               ? `border-red-500`
@@ -387,7 +387,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='line_1'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('line_1') &&
                           typeof apiErrors.line_1[0] !== 'undefined'
                             ? `border-red-500`
@@ -419,7 +419,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='password'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('password') &&
                           typeof apiErrors.password[0] !== 'undefined'
                             ? `border-red-500`
@@ -445,7 +445,7 @@ function RegisterProvider() {
                       </label>
                       <Field
                         name='password_confirmation'
-                        className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
+                        className={`form-input w-full ${
                           apiErrors.hasOwnProperty('password_confirmation') &&
                           typeof apiErrors.password_confirmation[0] !==
                             'undefined'
@@ -469,7 +469,7 @@ function RegisterProvider() {
                     <button
                       type='submit'
                       disabled={isLoading}
-                      className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
+                      className='btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 px-20'
                     >
                       {isLoading ? <LoadingSvg /> : 'Register'}
                     </button>

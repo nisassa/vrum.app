@@ -3,6 +3,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProfile } from '../../hooks/profile';
 import LoadingSvg from '../../components/LoadingSvg';
+import AuthImage from '../../images/bg-login.jpeg';
+import AuthDecoration from '../../images/auth-decoration.png';
 
 function Login() {
   const navigate = useNavigate();
@@ -10,7 +12,8 @@ function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [isLoading, setisLoading] = useState(false);
 
-  const { userLogin, restoreUserAndToken, isAuthenticated, isServiceProvider } = useProfile();
+  const { userLogin, restoreUserAndToken, isAuthenticated, isServiceProvider } =
+    useProfile();
 
   const handleSubmit = async (values) => {
     setLoginFailed(false);
@@ -56,117 +59,168 @@ function Login() {
 
   return (
     <>
-      <div className='container my-4 mx-auto px-4 md:px-12'>
-        <div className='bg-yellow-400 p-4 mb-4'>
-          <h1 className='w-full text-center text-white'>Login Page</h1>
-        </div>
-        <div className='flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
-          <div className='w-full md:w-1/1 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>
-            <Formik
-              initialValues={{
-                email: '',
-                password: ''
-              }}
-              onSubmit={(values) => handleSubmit(values)}
-            >
-              <Form className='flex flex-wrap justify-center' method='POST'>
-                <div className='w-full md:w-1/3 security'>
-                  <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Login
-                  </h3>
+      <main className='bg-white'>
+        <div className='relative md:flex'>
+          {/* Content */}
+          <div className='md:w-1/2'>
+            <div className='min-h-screen h-full flex flex-col after:flex-1'>
+              {/* Header */}
+              <div className='flex-1'>
+                <div className='flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8'>
+                  {/* Logo */}
+                </div>
+              </div>
 
-                  {loginFailed === true && (
-                    <div
-                      className='bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2'
-                      role='alert'
-                    >
-                      <p className='text-sm'>
-                        The details you have provided do not match our records.
-                      </p>
-                    </div>
-                  )}
-
-                  {isAuthenticated === true && (
-                    <div
-                      className='bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2'
-                      role='alert'
-                    >
-                      <p className='text-sm'>Logged in!</p>
-                    </div>
-                  )}
-
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Email
-                    </label>
-                    <Field
-                      name='email'
-                      className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
-                        apiErrors.hasOwnProperty('email') &&
-                        typeof apiErrors.email[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='input_email'
-                      type='email'
-                      placeholder='user@domain.com'
-                    />
-                    {apiErrors.hasOwnProperty('email') &&
-                      typeof apiErrors.email[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.email[0]}
-                        </p>
+              <div className='max-w-sm mx-auto px-4 py-8'>
+                <h1 className='text-3xl text-slate-800 font-bold mb-6'>
+                  Welcome back! ✨
+                </h1>
+                <Formik
+                  initialValues={{
+                    email: '',
+                    password: ''
+                  }}
+                  onSubmit={(values) => handleSubmit(values)}
+                >
+                  <Form className='' method='POST'>
+                    <div className='space-y-4'>
+                      {loginFailed === true && (
+                        <div
+                          className='bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2'
+                          role='alert'
+                        >
+                          <p className='text-sm'>
+                            The details you have provided do not match our
+                            records.
+                          </p>
+                        </div>
                       )}
-                  </div>
 
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='password-input'
-                    >
-                      Password
-                    </label>
-                    <Field
-                      name='password'
-                      className={`w-full bg-white border text-black-700 py-3 px-4 pr-8 rounded focus:border-gray-700 ${
-                        apiErrors.hasOwnProperty('password') &&
-                        typeof apiErrors.password[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='input_password'
-                      type='password'
-                      placeholder='***'
-                    />
-                    {apiErrors.hasOwnProperty('password') &&
-                      typeof apiErrors.password[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.password[0]}
-                        </p>
+                      {isAuthenticated === true && (
+                        <div
+                          className='bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-2'
+                          role='alert'
+                        >
+                          <p className='text-sm'>Logged in!</p>
+                        </div>
                       )}
-                    <Link className='w-full flex mt-2' to='/forgot-password'>
-                      Forgot password?
+
+                      <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
+                        <label
+                          className='block text-sm font-medium mb-1'
+                          htmlFor='grid-password'
+                        >
+                          Email
+                        </label>
+                        <Field
+                          name='email'
+                          className={`form-input w-full ${
+                            apiErrors.hasOwnProperty('email') &&
+                            typeof apiErrors.email[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='input_email'
+                          type='email'
+                          placeholder='user@domain.com'
+                        />
+                        {apiErrors.hasOwnProperty('email') &&
+                          typeof apiErrors.email[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.email[0]}
+                            </p>
+                          )}
+                      </div>
+
+                      <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
+                        <label
+                          className='block text-sm font-medium mb-1'
+                          htmlFor='password-input'
+                        >
+                          Password
+                        </label>
+                        <Field
+                          name='password'
+                          className={`form-input w-full ${
+                            apiErrors.hasOwnProperty('password') &&
+                            typeof apiErrors.password[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='input_password'
+                          type='password'
+                          placeholder='***'
+                        />
+                        {apiErrors.hasOwnProperty('password') &&
+                          typeof apiErrors.password[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.password[0]}
+                            </p>
+                          )}
+
+                        <div className='w-full flex items-center justify-between mt-6'>
+                          <div className='mr-1'>
+                            <Link
+                              className='text-sm underline hover:no-underline'
+                              to='/forgot-password'
+                            >
+                              Forgot Password?
+                            </Link>
+                          </div>
+                          <button
+                            disabled={isLoading ? true : undefined}
+                            type='submit'
+                            className='btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap px-10'
+                          >
+                            {isLoading || isAuthenticated ? (
+                              <LoadingSvg />
+                            ) : (
+                              'Login'
+                            )}
+                          </button>{' '}
+                        </div>
+                      </div>
+                    </div>
+                  </Form>
+                </Formik>
+                {/* Footer */}
+                <div className='pt-5 mt-6 border-t border-slate-200'>
+                  <div className='text-sm'>
+                    Don’t you have an account?{' '}
+                    <Link
+                      className='font-medium text-indigo-500 hover:text-indigo-600'
+                      to='/register'
+                    >
+                      Sign Up
                     </Link>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div className='w-full flex justify-center'>
-                  <button
-                      disabled={isLoading ? true : undefined}
-                      type='submit'
-                      className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-20 rounded'
-                    >
-                      {( isLoading || isAuthenticated ) ? <LoadingSvg /> : 'Login'}
-                    </button>
-                </div>
-              </Form>
-            </Formik>
+          {/* Image */}
+          <div
+            className='hidden md:block absolute top-0 bottom-0 right-0 md:w-1/2'
+            aria-hidden='true'
+          >
+            <img
+              className='object-cover object-center w-full h-full'
+              src={AuthImage}
+              width='760'
+              height='1024'
+              alt='Authentication'
+            />
+            <img
+              className='absolute top-1/4 left-0 -translate-x-1/2 ml-8 hidden lg:block'
+              src={AuthDecoration}
+              width='218'
+              height='224'
+              alt='Authentication decoration'
+            />
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

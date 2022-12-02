@@ -46,8 +46,10 @@ function RegisterClient() {
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-4'>
-        <div className='bg-yellow-400 p-4 mb-4'>
-          <h1 className='w-full text-center text-white'>Register Client</h1>
+        <div className=' p-4 mb-4'>
+          <h1 className='text-3xl text-slate-800 font-bold mb-6 text-center'>
+            Register Client
+          </h1>
         </div>
         <div className='bg-white shadow-lg rounded-sm mb-8 flex flex-col md:flex-row items-center w-full mb-8 space-x-4'>
           <div className='w-full md:w-1/1  rounded-lg shadow-md mb-4 md:mb-0 px-4 py-4'>

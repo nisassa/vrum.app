@@ -9,6 +9,7 @@ function RegisterProvider() {
 
   const [apiErrors, setApiErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState(false);
+  const [bookBy, setBookBy] = useState(false);
 
   const { mutateAsync: registerProvider, isLoading } = useRegister();
 
@@ -46,8 +47,10 @@ function RegisterProvider() {
   return (
     <>
       <div className='container my-4 mx-auto px-4 md:px-4'>
-        <div className='bg-yellow-400 p-4 mb-4'>
-          <h1 className='w-full text-center text-white'>Register Provider</h1>
+        <div className='p-4 mb-4'>
+          <h1 className='text-3xl text-slate-800 font-bold mb-6 text-center'>
+            Register Provider
+          </h1>
         </div>
         <div className='flex flex-col md:flex-row bg-white shadow-lg rounded-sm mb-8'>
           <div className='w-full md:w-1/1 mb-4 md:mb-0 px-4 py-4'>
@@ -193,19 +196,36 @@ function RegisterProvider() {
                           </p>
                         )}
                     </div>
-                    <div className='flex flex-wrap -mx-3 mb-6 px-3 book-/by'>
+                    <div className='flex flex-col mt-5  book-by'>
                       <label
                         className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
                         htmlFor='grid-last-name'
                       >
                         Book by specialist
                       </label>
-                      <Field
-                        name='booking_by_specialist'
-                        className='block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                        id='input_book_by'
-                        type='checkbox'
-                      />
+                      <div className='form-switch'>
+                        <Field
+                          name='booking_by_specialist'
+                          type='checkbox'
+                          id='toggle-book-by'
+                          className='sr-only'
+                          checked={bookBy}
+                          onChange={() => setBookBy(!bookBy)}
+                        />
+                        <label
+                          className='bg-slate-400'
+                          htmlFor='toggle-book-by'
+                        >
+                          <span
+                            className='bg-white shadow-sm'
+                            aria-hidden='true'
+                          ></span>
+                          <span className='sr-only'>Book by specialist</span>
+                        </label>
+                      </div>
+                      <div className='text-sm text-slate-400 italic ml-2'>
+                        {bookBy ? 'On' : 'Off'}
+                      </div>
                     </div>
                   </div>
                   <div className='w-full md:w-1/3 contact-details px-3'>

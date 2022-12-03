@@ -149,7 +149,7 @@ function AccountPanel() {
         >
           <Form>
             <section>
-              <div className='flex items-center'>
+              <div className='flex items-center justify-between'>
                 <div className='mr-4 sm:w-1/3'>
                   <img
                     src={

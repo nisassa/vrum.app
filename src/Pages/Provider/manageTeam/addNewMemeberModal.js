@@ -116,6 +116,7 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
   return (
     <ModalBasic
       id='add-new-member-modal'
+      className='w-full h-full max-w-2xl md:h-auto'
       modalOpen={feedbackModalOpen}
       setModalOpen={setFeedbackModalOpen}
       title='Add new member'
@@ -171,10 +172,6 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
             <section>
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className=''>
-                  <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Memeber Info
-                  </h3>
-
                   <div className='flex flex-wrap  mb-6'>
                     <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                       <label
@@ -230,19 +227,132 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
                           </p>
                         )}
                     </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
+                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 job_title'>
                       <label
                         className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                         htmlFor='grid-last-name'
                       >
-                        Email
+                        Job Title
                       </label>
                       <Field
-                        disabled
-                        name='email'
-                        className='form-input w-full'
+                        name='job_title'
+                        className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors.hasOwnProperty('job_title') &&
+                          typeof apiErrors.job_title[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        type='text'
                       />
+                      {apiErrors &&
+                        apiErrors.hasOwnProperty('job_title') &&
+                        typeof apiErrors.job_title[0] !== 'undefined' && (
+                          <p className='text-red-500 text-12'>
+                            {apiErrors.job_title[0]}
+                          </p>
+                        )}
                     </div>
+                  </div>
+                  <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Email
+                    </label>
+                    <Field
+                      disabled
+                      name='email'
+                      className='form-input w-full'
+                    />
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-last-name'
+                    >
+                      Phone Number
+                    </label>
+                    <Field
+                      name='phone'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('phone') &&
+                        typeof apiErrors.phone[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-last-phone'
+                      type='phone'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('phone') &&
+                      typeof apiErrors.phone[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.phone[0]}
+                        </p>
+                      )}
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Password
+                    </label>
+                    <Field
+                      name='password'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('password') &&
+                        typeof apiErrors.password[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-password'
+                      type='password'
+                      placeholder='***'
+                      autocomplete='off'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('password') &&
+                      typeof apiErrors.password[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.password[0]}
+                        </p>
+                      )}
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Confirm Password
+                    </label>
+                    <Field
+                      name='password_confirmation'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('password_confirmation') &&
+                        typeof apiErrors.password_confirmation[0] !==
+                          'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                      id='grid-password'
+                      type='password'
+                      placeholder='***'
+                      autocomplete='off'
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('password_confirmation') &&
+                      typeof apiErrors.password_confirmation[0] !==
+                        'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.password_confirmation[0]}
+                        </p>
+                      )}
                   </div>
                 </div>
               </div>

@@ -272,10 +272,9 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
                           ? `border-red-500`
                           : `border-gray-300`
                       }`}
-                      id='grid-password'
+                      id='password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password') &&
@@ -302,10 +301,9 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
                           ? `border-red-500`
                           : `border-gray-300`
                       }`}
-                      id='grid-password'
+                      id='repeat_password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password_confirmation') &&

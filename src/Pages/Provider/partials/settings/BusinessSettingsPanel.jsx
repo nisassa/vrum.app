@@ -22,8 +22,12 @@ function BusinessSettingsPanel() {
   const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
 
   const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
-  const [autoAlloc, setAutoAlloc] = useState(user.provider.booking_auto_allocation);
-  const [showServicePrices, setShowServicePrices] = useState(user.provider.show_service_prices_to_client);
+  const [autoAlloc, setAutoAlloc] = useState(
+    user.provider.booking_auto_allocation
+  );
+  const [showServicePrices, setShowServicePrices] = useState(
+    user.provider.show_service_prices_to_client
+  );
 
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
@@ -90,7 +94,7 @@ function BusinessSettingsPanel() {
     photoGallery !== undefined &&
     photoGallery.map((file) => {
       return (
-        <div class={'ml-2 relative group block'}>
+        <div className={'ml-2 relative group block'}>
           <img
             src={`${settings.storageUrl}${file.photo}`}
             width='120'
@@ -148,7 +152,8 @@ function BusinessSettingsPanel() {
             landline: user.provider.landline,
             booking_by_specialist: bookBy,
             booking_auto_allocation: autoAlloc,
-            show_service_prices_to_client: user.provider.show_service_prices_to_client
+            show_service_prices_to_client:
+              user.provider.show_service_prices_to_client
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -464,17 +469,22 @@ function BusinessSettingsPanel() {
                       <div className='flex items-center mt-5'>
                         <div className='form-switch'>
                           <Field
-                              name='show_service_prices_to_client'
-                              type='checkbox'
-                              id='toggle_show_prices'
-                              className='sr-only'
-                              checked={showServicePrices}
-                              onChange={() => setShowServicePrices(!showServicePrices)}
+                            name='show_service_prices_to_client'
+                            type='checkbox'
+                            id='toggle_show_prices'
+                            className='sr-only'
+                            checked={showServicePrices}
+                            onChange={() =>
+                              setShowServicePrices(!showServicePrices)
+                            }
                           />
-                          <label className='bg-slate-400' htmlFor='toggle_show_prices'>
+                          <label
+                            className='bg-slate-400'
+                            htmlFor='toggle_show_prices'
+                          >
                             <span
-                                className='bg-white shadow-sm'
-                                aria-hidden='true'
+                              className='bg-white shadow-sm'
+                              aria-hidden='true'
                             ></span>
                             <span className='sr-only'>Show service prices</span>
                           </label>

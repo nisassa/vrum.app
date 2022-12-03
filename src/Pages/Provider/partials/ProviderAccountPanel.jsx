@@ -450,7 +450,6 @@ function ProviderAccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password') &&
@@ -480,7 +479,6 @@ function ProviderAccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password_confirmation') &&

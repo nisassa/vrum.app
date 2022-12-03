@@ -420,7 +420,6 @@ function ClientAccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password') &&
@@ -450,7 +449,6 @@ function ClientAccountPanel() {
                       id='grid-password'
                       type='password'
                       placeholder='***'
-                      autocomplete='off'
                     />
                     {apiErrors &&
                       apiErrors.hasOwnProperty('password_confirmation') &&

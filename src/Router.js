@@ -6,7 +6,7 @@ import ClientAccount from './Pages/Client/ClientAccount';
 import IndexPage from './Pages/IndexPage';
 import React from 'react';
 import ProviderDashboard from './Pages/Provider/ProviderDashboard';
-import Account from './Pages/Provider/tabs/Account';
+import ProviderAccount from './Pages/Provider/tabs/ProviderAccount';
 import BusinessSettings from './Pages/Provider/tabs/BusinessSettings';
 import Calendar from './Pages/Provider/Calendar';
 import Bookings from './Pages/Provider/Bookings';
@@ -74,10 +74,10 @@ export const Router = () => {
         }
       />
       <Route
-        path='settings/user'
+        path='settings/account'
         element={
           <PrivateRoute mustBeProvider={true}>
-            <Account />
+            <ProviderAccount />
           </PrivateRoute>
         }
       />

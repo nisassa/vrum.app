@@ -15,7 +15,7 @@ import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
 import { useNavigate } from 'react-router-dom';
 
-function AccountPanel() {
+function ProviderAccountPanel() {
   const { saveUser, restoreUserAndToken } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
   const [newPhoto, setNewPhoto] = useState(null);
@@ -542,4 +542,4 @@ function AccountPanel() {
   );
 }
 
-export default AccountPanel;
+export default ProviderAccountPanel;

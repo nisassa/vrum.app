@@ -4,17 +4,12 @@ import { useProfile } from '../../../hooks/profile';
 import LoadingSvg from '../../../components/LoadingSvg';
 import Image from '../../../images/user-avatar-80.png';
 import { Formik, Field, Form } from 'formik';
-import {
-  useUpdateClientProfile,
-  useDeleteClientProfile
-} from '../../../hooks/useClient';
-import { useLogout } from '../../../hooks/useAuth';
+import { useRegisterNewMember } from '../../../hooks/useProvider';
 
 import { usePhotoUpload } from '../../../hooks/useFiles';
 import settings from '../../../config/settings';
 import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
-import { useNavigate } from 'react-router-dom';
 
 function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
@@ -25,37 +20,17 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
-  const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
-  const { mutateAsync: logout } = useLogout();
+  const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
 
-  const { mutateAsync: deleteUser, isLoading: isDeleting } =
-    useDeleteClientProfile();
   const { mutateAsync: upload, isUploading } = usePhotoUpload();
-  const navigate = useNavigate();
-
-  const deleteAccount = async () => {
-    await deleteUser()
-      .then((response) => {
-        console.log('Deleted');
-        logout();
-        navigate('/login');
-      })
-      .catch((error) => {
-        console.log('Deleted: ERrror');
-        console.log(error);
-      });
-  };
 
   const handleSubmit = async (values) => {
     setApiErrors({});
 
     const photo =
       newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await updateClient({ ...values, photo })
+    await addMember({ ...values, photo })
       .then((response) => {
-        if (response?.data?.resource !== undefined) {
-          saveUser(response.data.resource);
-        }
         setToastData([
           { type: 'success', msg: ' Your profile was updated successfully' }
         ]);
@@ -111,7 +86,6 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
       setToastOpen(false);
     }, 8000);
   }, [toastOpen]);
-  console.log(user);
 
   return (
     <ModalBasic
@@ -124,21 +98,13 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
       <div className='px-5 py-4'>
         <Formik
           initialValues={{
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            invoice_email: user.email,
-            postcode: user.postcode,
-            line_1: user.line_1,
-            line_2: user.line_2,
-            city: user.city,
-            county: user.county,
-            country: user.country,
-            phone: user.phone,
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
             password: '',
             password_confirmation: '',
-            landline: user.landline,
-            photo: user.photo
+            photo: ''
           }}
           onSubmit={(values) => {
             handleSubmit(values);
@@ -261,11 +227,7 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
                     >
                       Email
                     </label>
-                    <Field
-                      disabled
-                      name='email'
-                      className='form-input w-full'
-                    />
+                    <Field name='email' className='form-input w-full' />
                   </div>
                   <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
                     <label

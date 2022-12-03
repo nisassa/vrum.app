@@ -7,6 +7,7 @@ import SearchForm from '../../partials/actions/SearchForm';
 import UsersTabsCard from '../../partials/staff/UsersTabsCard';
 import PaginationNumeric from '../../../../components/PaginationNumeric';
 import AddNewMemberModal from '../../manageTeam/addNewMemeberModal';
+import { useGetAllMembers } from '../../../../hooks/useProvider';
 
 function MyTeamPanel() {
   const [apiErrors, setApiErrors] = useState({});
@@ -15,116 +16,9 @@ function MyTeamPanel() {
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
 
-  const items = [
-    {
-      id: 0,
-      name: 'Dominik McNeail',
-      image: Image,
-      link: '#0',
-      location: '🇮🇹',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 1,
-      name: 'Ivan Mesaros',
-      image: Image,
-      link: '#0',
-      location: '🇫🇷',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 2,
-      name: 'Tisha Yanchev',
-      image: Image,
-      link: '#0',
-      location: '🇩🇪',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 3,
-      name: 'Sergio Gonnelli',
-      image: Image,
-      link: '#0',
-      location: '🇮🇹',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 4,
-      name: 'Jerzy Wierzy',
-      image: Image,
-      link: '#0',
-      location: '🇪🇸',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 5,
-      name: 'Mirko Grubisic',
-      image: Image,
-      link: '#0',
-      location: '🇩🇪',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 6,
-      name: 'Alisha Acharya',
-      image: Image,
-      link: '#0',
-      location: '🇬🇧',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 7,
-      name: 'Brian Halligan',
-      image: Image,
-      link: '#0',
-      location: '🇺🇸',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 8,
-      name: 'Patricia Semklo',
-      image: Image,
-      link: '#0',
-      location: '🇮🇳',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 9,
-      name: 'Maria Martinez',
-      image: Image,
-      link: '#0',
-      location: '🇮🇹',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 10,
-      name: 'Vedad Siljak',
-      image: Image,
-      link: '#0',
-      location: '🇨🇦',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    },
-    {
-      id: 11,
-      name: 'Dominik Lamakani',
-      image: Image,
-      link: '#0',
-      location: '🇧🇪',
-      content:
-        'Fitness Fanatic, Design Enthusiast, Mentor, Meetup Organizer & PHP Lover.'
-    }
-  ];
+  const { data: items, isLoading } = useGetAllMembers();
+
+  console.log(items);
 
   useEffect(() => {
     const hideToast = setTimeout(() => {
@@ -170,19 +64,20 @@ function MyTeamPanel() {
 
             {/* Cards */}
             <div className='grid grid-cols-12 gap-6'>
-              {items.map((item) => {
-                return (
-                  <UsersTabsCard
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    image={item.image}
-                    link={item.link}
-                    location={item.location}
-                    content={item.content}
-                  />
-                );
-              })}
+              {items !== undefined &&
+                items.data.map((item) => {
+                  return (
+                    <UsersTabsCard
+                      key={item.id}
+                      id={item.id}
+                      name={`${item.first_name} ${item.last_name}`}
+                      image={item.photo}
+                      link={item.link}
+                      location={item.location}
+                      content={item.content}
+                    />
+                  );
+                })}
             </div>
 
             {/* Pagination */}

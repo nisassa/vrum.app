@@ -28,6 +28,8 @@ function BusinessSettingsPanel() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
   const handleSubmit = async (values) => {
     setApiErrors({});
     await UpdateProvider({

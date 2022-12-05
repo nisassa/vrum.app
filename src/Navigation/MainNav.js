@@ -47,7 +47,6 @@ export default function MainNav() {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
-  console.log(isAuthenticated);
   if (isAuthenticated && isServiceProvider) return;
 
   return (

@@ -7,6 +7,7 @@ import SearchForm from '../../partials/actions/SearchForm';
 import UsersTabsCard from '../../partials/staff/UsersTabsCard';
 import PaginationNumeric from '../../../../components/PaginationNumeric';
 import AddNewMemberModal from '../../manageTeam/addNewMemeberModal';
+import settings from '../../../../config/settings';
 import { useGetAllMembers } from '../../../../hooks/useProvider';
 
 function MyTeamPanel() {
@@ -18,14 +19,16 @@ function MyTeamPanel() {
 
   const { data: items, isLoading } = useGetAllMembers();
 
-  console.log(items);
-
   useEffect(() => {
+    const myItem = items?.data.find((item: any) => {
+      return item.id === Number(7);
+    });
+
     const hideToast = setTimeout(() => {
       setToastOpen(false);
+      console.log(myItem);
     }, 8000);
   }, [toastOpen]);
-
   return (
     <div className='grow'>
       {toastOpen}
@@ -66,12 +69,16 @@ function MyTeamPanel() {
             <div className='grid grid-cols-12 gap-6'>
               {items !== undefined &&
                 items.data.map((item) => {
+                  const imgPath =
+                    item.photo !== null
+                      ? `${settings.storageUrl}${item.photo}`
+                      : Image;
                   return (
                     <UsersTabsCard
                       key={item.id}
                       id={item.id}
                       name={`${item.first_name} ${item.last_name}`}
-                      image={item.photo}
+                      image={imgPath}
                       link={item.link}
                       location={item.location}
                       content={item.content}

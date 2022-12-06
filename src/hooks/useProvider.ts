@@ -114,11 +114,40 @@ const useGetAllMembers = () => {
     { keepPreviousData: false, enabled: true }
   );
 };
+
+const useGetMemberById = (id: number) => {
+  return useQuery<AxiosResponse<unknown>, any>(`id`, async () => {
+    return await CallApi<any>({
+      url: endpoints.providers.member(id),
+      method: 'GET',
+      isProtected: true
+    })
+      .then(({ data }) => data.resource)
+      .catch((err) => err);
+  });
+};
+
+// const useGetMemberById = (id: number) => {
+//   return useQuery<AxiosResponse<unknown>, any>(
+//     ['id', id],
+//     () => {
+//       return CallApi<[]>({
+//         url: endpoints.providers.member(id),
+//         method: 'GET',
+//         isProtected: true
+//       })
+//         .then(({ data }) => data.resource)
+//         .catch((err) => err);
+//     },
+//     { keepPreviousData: false, enabled: true }
+//   );
+// };
 export {
   useRegister,
   useUpdateProviderProfile,
   useProviderImages,
   useDeletePhoto,
   useRegisterNewMember,
-  useGetAllMembers
+  useGetAllMembers,
+  useGetMemberById
 };

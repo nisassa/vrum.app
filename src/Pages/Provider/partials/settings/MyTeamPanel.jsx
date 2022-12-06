@@ -18,15 +18,15 @@ function MyTeamPanel() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
 
   const { data: items, isLoading } = useGetAllMembers();
+  // console.log(items);
 
   useEffect(() => {
-    const myItem = items?.data.find((item: any) => {
-      return item.id === Number(7);
-    });
+    //   const myItem = items?.data.find((item: any) => {
+    //     return item.id === Number(7);
+    //   });
 
     const hideToast = setTimeout(() => {
       setToastOpen(false);
-      console.log(myItem);
     }, 8000);
   }, [toastOpen]);
   return (

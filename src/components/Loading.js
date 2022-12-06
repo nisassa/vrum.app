@@ -1,6 +1,8 @@
-function Loading() {
+function Loading(props) {
   return (
-    <div className='text-center h-screen flex flex-col justify-center items-center'>
+    <div
+      className={`w-full text-center flex flex-col justify-center items-center ${props.style}`}
+    >
       <div role='status'>
         <svg
           className='inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600'

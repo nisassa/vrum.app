@@ -20,6 +20,7 @@ import {
   Link,
   useParams
 } from 'react-router-dom';
+import Loading from '../../../components/Loading';
 
 function MemberSinglePage({ props }) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
@@ -29,21 +30,15 @@ function MemberSinglePage({ props }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
-
-  const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
   const params = useParams();
-  console.log(params.id);
-  const { data: user_data } = useGetMemberById(params.id);
-  let users = [];
+  const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
 
-  const { mutateAsync: upload, isUploading } = usePhotoUpload();
+  const { data: user_data } = useGetMemberById(params.id);
 
   const handleSubmit = async (values) => {
     setApiErrors({});
 
-    const photo =
-      newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await addMember({ ...values, photo })
+    await addMember({ ...values })
       .then((response) => {
         setToastData([
           { type: 'success', msg: ' Your profile was updated successfully' }
@@ -72,33 +67,15 @@ function MemberSinglePage({ props }) {
         }
       });
   };
-  const onUploadImage = async (photo) => {
-    if (photo) {
-      let fd = new FormData();
-      fd.append('entity', 'user');
-      fd.append('photo', photo);
-      upload(fd)
-        .then((response) => {
-          if (response?.data?.document !== undefined) {
-            setNewPhoto(response?.data?.document);
-          }
-          if (Array.isArray(response?.data?.message?.photo)) {
-            console.log(response?.data?.message?.photo[0]);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setToastData([{ type: 'error', msg: ' An error occurred!' }]);
-          setToastOpen(true);
-        });
-    }
-  };
 
   useEffect(() => {
     const hideToast = setTimeout(() => {
       setToastOpen(false);
     }, 8000);
   }, [toastOpen]);
+  if (user_data === undefined) {
+    return <Loading style='h-[calc(100vh_-_200px)]' />;
+  }
 
   return (
     <div className='px-5 py-4'>
@@ -109,38 +86,13 @@ function MemberSinglePage({ props }) {
           email: user_data?.email,
           phone: user_data?.phone,
           password: '',
-          password_confirmation: '',
-          photo: user_data?.photo
+          password_confirmation: ''
         }}
         onSubmit={(values) => {
           handleSubmit(values);
         }}
       >
         <Form>
-          <section>
-            <div className='flex user_datas-center justify-between'>
-              <div className='mr-4 sm:w-1/3'>
-                <img
-                  src={
-                    newPhoto && newPhoto.hasOwnProperty('path')
-                      ? `${settings.storageUrl}${newPhoto.path}`
-                      : user.photo
-                      ? `${settings.storageUrl}${user.photo}`
-                      : Image
-                  }
-                  width='120'
-                  height='120'
-                  alt='User upload'
-                />
-              </div>
-              <Dropzone
-                multiple={false}
-                maxSize={parseInt(settings.photoMaxSize, 500)}
-                onDrop={onUploadImage}
-                onRemove={setNewPhoto}
-              />
-            </div>
-          </section>
           <section>
             <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
               <div className=''>

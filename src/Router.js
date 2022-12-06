@@ -107,7 +107,7 @@ export const Router = () => {
         }
       />
       <Route
-        path='/member/:id'
+        path='staff/user/:id'
         element={
           <PrivateRoute mustBeProvider={true}>
             <MemberPage />

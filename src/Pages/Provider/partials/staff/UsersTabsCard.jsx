@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import EditMenu from '../../../../components/DropdownEditMenu';
-
+import { useDeleteStaffUser } from '../../../../hooks/useProvider';
 function UsersTabsCard(props) {
+  const {
+    mutate: deleteUser,
+    isLoading: isDeleting,
+    refetch
+  } = useDeleteStaffUser(props.id);
+
   return (
     <div className='col-span-full sm:col-span-6 xl:col-span-3 bg-white shadow-lg rounded-sm border border-slate-200'>
       <div className='flex flex-col h-full'>
@@ -17,23 +23,23 @@ function UsersTabsCard(props) {
               <li>
                 <Link
                   className='font-medium text-sm text-slate-600 hover:text-slate-800 flex py-1 px-3'
-                  to='#0'
+                  to={`/staff/user/${props.id}`}
                 >
-                  Option 1
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className='font-medium text-sm text-slate-600 hover:text-slate-800 flex py-1 px-3'
-                  to='#0'
-                >
-                  Option 2
+                  Edit
                 </Link>
               </li>
               <li>
                 <Link
                   className='font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3'
-                  to='#0'
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        'Are you sure that you want to delete your account?'
+                      )
+                    ) {
+                      refetch();
+                    }
+                  }}
                 >
                   Remove
                 </Link>

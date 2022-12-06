@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import Toast2 from '../../../../components/Toast2';
 import Image from '../../../../images/user-avatar-80.png';
-
+import Loading from '../../../../components/Loading';
 import SearchForm from '../../partials/actions/SearchForm';
 import UsersTabsCard from '../../partials/staff/UsersTabsCard';
 import PaginationNumeric from '../../../../components/PaginationNumeric';
@@ -67,6 +67,7 @@ function MyTeamPanel() {
 
             {/* Cards */}
             <div className='grid grid-cols-12 gap-6'>
+              {items === undefined ? <Loading /> : ''}
               {items !== undefined &&
                 items.data.map((item) => {
                   const imgPath =

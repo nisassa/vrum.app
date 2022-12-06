@@ -86,7 +86,9 @@ function UsersTabsCard(props) {
           </header>
           {/* Bio */}
           <div className='text-center mt-2'>
-            <div className='text-sm'>{props.content}</div>
+            <div className='text-sm'>
+              {props.manager === 1 ? 'Admin' : props.job_title}
+            </div>
           </div>
         </div>
         {/* Card footer */}

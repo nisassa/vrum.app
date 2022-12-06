@@ -80,9 +80,8 @@ function MyTeamPanel() {
                       id={item.id}
                       name={`${item.first_name} ${item.last_name}`}
                       image={imgPath}
-                      link={item.link}
-                      location={item.location}
-                      content={item.content}
+                      job_title={item.job_title}
+                      manager={item.manager}
                     />
                   );
                 })}
@@ -96,6 +95,10 @@ function MyTeamPanel() {
             <AddNewMemberModal
               feedbackModalOpen={feedbackModalOpen}
               setFeedbackModalOpen={setFeedbackModalOpen}
+              toastOpen={toastOpen}
+              setToastOpen={setToastOpen}
+              toastType={toastType}
+              setToastData={setToastData}
             />
           </div>
         </main>

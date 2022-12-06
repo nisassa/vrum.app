@@ -34,7 +34,7 @@ function MemberSinglePage({ props }) {
   const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
 
   const { data: user_data } = useGetMemberById(params.id);
-
+  console.log(user_data);
   const handleSubmit = async (values) => {
     setApiErrors({});
 

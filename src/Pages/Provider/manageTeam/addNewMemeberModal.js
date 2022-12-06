@@ -11,14 +11,19 @@ import settings from '../../../config/settings';
 import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
 
-function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
+function AddNewMemberModal({
+  feedbackModalOpen,
+  setFeedbackModalOpen,
+  toastOpen,
+  setToastOpen,
+  toastType,
+  setToastData
+}) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
   const [newPhoto, setNewPhoto] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 
   const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
 
@@ -32,7 +37,7 @@ function AddNewMemberModal({ feedbackModalOpen, setFeedbackModalOpen }) {
     await addMember({ ...values, photo })
       .then((response) => {
         setToastData([
-          { type: 'success', msg: ' Your profile was updated successfully' }
+          { type: 'success', msg: ' New use was added successfully' }
         ]);
         setToastOpen(true);
         setFeedbackModalOpen(false);

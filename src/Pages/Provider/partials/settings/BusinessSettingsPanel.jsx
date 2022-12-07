@@ -25,6 +25,7 @@ function BusinessSettingsPanel() {
 
   const [bookBy, setBookBy] = useState([]);
   const [autoAlloc, setAutoAlloc] = useState([]);
+  const [businessDays, setBusinessDays] = useState([]);
   const [showServicePrices, setShowServicePrices] = useState([]);
 
   const [toastOpen, setToastOpen] = useState(false);
@@ -36,7 +37,8 @@ function BusinessSettingsPanel() {
       ...values,
       booking_by_specialist: bookBy,
       booking_auto_allocation: autoAlloc,
-      show_service_prices_to_client: showServicePrices
+      show_service_prices_to_client: showServicePrices,
+      business_days: businessDays,
     })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
@@ -135,6 +137,7 @@ function BusinessSettingsPanel() {
       {toastOpen}
       <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
         {toastType[0].msg}
+
       </Toast2>
       {/* Panel body */}
       <div className='p-6 space-y-6'>
@@ -196,7 +199,7 @@ function BusinessSettingsPanel() {
                       className='form-input w-full'
                     />
                   </div>
-                  <BusinessHours workingDays={user.provider.working_days}/>
+                  <BusinessHours workingDays={user.provider.working_days} setWorkingDays={setBusinessDays}/>
                 </div>
                 <div className='sm:w-1/3 contact-details px-3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>

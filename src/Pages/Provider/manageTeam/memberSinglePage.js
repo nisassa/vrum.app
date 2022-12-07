@@ -84,9 +84,7 @@ function MemberSinglePage({ props }) {
           first_name: user_data?.first_name,
           last_name: user_data?.last_name,
           email: user_data?.email,
-          phone: user_data?.phone,
-          password: '',
-          password_confirmation: ''
+          phone: user_data?.phone
         }}
         onSubmit={(values) => {
           handleSubmit(values);
@@ -211,63 +209,6 @@ function MemberSinglePage({ props }) {
                     typeof apiErrors.phone[0] !== 'undefined' && (
                       <p className='text-red-500 text-12'>
                         {apiErrors.phone[0]}
-                      </p>
-                    )}
-                </div>
-                <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                  <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    htmlFor='grid-password'
-                  >
-                    Password
-                  </label>
-                  <Field
-                    name='password'
-                    className={`form-input w-full ${
-                      apiErrors &&
-                      apiErrors.hasOwnProperty('password') &&
-                      typeof apiErrors.password[0] !== 'undefined'
-                        ? `border-red-500`
-                        : `border-gray-300`
-                    }`}
-                    id='password'
-                    type='password'
-                    placeholder='***'
-                  />
-                  {apiErrors &&
-                    apiErrors.hasOwnProperty('password') &&
-                    typeof apiErrors.password[0] !== 'undefined' && (
-                      <p className='text-red-500 text-12'>
-                        {apiErrors.password[0]}
-                      </p>
-                    )}
-                </div>
-                <div className='flex flex-wrap -mx-3 mb-6 px-3 password'>
-                  <label
-                    className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                    htmlFor='grid-password'
-                  >
-                    Confirm Password
-                  </label>
-                  <Field
-                    name='password_confirmation'
-                    className={`form-input w-full ${
-                      apiErrors &&
-                      apiErrors.hasOwnProperty('password_confirmation') &&
-                      typeof apiErrors.password_confirmation[0] !== 'undefined'
-                        ? `border-red-500`
-                        : `border-gray-300`
-                    }`}
-                    id='repeat_password'
-                    type='password'
-                    placeholder='***'
-                  />
-                  {apiErrors &&
-                    apiErrors.hasOwnProperty('password_confirmation') &&
-                    typeof apiErrors.password_confirmation[0] !==
-                      'undefined' && (
-                      <p className='text-red-500 text-12'>
-                        {apiErrors.password_confirmation[0]}
                       </p>
                     )}
                 </div>

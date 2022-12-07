@@ -21,13 +21,9 @@ function BusinessSettingsPanel() {
   const { mutateAsync: deletePhoto, isLoading: isDeleting } = useDeletePhoto();
   const { mutateAsync: upload, isLoading: isUploading } = usePhotoUpload();
 
-  const [bookBy, setBookBy] = useState(user.provider.booking_by_specialist);
-  const [autoAlloc, setAutoAlloc] = useState(
-    user.provider.booking_auto_allocation
-  );
-  const [showServicePrices, setShowServicePrices] = useState(
-    user.provider.show_service_prices_to_client
-  );
+  const [bookBy, setBookBy] = useState([]);
+  const [autoAlloc, setAutoAlloc] = useState([]);
+  const [showServicePrices, setShowServicePrices] = useState([]);
 
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
@@ -125,9 +121,12 @@ function BusinessSettingsPanel() {
 
   useEffect(() => {
     const hideToast = setTimeout(() => {
+      setBookBy(user.provider.booking_by_specialist);
+      setAutoAlloc(user.provider.booking_auto_allocation);
+      setShowServicePrices(user.provider.show_service_prices_to_client);
       setToastOpen(false);
     }, 8000);
-  }, [toastOpen]);
+  }, [toastOpen, setShowServicePrices]);
 
   return (
     <div className='grow'>

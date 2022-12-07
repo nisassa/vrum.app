@@ -106,6 +106,7 @@ function AddNewMemberModal({
             first_name: '',
             last_name: '',
             email: '',
+            job_title: '',
             phone: '',
             password: '',
             password_confirmation: '',

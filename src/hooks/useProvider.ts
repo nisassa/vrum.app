@@ -128,10 +128,29 @@ const useGetMemberById = (id: number) => {
   });
 };
 
+const useUpdateStaffUser = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    ['updateStaffUser', id],
+    (body) =>
+      CallApi({
+        url: endpoints.providers.member(id),
+        method: 'POST',
+        data: body,
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(PROVIDERS_KEY);
+      }
+    }
+  );
+};
+
 const useDeleteStaffUser = (id: number) => {
   const queryClient = useQueryClient();
   return useQuery<AxiosResponse<unknown>, any>(
-    ['getStaffById', id],
+    ['deleteStaffUser', id],
     () => {
       return CallApi<[]>({
         url: endpoints.providers.member(id),
@@ -168,5 +187,6 @@ export {
   useRegisterNewMember,
   useGetAllMembers,
   useGetMemberById,
+  useUpdateStaffUser,
   useDeleteStaffUser
 };

@@ -5,7 +5,7 @@ import LoadingSvg from '../../../components/LoadingSvg';
 import Image from '../../../images/user-avatar-80.png';
 import { Formik, Field, Form } from 'formik';
 import {
-  useRegisterNewMember,
+  useUpdateStaffUser,
   useGetMemberById
 } from '../../../hooks/useProvider';
 
@@ -30,15 +30,16 @@ function MemberSinglePage({ props }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
-  const params = useParams();
-  const { mutateAsync: addMember, isLoading } = useRegisterNewMember();
 
-  const { data: user_data } = useGetMemberById(params.id);
-  console.log(user_data);
+  const { id } = useParams();
+
+  const { data: user_data } = useGetMemberById(id);
+  const { mutateAsync: updateUser, isLoading } = useUpdateStaffUser(id);
+
   const handleSubmit = async (values) => {
     setApiErrors({});
 
-    await addMember({ ...values })
+    await updateUser({ ...values })
       .then((response) => {
         setToastData([
           { type: 'success', msg: ' Your profile was updated successfully' }
@@ -73,6 +74,7 @@ function MemberSinglePage({ props }) {
       setToastOpen(false);
     }, 8000);
   }, [toastOpen]);
+
   if (user_data === undefined) {
     return <Loading style='h-[calc(100vh_-_200px)]' />;
   }
@@ -84,7 +86,8 @@ function MemberSinglePage({ props }) {
           first_name: user_data?.first_name,
           last_name: user_data?.last_name,
           email: user_data?.email,
-          phone: user_data?.phone
+          phone: user_data?.phone,
+          job_title: user_data?.job_title
         }}
         onSubmit={(values) => {
           handleSubmit(values);

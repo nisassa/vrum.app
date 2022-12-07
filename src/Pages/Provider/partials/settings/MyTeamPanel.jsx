@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoadingSvg from '../../../../components/LoadingSvg';
 import Toast2 from '../../../../components/Toast2';
 import Image from '../../../../images/user-avatar-80.png';
-
+import Loading from '../../../../components/Loading';
 import SearchForm from '../../partials/actions/SearchForm';
 import UsersTabsCard from '../../partials/staff/UsersTabsCard';
 import PaginationNumeric from '../../../../components/PaginationNumeric';
@@ -18,15 +18,15 @@ function MyTeamPanel() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
 
   const { data: items, isLoading } = useGetAllMembers();
+  // console.log(items);
 
   useEffect(() => {
-    const myItem = items?.data.find((item: any) => {
-      return item.id === Number(7);
-    });
+    //   const myItem = items?.data.find((item: any) => {
+    //     return item.id === Number(7);
+    //   });
 
     const hideToast = setTimeout(() => {
       setToastOpen(false);
-      console.log(myItem);
     }, 8000);
   }, [toastOpen]);
   return (
@@ -67,6 +67,7 @@ function MyTeamPanel() {
 
             {/* Cards */}
             <div className='grid grid-cols-12 gap-6'>
+              {items === undefined ? <Loading /> : ''}
               {items !== undefined &&
                 items.data.map((item) => {
                   const imgPath =
@@ -79,9 +80,8 @@ function MyTeamPanel() {
                       id={item.id}
                       name={`${item.first_name} ${item.last_name}`}
                       image={imgPath}
-                      link={item.link}
-                      location={item.location}
-                      content={item.content}
+                      job_title={item.job_title}
+                      manager={item.manager}
                     />
                   );
                 })}
@@ -95,6 +95,10 @@ function MyTeamPanel() {
             <AddNewMemberModal
               feedbackModalOpen={feedbackModalOpen}
               setFeedbackModalOpen={setFeedbackModalOpen}
+              toastOpen={toastOpen}
+              setToastOpen={setToastOpen}
+              toastType={toastType}
+              setToastData={setToastData}
             />
           </div>
         </main>

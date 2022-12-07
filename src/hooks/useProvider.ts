@@ -94,7 +94,7 @@ const useRegisterNewMember = () => {
       }),
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(PROVIDERS_KEY);
+        return queryClient.invalidateQueries('getProviderStaff');
       }
     }
   );
@@ -111,14 +111,82 @@ const useGetAllMembers = () => {
       });
       return response.data.users;
     },
+
     { keepPreviousData: false, enabled: true }
   );
 };
+
+const useGetMemberById = (id: number) => {
+  return useQuery<AxiosResponse<unknown>, any>(`getStaffById`, async () => {
+    return await CallApi<any>({
+      url: endpoints.providers.member(id),
+      method: 'GET',
+      isProtected: true
+    })
+      .then(({ data }) => data.resource)
+      .catch((err) => err);
+  });
+};
+
+const useUpdateStaffUser = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    ['updateStaffUser', id],
+    (body) =>
+      CallApi({
+        url: endpoints.providers.member(id),
+        method: 'POST',
+        data: body,
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(PROVIDERS_KEY);
+      }
+    }
+  );
+};
+
+const useDeleteStaffUser = (id: number) => {
+  const queryClient = useQueryClient();
+  return useQuery<AxiosResponse<unknown>, any>(
+    ['deleteStaffUser', id],
+    () => {
+      return CallApi<[]>({
+        url: endpoints.providers.member(id),
+        method: 'DELETE',
+        isProtected: true
+      })
+        .then(({ data }) => queryClient.invalidateQueries('getProviderStaff'))
+        .catch((err) => err);
+    },
+    { keepPreviousData: false, enabled: false }
+  );
+};
+
+// const useGetMemberById = (id: number) => {
+//   return useQuery<AxiosResponse<unknown>, any>(
+//     ['getStaffById', id],
+//     () => {
+//       return CallApi<[]>({
+//         url: endpoints.providers.member(id),
+//         method: 'GET',
+//         isProtected: true
+//       })
+//         .then(({ data }) => data.resource)
+//         .catch((err) => err);
+//     },
+//     { keepPreviousData: false, enabled: true }
+//   );
+// };
 export {
   useRegister,
   useUpdateProviderProfile,
   useProviderImages,
   useDeletePhoto,
   useRegisterNewMember,
-  useGetAllMembers
+  useGetAllMembers,
+  useGetMemberById,
+  useUpdateStaffUser,
+  useDeleteStaffUser
 };

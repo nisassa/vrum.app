@@ -261,7 +261,7 @@ export default function MainNav() {
           )}
         </Transition>
       </nav>
-      {isLoading && <Loading />}
+      {isLoading && <Loading style='h-screen' />}
     </>
   );
 }

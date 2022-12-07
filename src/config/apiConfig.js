@@ -18,7 +18,8 @@ export const endpoints = {
     getImages: () => `${settings.apiUrl}/api/provider/photo-gallery`,
     deleteImages: (id) => `${settings.apiUrl}/api/provider/photo-gallery/${id}`,
     staff: () => `${settings.apiUrl}/api/provider/staff`,
-    paginate: () => `${settings.apiUrl}/api/provider/staff/paginate/`
+    paginate: () => `${settings.apiUrl}/api/provider/staff/paginate/`,
+    member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`
   },
 
   files: {

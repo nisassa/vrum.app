@@ -11,6 +11,8 @@ import LoadingSvg from '../../../../components/LoadingSvg';
 import settings from '../../../../config/settings';
 import Dropzone from '../../../../components/Dropzone';
 import Toast2 from '../../../../components/Toast2';
+import BusinessHours from  './BusinessHours'
+
 function BusinessSettingsPanel() {
   const [apiErrors, setApiErrors] = useState({});
   const { user, saveUser } = useProfile();
@@ -31,8 +33,6 @@ function BusinessSettingsPanel() {
 
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
-
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const handleSubmit = async (values) => {
     setApiErrors({});
@@ -197,6 +197,7 @@ function BusinessSettingsPanel() {
                       className='form-input w-full'
                     />
                   </div>
+                  <BusinessHours workingDays={user.provider.working_days}/>
                 </div>
                 <div className='sm:w-1/3 contact-details px-3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>

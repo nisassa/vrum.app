@@ -1,3 +1,5 @@
+import {WorkingDayType} from "./workingDays.interface";
+
 export interface ProviderType {
   id: number;
   name: string;
@@ -8,6 +10,7 @@ export interface ProviderType {
   booking_by_specialist: number;
   booking_approved_by_provider: number;
   show_service_prices_to_client: number;
+  working_days: WorkingDayType | null;
   discard: number;
   line_1: string;
   line_2: string;

@@ -1,4 +1,5 @@
 import { ProviderType } from './provider.interface';
+import { WorkingDayType } from './workingDays.interface';
 
 export interface ProviderStaffType {
   id: number;
@@ -7,6 +8,7 @@ export interface ProviderStaffType {
   email: string;
   phone: string;
   provider: ProviderType | null;
+  working_days: WorkingDayType | null;
   job_title: string;
   photo: string;
   vip: number;

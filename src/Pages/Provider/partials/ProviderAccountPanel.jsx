@@ -14,6 +14,7 @@ import settings from '../../../config/settings';
 import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
 import { useNavigate } from 'react-router-dom';
+import BusinessHours from  './settings/BusinessHours'
 
 function ProviderAccountPanel() {
   const { saveUser, restoreUserAndToken } = useProfile();
@@ -23,6 +24,7 @@ function ProviderAccountPanel() {
   const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
+  const [businessDays, setBusinessDays] = useState([]);
 
   const { user } = useProfile();
   const { mutateAsync: updateClient, isLoading } = useUpdateClientProfile();
@@ -51,7 +53,11 @@ function ProviderAccountPanel() {
 
     const photo =
       newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await updateClient({ ...values, photo })
+    await updateClient({
+      ...values,
+      photo,
+      business_days: businessDays
+    })
       .then((response) => {
         if (response?.data?.resource !== undefined) {
           saveUser(response.data.resource);
@@ -83,6 +89,7 @@ function ProviderAccountPanel() {
         }
       });
   };
+
   const onUploadImage = async (photo) => {
     if (photo) {
       let fd = new FormData();
@@ -98,7 +105,6 @@ function ProviderAccountPanel() {
           }
         })
         .catch((e) => {
-          console.log(e);
           setToastData([{ type: 'error', msg: ' An error occurred!' }]);
           setToastOpen(true);
         });
@@ -273,6 +279,9 @@ function ProviderAccountPanel() {
                           </p>
                         )}
                     </div>
+
+                    <BusinessHours workingDays={user.working_days} setWorkingDays={setBusinessDays}/>
+                    
                   </div>
                 </div>
                 <div className='sm:w-1/3 contact-details px-3'>

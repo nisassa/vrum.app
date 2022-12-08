@@ -21,6 +21,7 @@ import {
   useParams
 } from 'react-router-dom';
 import Loading from '../../../components/Loading';
+import BusinessHours from  '../partials/settings/BusinessHours'
 
 function MemberSinglePage({ props }) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
@@ -30,6 +31,7 @@ function MemberSinglePage({ props }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
+  const [businessDays, setBusinessDays] = useState([]);
 
   const { id } = useParams();
 
@@ -39,7 +41,10 @@ function MemberSinglePage({ props }) {
   const handleSubmit = async (values) => {
     setApiErrors({});
 
-    await updateUser({ ...values })
+    await updateUser({
+      ...values,
+      business_days: businessDays
+    })
       .then((response) => {
         setToastData([
           { type: 'success', msg: ' Your profile was updated successfully' }
@@ -214,6 +219,10 @@ function MemberSinglePage({ props }) {
                         {apiErrors.phone[0]}
                       </p>
                     )}
+                </div>
+
+                <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                  <BusinessHours workingDays={user_data.working_days} setWorkingDays={setBusinessDays}/>
                 </div>
               </div>
             </div>

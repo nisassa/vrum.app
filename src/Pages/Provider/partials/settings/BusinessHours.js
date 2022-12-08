@@ -7,7 +7,9 @@ function BusinessHours(props) {
 
     useEffect(() => {
         setBusinessDays(workingDays)
-    }, [setBusinessDays]);
+        props.setWorkingDays(workingDays)
+    }, [workingDays]);
+
 
     const changeTime = (newTime, id, type) => {
         const newBusinessDays = businessDays.map((item) => {
@@ -21,6 +23,8 @@ function BusinessHours(props) {
             }
         })
         setBusinessDays(newBusinessDays);
+
+        props.setWorkingDays(newBusinessDays)
     }
 
     const changeIsActive = (evt, id) => {
@@ -34,7 +38,10 @@ function BusinessHours(props) {
                 return item
             }
         })
+
         setBusinessDays(newBusinessDays);
+
+        props.setWorkingDays(newBusinessDays)
     }
 
     return (

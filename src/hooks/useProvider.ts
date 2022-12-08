@@ -100,12 +100,13 @@ const useRegisterNewMember = () => {
   );
 };
 
-const useGetAllMembers = () => {
+const useGetAllMembers = (searchTerm: any, page: any) => {
   return useQuery<any>(
     [`getProviderStaff`],
     async () => {
       const response = await CallApi<[]>({
-        url: endpoints.providers.paginate(),
+        url:
+          endpoints.providers.paginate() + '?q=' + searchTerm + '&page=' + page,
         method: 'GET',
         isProtected: true
       });

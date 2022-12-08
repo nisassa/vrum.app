@@ -90,14 +90,24 @@ export const Router = () => {
           </PrivateRoute>
         }
       />
-      <Route
-        path='my-team'
-        element={
-          <PrivateRoute mustBeProvider={true}>
-            <MyTeam />
-          </PrivateRoute>
-        }
-      />
+      <Route path='/my-team/'>
+        <Route
+          index
+          element={
+            <PrivateRoute mustBeProvider={true}>
+              <MyTeam />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/my-team/:page'
+          element={
+            <PrivateRoute mustBeProvider={true}>
+              <MyTeam />
+            </PrivateRoute>
+          }
+        />
+      </Route>
       <Route
         path='/bookings'
         element={

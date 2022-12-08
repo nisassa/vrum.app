@@ -9,6 +9,13 @@ import PaginationNumeric from '../../../../components/PaginationNumeric';
 import AddNewMemberModal from '../../manageTeam/addNewMemeberModal';
 import settings from '../../../../config/settings';
 import { useGetAllMembers } from '../../../../hooks/useProvider';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from 'react-router-dom';
 
 function MyTeamPanel() {
   const [apiErrors, setApiErrors] = useState({});
@@ -16,9 +23,22 @@ function MyTeamPanel() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const { page } = useParams();
 
-  const { data: items, isLoading } = useGetAllMembers();
-  // console.log(items);
+  const [pageNumb, setPageNumb] = useState('');
+  const {
+    data: items,
+    isLoading,
+    refetch
+  } = useGetAllMembers(searchTerm, pageNumb);
+  console.log(pageNumb);
+  useEffect(() => {
+    setSearchTerm(inputValue);
+
+    refetch();
+  }, [inputValue, refetch]);
 
   useEffect(() => {
     //   const myItem = items?.data.find((item: any) => {
@@ -44,7 +64,10 @@ function MyTeamPanel() {
               {/* Right: Actions */}
               <div className='grid grid-flow-col sm:auto-cols-max justify-end sm:justify-end gap-2'>
                 {/* Search form */}
-                <SearchForm />
+                <SearchForm
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                />
                 {/* Add member button */}
                 <button
                   id='add-new-member-modal'
@@ -89,7 +112,13 @@ function MyTeamPanel() {
 
             {/* Pagination */}
             <div className='mt-8'>
-              <PaginationNumeric />
+              <PaginationNumeric
+                totalPages={items?.last_page}
+                currentPage={items?.current_page}
+                links={items?.links}
+                setPageNumb={setPageNumb}
+                refetch={refetch}
+              />
             </div>
 
             <AddNewMemberModal

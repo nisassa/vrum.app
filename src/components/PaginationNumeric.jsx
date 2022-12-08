@@ -23,7 +23,7 @@ function PaginationNumeric({
           <Link
             className='mr-2'
             key={index + link.label}
-            to={`/my-team/${currentPage !== 0 ? '' : currentPage - 1}`}
+            to={`/my-team/${currentPage !== 0 ? currentPage : currentPage - 1}`}
             onClick={() => handlePageClick(currentPage - 1)}
           >
             <span
@@ -65,7 +65,7 @@ function PaginationNumeric({
           <li className='ml-2' key={index}>
             <Link
               to={`/my-team/${
-                currentPage === totalPages ? '' : currentPage + 1
+                currentPage === totalPages ? currentPage : currentPage + 1
               }`}
               onClick={() => handlePageClick(currentPage + 1)}
               className={`inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white border border-slate-200 ${

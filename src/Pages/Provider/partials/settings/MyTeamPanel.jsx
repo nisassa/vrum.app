@@ -117,6 +117,7 @@ function MyTeamPanel() {
                 totalPages={items?.last_page}
                 currentPage={items?.current_page}
                 links={items?.links}
+                pageNumb={pageNumb}
                 setPageNumb={setPageNumb}
                 refetch={refetch}
               />

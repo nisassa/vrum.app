@@ -6,11 +6,12 @@ function PaginationNumeric({
   currentPage,
   links,
   refetch,
+  pageNumb,
   setPageNumb,
   setPage
 }) {
-  const handlePageClick = () => {
-    setPageNumb(2);
+  const handlePageClick = (e) => {
+    if (e > 0 && e < totalPages + 1) setPageNumb(e);
   };
 
   const renderPageNumbers =
@@ -22,7 +23,8 @@ function PaginationNumeric({
           <Link
             className='mr-2'
             key={index + link.label}
-            to={index === 0 ? '' : currentPage - 1}
+            to={`/my-team/${currentPage !== 0 ? '' : currentPage - 1}`}
+            onClick={() => handlePageClick(currentPage - 1)}
           >
             <span
               className={`inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white border border-slate-200 ${
@@ -42,7 +44,10 @@ function PaginationNumeric({
       if (link.label > 0)
         return (
           <li key={index + link.label}>
-            <Link to={link.label} onClick={handlePageClick}>
+            <Link
+              to={`/my-team/${index}`}
+              onClick={() => handlePageClick(link.label)}
+            >
               <span
                 className={`inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white border border-slate-200 ${
                   currentPage === link.label
@@ -59,8 +64,15 @@ function PaginationNumeric({
         return (
           <li className='ml-2' key={index}>
             <Link
-              to={totalPages}
-              className='inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-indigo-500 border border-slate-200 text-slate-600 hover:text-white shadow-sm'
+              to={`/my-team/${
+                currentPage === totalPages ? '' : currentPage + 1
+              }`}
+              onClick={() => handlePageClick(currentPage + 1)}
+              className={`inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white border border-slate-200 ${
+                currentPage === totalPages
+                  ? 'text-slate-300'
+                  : 'hover:bg-indigo-500 border border-slate-200 text-slate-600 hover:text-white shadow-sm'
+              }`}
             >
               <span className='sr-only'>Next</span>
               <wbr />

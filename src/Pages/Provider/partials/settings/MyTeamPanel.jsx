@@ -27,18 +27,19 @@ function MyTeamPanel() {
   const [searchTerm, setSearchTerm] = useState('');
   const { page } = useParams();
 
-  const [pageNumb, setPageNumb] = useState('');
+  const [pageNumb, setPageNumb] = useState(page);
   const {
     data: items,
     isLoading,
     refetch
   } = useGetAllMembers(searchTerm, pageNumb);
   console.log(pageNumb);
+
   useEffect(() => {
     setSearchTerm(inputValue);
 
     refetch();
-  }, [inputValue, refetch]);
+  }, [inputValue, pageNumb, refetch]);
 
   useEffect(() => {
     //   const myItem = items?.data.find((item: any) => {

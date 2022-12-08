@@ -11,8 +11,6 @@ function PaginationNumeric({
 }) {
   const handlePageClick = () => {
     setPageNumb(2);
-    refetch();
-    console.log('Refetch');
   };
 
   const renderPageNumbers =

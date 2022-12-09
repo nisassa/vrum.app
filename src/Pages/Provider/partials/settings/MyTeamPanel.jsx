@@ -27,7 +27,7 @@ function MyTeamPanel() {
   const [searchTerm, setSearchTerm] = useState('');
   const { page } = useParams();
 
-  const [pageNumb, setPageNumb] = useState(page);
+  const [pageNumb, setPageNumb] = useState(page ? page : '1');
   const {
     data: items,
     isLoading,

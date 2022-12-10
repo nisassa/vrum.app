@@ -380,8 +380,8 @@ function RegisterProvider() {
                         </label>
                         <Field
                           className={`form-input w-full ${
-                            apiErrors.hasOwnProperty('state') &&
-                            typeof apiErrors.state[0] !== 'undefined'
+                            apiErrors.hasOwnProperty('postcode') &&
+                            typeof apiErrors.postcode[0] !== 'undefined'
                               ? `border-red-500`
                               : `border-gray-300`
                           }`}
@@ -390,10 +390,10 @@ function RegisterProvider() {
                           type='text'
                           placeholder='90210'
                         />
-                        {apiErrors.hasOwnProperty('state') &&
-                          typeof apiErrors.state[0] !== 'undefined' && (
+                        {apiErrors.hasOwnProperty('postcode') &&
+                          typeof apiErrors.postcode[0] !== 'undefined' && (
                             <p className='text-red-500 text-12'>
-                              {apiErrors.state[0]}
+                              {apiErrors.postcode[0]}
                             </p>
                           )}
                       </div>

@@ -3,7 +3,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 const key = "authToken";
 const userKey = "authUser";
 
-const storeToken = async (authToken) => {
+const storeToken = async (authToken: any) => {
     try {
         await secureLocalStorage.setItem(key, authToken);
     } catch (error) {
@@ -19,7 +19,7 @@ const getToken = async () => {
     }
 };
 
-const storeUser = async (user) => {
+const storeUser = async (user: any) => {
     try {
         await secureLocalStorage.setItem(userKey, user);
     } catch (error) {

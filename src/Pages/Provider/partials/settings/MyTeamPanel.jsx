@@ -18,8 +18,6 @@ import {
 } from 'react-router-dom';
 
 function MyTeamPanel() {
-  const [apiErrors, setApiErrors] = useState({});
-
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
@@ -42,10 +40,6 @@ function MyTeamPanel() {
   }, [inputValue, pageNumb, refetch]);
 
   useEffect(() => {
-    //   const myItem = items?.data.find((item: any) => {
-    //     return item.id === Number(7);
-    //   });
-
     const hideToast = setTimeout(() => {
       setToastOpen(false);
     }, 8000);
@@ -90,8 +84,15 @@ function MyTeamPanel() {
             </div>
 
             {/* Cards */}
-            <div className='grid grid-cols-12 gap-6'>
+            <div
+              className={
+                items === undefined
+                  ? 'flex justify-center h-100'
+                  : 'grid grid-cols-12 gap-6'
+              }
+            >
               {items === undefined ? <Loading /> : ''}
+
               {items !== undefined &&
                 items.data.map((item) => {
                   const imgPath =
@@ -119,6 +120,7 @@ function MyTeamPanel() {
                 links={items?.links}
                 pageNumb={pageNumb}
                 setPageNumb={setPageNumb}
+                isLoading={isLoading}
                 refetch={refetch}
               />
             </div>

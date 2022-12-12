@@ -21,7 +21,7 @@ import {
   useParams
 } from 'react-router-dom';
 import Loading from '../../../components/Loading';
-import BusinessHours from  '../partials/settings/BusinessHours'
+import BusinessHours from '../partials/settings/BusinessHours';
 
 function MemberSinglePage({ props }) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
@@ -47,12 +47,12 @@ function MemberSinglePage({ props }) {
     })
       .then((response) => {
         setToastData([
-          { type: 'success', msg: ' Your profile was updated successfully' }
+          { type: 'success', msg: 'User profile has been updated successfully' }
         ]);
         setToastOpen(true);
       })
       .catch((error) => {
-        setToastData([{ type: 'error', msg: ' An error occurred!' }]);
+        setToastData([{ type: 'error', msg: 'An error occurred!' }]);
         setToastOpen(true);
         if (
           error &&
@@ -86,6 +86,10 @@ function MemberSinglePage({ props }) {
 
   return (
     <div className='px-5 py-4'>
+      {toastOpen}
+      <Toast2 type={toastType[0].type} open={toastOpen} setOpen={setToastOpen}>
+        {toastType[0].msg}
+      </Toast2>
       <Formik
         initialValues={{
           first_name: user_data?.first_name,
@@ -222,7 +226,10 @@ function MemberSinglePage({ props }) {
                 </div>
 
                 <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
-                  <BusinessHours workingDays={user_data.working_days} setWorkingDays={setBusinessDays}/>
+                  <BusinessHours
+                    workingDays={user_data.working_days}
+                    setWorkingDays={setBusinessDays}
+                  />
                 </div>
               </div>
             </div>

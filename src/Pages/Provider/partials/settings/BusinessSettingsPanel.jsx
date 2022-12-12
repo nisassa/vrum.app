@@ -124,13 +124,20 @@ function BusinessSettingsPanel() {
     });
 
   useEffect(() => {
-    const hideToast = setTimeout(() => {
-      setBookBy(user.provider.booking_by_specialist);
-      setAutoAlloc(user.provider.booking_auto_allocation);
-      setShowServicePrices(user.provider.show_service_prices_to_client);
+    setBookBy(user.provider.booking_by_specialist);
+    setAutoAlloc(user.provider.booking_auto_allocation);
+    setShowServicePrices(user.provider.show_service_prices_to_client);
+  }, [
+    user.provider.booking_by_specialist,
+    user.provider.booking_auto_allocation,
+    user.provider.show_service_prices_to_client
+  ]);
+
+  useEffect(() => {
+    setTimeout(() => {
       setToastOpen(false);
     }, 8000);
-  }, [toastOpen, setShowServicePrices]);
+  }, [toastOpen]);
 
   return (
     <div className='grow'>

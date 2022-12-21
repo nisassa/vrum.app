@@ -98,7 +98,7 @@ function AddNewMemberModal({
       className='w-full h-full max-w-2xl md:h-auto'
       modalOpen={feedbackModalOpen}
       setModalOpen={setFeedbackModalOpen}
-      title='Add new member'
+      title='Register new team member'
     >
       <div className='px-5 py-4'>
         <Formik
@@ -109,38 +109,13 @@ function AddNewMemberModal({
             job_title: '',
             phone: '',
             password: '',
-            password_confirmation: '',
-            photo: ''
+            password_confirmation: ''
           }}
           onSubmit={(values) => {
             handleSubmit(values);
           }}
         >
           <Form>
-            <section>
-              <div className='flex items-center justify-between'>
-                <div className='mr-4 sm:w-1/3'>
-                  <img
-                    src={
-                      newPhoto && newPhoto.hasOwnProperty('path')
-                        ? `${settings.storageUrl}${newPhoto.path}`
-                        : user.photo
-                        ? `${settings.storageUrl}${user.photo}`
-                        : Image
-                    }
-                    width='120'
-                    height='120'
-                    alt='User upload'
-                  />
-                </div>
-                <Dropzone
-                  multiple={false}
-                  maxSize={parseInt(settings.photoMaxSize, 500)}
-                  onDrop={onUploadImage}
-                  onRemove={setNewPhoto}
-                />
-              </div>
-            </section>
             <section>
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
                 <div className=''>
@@ -328,6 +303,10 @@ function AddNewMemberModal({
               <div className='flex flex-col px-6 py-5 border-t border-slate-200'>
                 <div className='flex self-end'>
                   <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFeedbackModalOpen(false);
+                    }}
                     className='btn border-slate-200 hover:border-slate-300 text-slate-600'
                     type='button'
                   >

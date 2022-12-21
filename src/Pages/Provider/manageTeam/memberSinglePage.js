@@ -105,7 +105,7 @@ function MemberSinglePage({ props }) {
         <Form>
           <section>
             <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
-              <div className=''>
+              <div className='w-1/2'>
                 <div className='flex flex-wrap  mb-6'>
                   <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
                     <label
@@ -224,14 +224,14 @@ function MemberSinglePage({ props }) {
                       </p>
                     )}
                 </div>
-
-                <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                <div className='busines-hours'>
                   <BusinessHours
                     workingDays={user_data.working_days}
                     setWorkingDays={setBusinessDays}
                   />
                 </div>
               </div>
+              <div className='w-1/2 pl-10 skils'>skils</div>
             </div>
           </section>
 

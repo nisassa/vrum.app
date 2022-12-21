@@ -69,29 +69,31 @@ function BusinessHours(props) {
                   onChange={(e) => changeIsActive(e, data.id)}
                 ></input>
                 <label
-                  className='form-check-label inline-block text-gray-800 mr-2'
+                  className='form-check-label inline-block text-gray-800 mr-2 w-10'
                   htmlFor={`${data}_business_days`}
                 >
                   {data.day}
                 </label>
-                {data.is_active !== 0 && <span>-</span>}
-                {data.is_active !== 0 ? (
-                  <TimePicker
-                    className={'ml-2 mr-2'}
-                    onChange={(t) => changeTime(t, data.id, 'start_at')}
-                    value={data.start_at}
-                  />
-                ) : (
-                  <div class={'flex'}></div>
-                )}
-                {data.is_active !== 0 ? (
-                  <TimePicker
-                    onChange={(t) => changeTime(t, data.id, 'end_at')}
-                    value={data.end_at}
-                  />
-                ) : (
-                  <div class={'flex'}></div>
-                )}
+                <div className='flex flex-nowrap'>
+                  {data.is_active !== 0 && <span>-</span>}
+                  {data.is_active !== 0 ? (
+                    <TimePicker
+                      className={'ml-2 mr-2'}
+                      onChange={(t) => changeTime(t, data.id, 'start_at')}
+                      value={data.start_at}
+                    />
+                  ) : (
+                    <div class={'flex'}></div>
+                  )}
+                  {data.is_active !== 0 ? (
+                    <TimePicker
+                      onChange={(t) => changeTime(t, data.id, 'end_at')}
+                      value={data.end_at}
+                    />
+                  ) : (
+                    <div class={'flex'}></div>
+                  )}
+                </div>
               </div>
             );
           })}

@@ -14,7 +14,7 @@ import settings from '../../../config/settings';
 import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
 import { useNavigate } from 'react-router-dom';
-import BusinessHours from  './settings/BusinessHours'
+import BusinessHours from './settings/BusinessHours';
 
 function ProviderAccountPanel() {
   const { saveUser, restoreUserAndToken } = useProfile();
@@ -179,263 +179,269 @@ function ProviderAccountPanel() {
               </div>
             </section>
             <section>
-              <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
-                <div className='sm:w-1/3'>
-                  <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Account Info
-                  </h3>
+              <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
+                <div className='md:w-1/3  sm:w-full'>
+                  <div className='w-full'>
+                    <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
+                      Account Info
+                    </h3>
 
-                  <div className='flex flex-wrap  mb-6'>
-                    <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-first-name'
-                      >
-                        First Name
-                      </label>
-                      <Field
-                        name='first_name'
-                        className={`form-input w-full ${
-                          apiErrors &&
+                    <div className='flex flex-wrap  mb-6'>
+                      <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
+                        <label
+                          className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                          htmlFor='grid-first-name'
+                        >
+                          First Name
+                        </label>
+                        <Field
+                          name='first_name'
+                          className={`form-input w-full ${
+                            apiErrors &&
+                            apiErrors.hasOwnProperty('first_name') &&
+                            typeof apiErrors.first_name[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='grid-first-name'
+                          type='text'
+                        />
+                        {apiErrors &&
                           apiErrors.hasOwnProperty('first_name') &&
-                          typeof apiErrors.first_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-first-name'
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('first_name') &&
-                        typeof apiErrors.first_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.first_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full md:w-1/2 md:pl-3'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Last Name
-                      </label>
-                      <Field
-                        name='last_name'
-                        className={`form-input w-full ${
-                          apiErrors &&
+                          typeof apiErrors.first_name[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.first_name[0]}
+                            </p>
+                          )}
+                      </div>
+                      <div className='w-full md:w-1/2 md:pl-3 mb-6 '>
+                        <label
+                          className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                          htmlFor='grid-last-name'
+                        >
+                          Last Name
+                        </label>
+                        <Field
+                          name='last_name'
+                          className={`form-input w-full ${
+                            apiErrors &&
+                            apiErrors.hasOwnProperty('last_name') &&
+                            typeof apiErrors.last_name[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='grid-last-name'
+                          type='text'
+                        />
+                        {apiErrors &&
                           apiErrors.hasOwnProperty('last_name') &&
-                          typeof apiErrors.last_name[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-last-name'
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('last_name') &&
-                        typeof apiErrors.last_name[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.last_name[0]}
-                          </p>
-                        )}
-                    </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Email
-                      </label>
-                      <Field
-                        disabled
-                        name='email'
-                        className='form-input w-full'
-                      />
-                    </div>
-                    <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 job_title'>
-                      <label
-                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-last-name'
-                      >
-                        Job Title
-                      </label>
-                      <Field
-                        name='job_title'
-                        className={`form-input w-full ${
-                          apiErrors &&
+                          typeof apiErrors.last_name[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.last_name[0]}
+                            </p>
+                          )}
+                      </div>
+                      <div className='w-full flex flex-wrap mb-6 md:pl-3 email'>
+                        <label
+                          className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                          htmlFor='grid-last-name'
+                        >
+                          Email
+                        </label>
+                        <Field
+                          disabled
+                          name='email'
+                          className='form-input w-full'
+                        />
+                      </div>
+                      <div className='w-full flex flex-wrap mb-6  md:pl-3 job_title'>
+                        <label
+                          className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                          htmlFor='grid-last-name'
+                        >
+                          Job Title
+                        </label>
+                        <Field
+                          name='job_title'
+                          className={`form-input w-full ${
+                            apiErrors &&
+                            apiErrors.hasOwnProperty('job_title') &&
+                            typeof apiErrors.job_title[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          type='text'
+                        />
+                        {apiErrors &&
                           apiErrors.hasOwnProperty('job_title') &&
-                          typeof apiErrors.job_title[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        type='text'
-                      />
-                      {apiErrors &&
-                        apiErrors.hasOwnProperty('job_title') &&
-                        typeof apiErrors.job_title[0] !== 'undefined' && (
-                          <p className='text-red-500 text-12'>
-                            {apiErrors.job_title[0]}
-                          </p>
-                        )}
-                    </div>
+                          typeof apiErrors.job_title[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.job_title[0]}
+                            </p>
+                          )}
+                      </div>
 
-                    <BusinessHours workingDays={user.working_days} setWorkingDays={setBusinessDays}/>
-                    
+                      <BusinessHours
+                        workingDays={user.working_days}
+                        setWorkingDays={setBusinessDays}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className='sm:w-1/3 contact-details px-3'>
-                  <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
-                    Contact details
-                  </h3>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-last-name'
-                    >
-                      Phone Number
-                    </label>
-                    <Field
-                      name='phone'
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('phone') &&
-                        typeof apiErrors.phone[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='grid-last-phone'
-                      type='phone'
-                    />
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('phone') &&
-                      typeof apiErrors.phone[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.phone[0]}
-                        </p>
-                      )}
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 country'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-state'
-                    >
-                      Country
-                    </label>
-                    <div className='w-full'>
-                      <Field
-                        name='country'
-                        className={`form-input w-full ${
-                          apiErrors &&
-                          apiErrors.hasOwnProperty('country') &&
-                          typeof apiErrors.country[0] !== 'undefined'
-                            ? `border-red-500`
-                            : `border-gray-300`
-                        }`}
-                        id='grid-state'
-                        as='select'
-                      >
-                        <option>MD</option>
-                        <option>RO</option>
-                        <option>US</option>
-                      </Field>
-                    </div>
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('country') &&
-                      typeof apiErrors.country[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.country[0]}
-                        </p>
-                      )}
-                  </div>
-
-                  <div className='flex flex-wrap -mx-3 mb-6 location-details'>
-                    <div className='w-full px-3 mb-6 md:mb-0'>
+                <div className='md:w-1/3  sm:w-full contact-details px-3'>
+                  <div className='w-full md:pl-3'>
+                    <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
+                      Contact details
+                    </h3>
+                    <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
                       <label
                         className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                        htmlFor='grid-city'
+                        htmlFor='grid-last-name'
                       >
-                        City
+                        Phone Number
                       </label>
                       <Field
-                        name='city'
+                        name='phone'
                         className={`form-input w-full ${
                           apiErrors &&
-                          apiErrors.hasOwnProperty('city') &&
-                          typeof apiErrors.city[0] !== 'undefined'
+                          apiErrors.hasOwnProperty('phone') &&
+                          typeof apiErrors.phone[0] !== 'undefined'
                             ? `border-red-500`
                             : `border-gray-300`
                         }`}
-                        id='grid-city'
-                        type='text'
+                        id='grid-last-phone'
+                        type='phone'
                       />
                       {apiErrors &&
-                        apiErrors.hasOwnProperty('city') &&
-                        typeof apiErrors.city[0] !== 'undefined' && (
+                        apiErrors.hasOwnProperty('phone') &&
+                        typeof apiErrors.phone[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
-                            {apiErrors.city[0]}
+                            {apiErrors.phone[0]}
+                          </p>
+                        )}
+                    </div>
+                    <div className='flex flex-wrap -mx-3 mb-6 px-3 country'>
+                      <label
+                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                        htmlFor='grid-state'
+                      >
+                        Country
+                      </label>
+                      <div className='w-full'>
+                        <Field
+                          name='country'
+                          className={`form-input w-full ${
+                            apiErrors &&
+                            apiErrors.hasOwnProperty('country') &&
+                            typeof apiErrors.country[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='grid-state'
+                          as='select'
+                        >
+                          <option>MD</option>
+                          <option>RO</option>
+                          <option>US</option>
+                        </Field>
+                      </div>
+                      {apiErrors &&
+                        apiErrors.hasOwnProperty('country') &&
+                        typeof apiErrors.country[0] !== 'undefined' && (
+                          <p className='text-red-500 text-12'>
+                            {apiErrors.country[0]}
+                          </p>
+                        )}
+                    </div>
+
+                    <div className='flex flex-wrap -mx-3 mb-6 location-details'>
+                      <div className='w-full px-3 mb-6 md:mb-0'>
+                        <label
+                          className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                          htmlFor='grid-city'
+                        >
+                          City
+                        </label>
+                        <Field
+                          name='city'
+                          className={`form-input w-full ${
+                            apiErrors &&
+                            apiErrors.hasOwnProperty('city') &&
+                            typeof apiErrors.city[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='grid-city'
+                          type='text'
+                        />
+                        {apiErrors &&
+                          apiErrors.hasOwnProperty('city') &&
+                          typeof apiErrors.city[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.city[0]}
+                            </p>
+                          )}
+                      </div>
+                    </div>
+                    <div className='flex flex-wrap -mx-3 mb-6 px-3'>
+                      <label
+                        className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                        htmlFor='grid-zip'
+                      >
+                        Zip
+                      </label>
+                      <Field
+                        className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors.hasOwnProperty('state') &&
+                          typeof apiErrors.state[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        name='postcode'
+                        id='input_postcode'
+                        type='text'
+                        placeholder='90210'
+                      />
+                      {apiErrors &&
+                        apiErrors.hasOwnProperty('state') &&
+                        typeof apiErrors.state[0] !== 'undefined' && (
+                          <p className='text-red-500 text-12'>
+                            {apiErrors.state[0]}
+                          </p>
+                        )}
+                    </div>
+                    <div className='flex flex-wrap -mx-3 mb-6 px-3 address'>
+                      <label
+                        className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
+                        htmlFor='grid-last-name'
+                      >
+                        Your Address
+                      </label>
+                      <Field
+                        name='line_1'
+                        className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors.hasOwnProperty('line_1') &&
+                          typeof apiErrors.line_1[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        id='input_line_1'
+                        type='text'
+                        placeholder='Robert Robertson, 1234 NW Bobcat Lane'
+                      />
+                      {apiErrors &&
+                        apiErrors.hasOwnProperty('line_1') &&
+                        typeof apiErrors.line_1[0] !== 'undefined' && (
+                          <p className='text-red-500 text-12'>
+                            {apiErrors.line_1[0]}
                           </p>
                         )}
                     </div>
                   </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3'>
-                    <label
-                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                      htmlFor='grid-zip'
-                    >
-                      Zip
-                    </label>
-                    <Field
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('state') &&
-                        typeof apiErrors.state[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      name='postcode'
-                      id='input_postcode'
-                      type='text'
-                      placeholder='90210'
-                    />
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('state') &&
-                      typeof apiErrors.state[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.state[0]}
-                        </p>
-                      )}
-                  </div>
-                  <div className='flex flex-wrap -mx-3 mb-6 px-3 address'>
-                    <label
-                      className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
-                      htmlFor='grid-last-name'
-                    >
-                      Your Address
-                    </label>
-                    <Field
-                      name='line_1'
-                      className={`form-input w-full ${
-                        apiErrors &&
-                        apiErrors.hasOwnProperty('line_1') &&
-                        typeof apiErrors.line_1[0] !== 'undefined'
-                          ? `border-red-500`
-                          : `border-gray-300`
-                      }`}
-                      id='input_line_1'
-                      type='text'
-                      placeholder='Robert Robertson, 1234 NW Bobcat Lane'
-                    />
-                    {apiErrors &&
-                      apiErrors.hasOwnProperty('line_1') &&
-                      typeof apiErrors.line_1[0] !== 'undefined' && (
-                        <p className='text-red-500 text-12'>
-                          {apiErrors.line_1[0]}
-                        </p>
-                      )}
-                  </div>
                 </div>
-                <div className='sm:w-1/3'>
+                <div className='md:w-1/3  sm:w-full'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                     Security
                   </h3>

@@ -27,8 +27,8 @@ function MemberPage() {
             </div>
 
             {/* Content */}
-            <div className='bg-white shadow-lg rounded-sm mb-8'>
-              <div className='flex flex-col justify-center md:flex-row md:-mr-px'>
+            <div className='flex bg-white shadow-lg rounded-sm mb-8'>
+              <div className='w-full'>
                 <MemberSinglePage />
               </div>
             </div>

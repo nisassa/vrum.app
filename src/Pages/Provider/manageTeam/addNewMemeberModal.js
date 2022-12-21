@@ -32,9 +32,7 @@ function AddNewMemberModal({
   const handleSubmit = async (values) => {
     setApiErrors({});
 
-    const photo =
-      newPhoto && newPhoto.hasOwnProperty('path') ? newPhoto.path : user.photo;
-    await addMember({ ...values, photo })
+    await addMember({ ...values })
       .then((response) => {
         setToastData([
           { type: 'success', msg: ' New use was added successfully' }
@@ -63,27 +61,6 @@ function AddNewMemberModal({
           console.log('An error occurred!');
         }
       });
-  };
-  const onUploadImage = async (photo) => {
-    if (photo) {
-      let fd = new FormData();
-      fd.append('entity', 'user');
-      fd.append('photo', photo);
-      upload(fd)
-        .then((response) => {
-          if (response?.data?.document !== undefined) {
-            setNewPhoto(response?.data?.document);
-          }
-          if (Array.isArray(response?.data?.message?.photo)) {
-            console.log(response?.data?.message?.photo[0]);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setToastData([{ type: 'error', msg: ' An error occurred!' }]);
-          setToastOpen(true);
-        });
-    }
   };
 
   useEffect(() => {
@@ -208,7 +185,23 @@ function AddNewMemberModal({
                     >
                       Email
                     </label>
-                    <Field name='email' className='form-input w-full' />
+                    <Field
+                      name='email'
+                      className={`form-input w-full ${
+                        apiErrors &&
+                        apiErrors.hasOwnProperty('email') &&
+                        typeof apiErrors.email[0] !== 'undefined'
+                          ? `border-red-500`
+                          : `border-gray-300`
+                      }`}
+                    />
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('email') &&
+                      typeof apiErrors.email[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.email[0]}
+                        </p>
+                      )}
                   </div>
                   <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
                     <label

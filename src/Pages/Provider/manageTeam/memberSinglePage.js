@@ -107,7 +107,7 @@ function MemberSinglePage({ props }) {
             <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
               <div className='w-1/2'>
                 <div className='flex flex-wrap  mb-6'>
-                  <div className='w-full md:w-1/2 mb-6 md:pr-3 md:mb-6'>
+                  <div className='w-full md:w-1/2 mb-6 md:pl-3 md:pr-3 md:mb-6'>
                     <label
                       className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                       htmlFor='grid-first-name'
@@ -161,7 +161,7 @@ function MemberSinglePage({ props }) {
                         </p>
                       )}
                   </div>
-                  <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 job_title'>
+                  <div className='w-full flex flex-wrap mb-6 md:pl-3 job_title'>
                     <label
                       className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                       htmlFor='grid-last-name'
@@ -188,7 +188,7 @@ function MemberSinglePage({ props }) {
                       )}
                   </div>
                 </div>
-                <div className='w-full flex flex-wrap -mx-3 mb-6 px-3 email'>
+                <div className='w-full flex flex-wrap mb-6 md:pl-3 email'>
                   <label
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
@@ -197,7 +197,7 @@ function MemberSinglePage({ props }) {
                   </label>
                   <Field name='email' className='form-input w-full' />
                 </div>
-                <div className='flex flex-wrap -mx-3 mb-6 px-3 phone'>
+                <div className='flex flex-wrap mb-6 md:pl-3 phone'>
                   <label
                     className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                     htmlFor='grid-last-name'
@@ -224,7 +224,7 @@ function MemberSinglePage({ props }) {
                       </p>
                     )}
                 </div>
-                <div className='busines-hours'>
+                <div className='busines-hours md:pl-3'>
                   <BusinessHours
                     workingDays={user_data.working_days}
                     setWorkingDays={setBusinessDays}

@@ -165,6 +165,18 @@ const useDeleteStaffUser = (id: number) => {
   );
 };
 
+const useGetAllServices = () => {
+  return useQuery<AxiosResponse<unknown>, any>(`getServices`, async () => {
+    return await CallApi<any>({
+      url: endpoints.providers.services(),
+      method: 'GET',
+      isProtected: true
+    })
+      .then(({ data }) => data.resource)
+      .catch((err) => err);
+  });
+};
+
 // const useGetMemberById = (id: number) => {
 //   return useQuery<AxiosResponse<unknown>, any>(
 //     ['getStaffById', id],
@@ -189,5 +201,6 @@ export {
   useGetAllMembers,
   useGetMemberById,
   useUpdateStaffUser,
-  useDeleteStaffUser
+  useDeleteStaffUser,
+  useGetAllServices
 };

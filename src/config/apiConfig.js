@@ -19,7 +19,8 @@ export const endpoints = {
     deleteImages: (id) => `${settings.apiUrl}/api/provider/photo-gallery/${id}`,
     staff: () => `${settings.apiUrl}/api/provider/staff`,
     paginate: () => `${settings.apiUrl}/api/provider/staff/paginate`,
-    member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`
+    member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`,
+    services: () => `${settings.apiUrl}/api/provider/service-types/`
   },
 
   files: {

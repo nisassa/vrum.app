@@ -11,6 +11,7 @@ import BusinessSettings from './Pages/Provider/tabs/BusinessSettings';
 import Calendar from './Pages/Provider/Calendar';
 import Bookings from './Pages/Provider/Bookings';
 import MemberPage from './Pages/Provider/tabs/MemberPage';
+import ServicesPage from './Pages/Provider/tabs/ServicesPage';
 import {
   Login,
   RecoverPassword,
@@ -121,6 +122,14 @@ export const Router = () => {
         element={
           <PrivateRoute mustBeProvider={true}>
             <MemberPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='services'
+        element={
+          <PrivateRoute mustBeProvider={true}>
+            <ServicesPage />
           </PrivateRoute>
         }
       />

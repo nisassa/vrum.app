@@ -22,7 +22,7 @@ import {
 } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import BusinessHours from '../partials/settings/BusinessHours';
-import Services from '../../../components/Services';
+import DisplayServices from '../../../components/DisplayServices';
 
 function MemberSinglePage({ props }) {
   const { saveUser, restoreUserAndToken, user } = useProfile();
@@ -261,7 +261,7 @@ function MemberSinglePage({ props }) {
           </Formik>
         </div>
         <div className='w-1/2'>
-          <Services />
+          <DisplayServices />
         </div>
       </div>
     </div>

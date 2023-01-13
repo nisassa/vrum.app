@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useGetAllServices } from '../hooks/useProvider';
 
-function Services() {
+function DisplayServices() {
   const { data } = useGetAllServices();
   console.log(data);
 
@@ -15,4 +15,4 @@ function Services() {
   );
 }
 
-export default Services;
+export default DisplayServices;

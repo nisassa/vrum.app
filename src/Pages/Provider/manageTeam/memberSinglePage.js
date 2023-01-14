@@ -1,23 +1,14 @@
-import ModalBasic from '../../../components/ModalBasic';
 import React, { useEffect, useState } from 'react';
-import { useProfile } from '../../../hooks/profile';
 import LoadingSvg from '../../../components/LoadingSvg';
-import Image from '../../../images/user-avatar-80.png';
 import { Formik, Field, Form } from 'formik';
 import {
   useUpdateStaffUser,
-  useGetMemberById
+  useGetMemberById,
+  useToggleStaffSkill
 } from '../../../hooks/useProvider';
-
-import { usePhotoUpload } from '../../../hooks/useFiles';
-import settings from '../../../config/settings';
-import Dropzone from '../../../components/Dropzone';
 import Toast2 from '../../../components/Toast2';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useParams
 } from 'react-router-dom';
 import Loading from '../../../components/Loading';
@@ -25,11 +16,7 @@ import BusinessHours from '../partials/settings/BusinessHours';
 import DisplayServices from '../../../components/DisplayServices';
 
 function MemberSinglePage({ props }) {
-  const { saveUser, restoreUserAndToken, user } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
-  const [newPhoto, setNewPhoto] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
   const [businessDays, setBusinessDays] = useState([]);
@@ -38,6 +25,23 @@ function MemberSinglePage({ props }) {
 
   const { data: user_data } = useGetMemberById(id);
   const { mutateAsync: updateUser, isLoading } = useUpdateStaffUser(id);
+  const { mutateAsync: toggleSkill, isLoading: isUpdatingSkills } = useToggleStaffSkill(id);
+
+  const toggleService = (service) => {
+    toggleSkill(service)
+      .then(() => {
+        setToastData([
+          { type: 'success', msg: ' Skill updated!' }
+        ]);
+        setToastOpen(true);
+      })
+      .catch(() => {
+        setToastData([
+          { type: 'error', msg: ' An error occurred!' }
+        ]);
+        setToastOpen(true);
+      }) 
+  } 
 
   const handleSubmit = async (values) => {
     setApiErrors({});
@@ -261,7 +265,10 @@ function MemberSinglePage({ props }) {
           </Formik>
         </div>
         <div className='w-1/2'>
-          <DisplayServices />
+          <DisplayServices 
+              selectedSkills={user_data?.service_types}
+              onToggleService={toggleService}
+          />
         </div>
       </div>
     </div>

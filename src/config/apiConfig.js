@@ -18,10 +18,13 @@ export const endpoints = {
     getImages: () => `${settings.apiUrl}/api/provider/photo-gallery`,
     deleteImages: (id) => `${settings.apiUrl}/api/provider/photo-gallery/${id}`,
     staff: () => `${settings.apiUrl}/api/provider/staff`,
+    toggleStaffSkill: (user, skill) => `${settings.apiUrl}/api/provider/staff/toggle/service/${user}/${skill}`,
+    toggleMyService: (provider, skill) => `${settings.apiUrl}/api/provider/toggle/service/${provider}/${skill}`,
     paginate: () => `${settings.apiUrl}/api/provider/staff/paginate`,
     member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`,
     services: () => `${settings.apiUrl}/api/provider/service-types/`,
-    servicesByCat: () => `${settings.apiUrl}/api/services/groupby/categories`
+    servicesByCat: () => `${settings.apiUrl}/api/services/groupby/categories`,
+    myServices: () => `${settings.apiUrl}/api/provider/my-services`
   },
 
   files: {

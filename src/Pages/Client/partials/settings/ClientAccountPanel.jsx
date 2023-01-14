@@ -19,8 +19,6 @@ function ClientAccountPanel() {
   const { saveUser, restoreUserAndToken, user } = useProfile();
   const [apiErrors, setApiErrors] = useState({});
   const [newPhoto, setNewPhoto] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
 

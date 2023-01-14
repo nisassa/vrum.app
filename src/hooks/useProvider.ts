@@ -117,6 +117,54 @@ const useGetAllMembers = (searchTerm: any, page: any) => {
   );
 };
 
+const useToggleStaffSkill = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    ['toggle_staff_skill', id],
+    (skill) =>
+      CallApi({
+        url: endpoints.providers.toggleStaffSkill(id, skill),
+        method: 'POST',
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries('getStaffById');
+      }
+    }
+  );
+};
+
+const useMyServices = () => {
+  return useQuery<AxiosResponse<unknown>, any>(`get_my_services`, async () => {
+    return await CallApi<any>({
+      url: endpoints.providers.myServices(),
+      method: 'GET',
+      isProtected: true
+    })
+      .then(({ data }) => data.resource)
+      .catch((err) => err);
+  });
+};
+
+const useToggleMyService = (id: number) => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    ['toggle_provider_skill', id],
+    (skill) =>
+      CallApi({
+        url: endpoints.providers.toggleMyService(id, skill),
+        method: 'POST',
+        isProtected: true
+      }),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries('get_my_services');
+      }
+    }
+  );
+};
+
 const useGetMemberById = (id: number) => {
   return useQuery<AxiosResponse<unknown>, any>(`getStaffById`, async () => {
     return await CallApi<any>({
@@ -215,5 +263,8 @@ export {
   useUpdateStaffUser,
   useDeleteStaffUser,
   useGetAllServices,
-  useGetServicesByCategories
+  useGetServicesByCategories,
+  useToggleStaffSkill,
+  useMyServices,
+  useToggleMyService
 };

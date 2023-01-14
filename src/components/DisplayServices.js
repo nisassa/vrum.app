@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react';
 import { useGetServicesByCategories } from '../hooks/useProvider';
 
-function DisplayServices() {
+function DisplayServices(props) {
   const { data } = useGetServicesByCategories();
-  console.log(data);
+  const { 
+    selectedSkills, 
+    onToggleService,
+  } = props
 
+  if (selectedSkills == undefined) {
+    return
+  }
+  
+  const isChecked = (skill) => {
+    const exists = selectedSkills.filter((item) => {
+      return item.id === skill
+    })
+    return exists[0]?.id === skill
+  }
+  
   return (
     <div>
       <>
@@ -43,6 +56,8 @@ function DisplayServices() {
                                 <input
                                   type='checkbox'
                                   className='peer focus:ring-0 focus-visible:ring w-5 h-5 bg-white border border-slate-200 text-indigo-500 rounded-full'
+                                  onChange={() => onToggleService(sub_el.id) }
+                                  checked={isChecked(sub_el.id)}
                                 />
                                 <span className='font-medium text-slate-800 peer-checked:text-indigo-500 ml-2'>
                                   {sub_el.name}

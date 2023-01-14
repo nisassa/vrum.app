@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import LoadingSvg from '../../../../components/LoadingSvg';
 import Toast2 from '../../../../components/Toast2';
 import Image from '../../../../images/user-avatar-80.png';
 import Loading from '../../../../components/Loading';
@@ -11,9 +10,6 @@ import settings from '../../../../config/settings';
 import { useGetAllMembers } from '../../../../hooks/useProvider';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useParams
 } from 'react-router-dom';
 
@@ -31,7 +27,6 @@ function MyTeamPanel() {
     isLoading,
     refetch
   } = useGetAllMembers(searchTerm, pageNumb);
-  console.log(pageNumb);
 
   useEffect(() => {
     setSearchTerm(inputValue);

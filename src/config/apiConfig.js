@@ -20,7 +20,8 @@ export const endpoints = {
     staff: () => `${settings.apiUrl}/api/provider/staff`,
     paginate: () => `${settings.apiUrl}/api/provider/staff/paginate`,
     member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`,
-    services: () => `${settings.apiUrl}/api/provider/service-types/`
+    services: () => `${settings.apiUrl}/api/provider/service-types/`,
+    servicesByCat: () => `${settings.apiUrl}/api/services/groupby/categories`
   },
 
   files: {

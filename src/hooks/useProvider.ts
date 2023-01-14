@@ -177,6 +177,18 @@ const useGetAllServices = () => {
   });
 };
 
+const useGetServicesByCategories = () => {
+  return useQuery<AxiosResponse<unknown>, any>(`getServices`, async () => {
+    return await CallApi<any>({
+      url: endpoints.providers.servicesByCat(),
+      method: 'GET',
+      isProtected: true
+    })
+      .then(({ data }) => data.resource)
+      .catch((err) => err);
+  });
+};
+
 // const useGetMemberById = (id: number) => {
 //   return useQuery<AxiosResponse<unknown>, any>(
 //     ['getStaffById', id],
@@ -202,5 +214,6 @@ export {
   useGetMemberById,
   useUpdateStaffUser,
   useDeleteStaffUser,
-  useGetAllServices
+  useGetAllServices,
+  useGetServicesByCategories
 };

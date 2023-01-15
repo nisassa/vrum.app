@@ -28,8 +28,8 @@ function DisplayServices(props) {
     if (isSkill) (
       onToggleService(service_id)
     ) 
-    
-    if (objectsAreSame(selectedSkills, myServices)) {
+
+    if (objectsAreSame(myInitialServices, myServices)) {
       onToggleService(service_id)
     } else {
       props.onUpdatePivotFields([
@@ -42,8 +42,8 @@ function DisplayServices(props) {
     var objectsAreSame = true;
     for(var propertyName in x) {
        if(x[propertyName] !== y[propertyName]) {
-          objectsAreSame = false;
-          break;
+        objectsAreSame = false;
+        break;
        }
     }
     return objectsAreSame;
@@ -56,7 +56,6 @@ function DisplayServices(props) {
     }
 
     const isDirty = parseFloat(service.pivot_cost) !== parseFloat(initialService.pivot_cost) 
-      || parseFloat(service.pivot_vat) !== parseFloat(initialService.pivot_vat)
       || parseInt(service.pivot_duration_in_minutes) !== parseInt(initialService.pivot_duration_in_minutes)
     
     return isDirty
@@ -123,7 +122,6 @@ function DisplayServices(props) {
       })
     )
   }
-
   
   const renderPivotFields = (service) => {
     if (service === null || isSkill) {
@@ -145,19 +143,6 @@ function DisplayServices(props) {
           value={service?.pivot_cost}
           onChange={(e) => {
             changeFieldValue(service.id, 'pivot_cost', e.target.value)
-          }}
-        />
-        
-        <span className='font-medium text-slate-800 peer-checked:text-black ml-2'>
-          Vat (EUR):
-        </span>
-
-        <input 
-          class="appearance-none bg-transparent border-indigo-500 w-20 h-5 text-indigo-500 border-b-2 py-1 px-2 leading-tight focus:outline-none"
-          type="text" 
-          value={service?.pivot_vat}
-          onChange={(e) => {
-            changeFieldValue(service.id, 'pivot_vat', e.target.value)
           }}
         />
 

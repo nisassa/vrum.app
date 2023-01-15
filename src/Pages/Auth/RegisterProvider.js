@@ -154,7 +154,7 @@ function RegisterProvider() {
                       <Field
                         name='provider_name'
                         className={`form-input w-full ${
-                          apiErrors.hasOwnProperty('last_name') &&
+                          apiErrors.hasOwnProperty('provider_name') &&
                           typeof apiErrors.last_name[0] !== 'undefined'
                             ? `border-red-500`
                             : `border-gray-300`
@@ -163,10 +163,10 @@ function RegisterProvider() {
                         type='text'
                         placeholder='Vrom SRL'
                       />
-                      {apiErrors.hasOwnProperty('last_name') &&
-                        typeof apiErrors.last_name[0] !== 'undefined' && (
+                      {apiErrors.hasOwnProperty('provider_name') &&
+                        typeof apiErrors.provider_name[0] !== 'undefined' && (
                           <p className='text-red-500 text-12'>
-                            {apiErrors.last_name[0]}
+                            {apiErrors.provider_name[0]}
                           </p>
                         )}
                     </div>

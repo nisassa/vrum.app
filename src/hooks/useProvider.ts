@@ -196,6 +196,20 @@ const useUpdateStaffUser = (id: number) => {
   );
 };
 
+const useUpdateServicePivotFields = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AxiosResponse<unknown>, any>(
+    ['update_provider_service'],
+    (body) =>
+      CallApi({
+        url: endpoints.providers.update_provider_service(),
+        method: 'POST',
+        data: body,
+        isProtected: true
+      }),
+  );
+};
+
 const useDeleteStaffUser = (id: number) => {
   const queryClient = useQueryClient();
   return useQuery<AxiosResponse<unknown>, any>(
@@ -266,5 +280,6 @@ export {
   useGetServicesByCategories,
   useToggleStaffSkill,
   useMyServices,
-  useToggleMyService
+  useToggleMyService,
+  useUpdateServicePivotFields
 };

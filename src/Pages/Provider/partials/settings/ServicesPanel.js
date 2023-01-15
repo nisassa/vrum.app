@@ -17,6 +17,11 @@ function ServicePanel() {
 
   const { mutateAsync: toggleSkill, isLoading: isUpdatingSkills } = useToggleMyService(user?.provider?.id);
 
+  const onUpdatePivotFields = (toastData) => {
+    setToastData(toastData)
+    setToastOpen(true)
+  } 
+
   const toggleService = (service) => {
     toggleSkill(service)
       .then(() => {
@@ -44,6 +49,8 @@ function ServicePanel() {
         <DisplayServices 
           selectedSkills={myServices}
           onToggleService={toggleService}
+          isSkill={false}
+          onUpdatePivotFields={onUpdatePivotFields}
         />
       }</div>
     </div>

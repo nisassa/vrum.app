@@ -268,6 +268,7 @@ function MemberSinglePage({ props }) {
           <DisplayServices 
               selectedSkills={user_data?.service_types}
               onToggleService={toggleService}
+              isSkill={true}
           />
         </div>
       </div>

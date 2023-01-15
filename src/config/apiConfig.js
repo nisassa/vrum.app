@@ -24,7 +24,8 @@ export const endpoints = {
     member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`,
     services: () => `${settings.apiUrl}/api/provider/service-types/`,
     servicesByCat: () => `${settings.apiUrl}/api/services/groupby/categories`,
-    myServices: () => `${settings.apiUrl}/api/provider/my-services`
+    myServices: () => `${settings.apiUrl}/api/provider/my-services`,
+    update_provider_service: () => `${settings.apiUrl}/api/provider/my-services/update`
   },
 
   files: {

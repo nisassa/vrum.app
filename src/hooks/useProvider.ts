@@ -206,7 +206,7 @@ const useUpdateServicePivotFields = () => {
         method: 'POST',
         data: body,
         isProtected: true
-      }),
+      })
   );
 };
 
@@ -264,7 +264,7 @@ const useGetServicesByCategories = () => {
 //         .catch((err) => err);
 //     },
 //     { keepPreviousData: false, enabled: true }
-//   );
+//   );sss
 // };
 export {
   useRegister,

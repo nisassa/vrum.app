@@ -78,12 +78,12 @@ function BusinessHours(props) {
                   {data.is_active !== 0 && <span>-</span>}
                   {data.is_active !== 0 ? (
                     <TimePicker
-                      className={'ml-2 mr-2'}
+                      className={'ml-2 mr-2 flex'}
                       onChange={(t) => changeTime(t, data.id, 'start_at')}
                       value={data.start_at}
                     />
                   ) : (
-                    <div class={'flex'}></div>
+                    <div className={'flex'}></div>
                   )}
                   {data.is_active !== 0 ? (
                     <TimePicker
@@ -91,7 +91,7 @@ function BusinessHours(props) {
                       value={data.end_at}
                     />
                   ) : (
-                    <div class={'flex'}></div>
+                    <div className={'flex'}></div>
                   )}
                 </div>
               </div>

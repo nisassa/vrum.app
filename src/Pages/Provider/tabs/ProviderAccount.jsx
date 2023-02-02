@@ -4,9 +4,12 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 import SettingsSidebar from '../partials/settings/SettingsSidebar';
 import ProviderAccountPanel from '../partials/ProviderAccountPanel';
+import ClientAccountPanel from '../../Client/partials/settings/ClientAccountPanel';
+import { useProfile } from '../../../hooks/profile';
 
 function ProviderAccount() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { isServiceProviderManager } = useProfile();
 
   return (
     <div className='flex h-screen overflow-hidden'>
@@ -31,7 +34,11 @@ function ProviderAccount() {
             {/* Content */}
             <div className='bg-white shadow-lg rounded-sm mb-8'>
               <div className='flex flex-col md:flex-row md:-mr-px'>
-                <ProviderAccountPanel />
+                {!isServiceProviderManager ? (
+                  <ProviderAccountPanel />
+                ) : (
+                  <ClientAccountPanel />
+                )}
               </div>
             </div>
           </div>

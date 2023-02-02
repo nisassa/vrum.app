@@ -23,7 +23,7 @@ function UsersTabsCard(props) {
               <li>
                 <Link
                   className='font-medium text-sm text-slate-600 hover:text-slate-800 flex py-1 px-3'
-                  to={`/staff/user/${props.id}`}
+                  to={`/business/my-team/user/${props.id}`}
                 >
                   Edit
                 </Link>

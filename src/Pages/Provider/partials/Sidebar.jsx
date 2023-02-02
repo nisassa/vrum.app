@@ -41,15 +41,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-  useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded);
-    if (sidebarExpanded) {
-      document.querySelector('body').classList.add('sidebar-expanded');
-    } else {
-      document.querySelector('body').classList.remove('sidebar-expanded');
-    }
-  }, [sidebarExpanded]);
-
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -351,7 +342,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className='mb-1 last:mb-0'>
                             <NavLink
                               end
-                              to='/services'
+                              to='/business/services'
                               className={({ isActive }) =>
                                 'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
                                 (isActive ? '!text-indigo-500' : '')
@@ -362,10 +353,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
+
                           <li className='mb-1 last:mb-0'>
                             <NavLink
                               end
-                              to='/my-team'
+                              to='/business/my-team'
                               className={({ isActive }) =>
                                 'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
                                 (isActive ? '!text-indigo-500' : '')
@@ -419,7 +411,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </li>
 
               {/* Settings */}
-              <SidebarLinkGroup activecondition={pathname.includes('user')}>
+              <SidebarLinkGroup activecondition={pathname.includes('settings')}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>

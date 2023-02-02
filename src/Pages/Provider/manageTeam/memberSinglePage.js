@@ -7,10 +7,7 @@ import {
   useToggleStaffSkill
 } from '../../../hooks/useProvider';
 import Toast2 from '../../../components/Toast2';
-import {
-  BrowserRouter as Router,
-  useParams
-} from 'react-router-dom';
+import { BrowserRouter as Router, useParams } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import BusinessHours from '../partials/settings/BusinessHours';
 import DisplayServices from '../../../components/DisplayServices';
@@ -25,23 +22,20 @@ function MemberSinglePage({ props }) {
 
   const { data: user_data } = useGetMemberById(id);
   const { mutateAsync: updateUser, isLoading } = useUpdateStaffUser(id);
-  const { mutateAsync: toggleSkill, isLoading: isUpdatingSkills } = useToggleStaffSkill(id);
+  const { mutateAsync: toggleSkill, isLoading: isUpdatingSkills } =
+    useToggleStaffSkill(id);
 
   const toggleService = (service) => {
     toggleSkill(service)
       .then(() => {
-        setToastData([
-          { type: 'success', msg: ' Skill updated!' }
-        ]);
+        setToastData([{ type: 'success', msg: ' Skill updated!' }]);
         setToastOpen(true);
       })
       .catch(() => {
-        setToastData([
-          { type: 'error', msg: ' An error occurred!' }
-        ]);
+        setToastData([{ type: 'error', msg: ' An error occurred!' }]);
         setToastOpen(true);
-      }) 
-  } 
+      });
+  };
 
   const handleSubmit = async (values) => {
     setApiErrors({});
@@ -96,7 +90,7 @@ function MemberSinglePage({ props }) {
         {toastType[0].msg}
       </Toast2>
       <div className='md:flex'>
-        <div className='w-1/2'>
+        <div className='w-1/2 px-3'>
           <Formik
             initialValues={{
               first_name: user_data?.first_name,
@@ -264,11 +258,11 @@ function MemberSinglePage({ props }) {
             </Form>
           </Formik>
         </div>
-        <div className='w-1/2'>
-          <DisplayServices 
-              selectedSkills={user_data?.service_types}
-              onToggleService={toggleService}
-              isSkill={true}
+        <div className='w-1/2 px-3'>
+          <DisplayServices
+            selectedSkills={user_data?.service_types}
+            onToggleService={toggleService}
+            isSkill={true}
           />
         </div>
       </div>

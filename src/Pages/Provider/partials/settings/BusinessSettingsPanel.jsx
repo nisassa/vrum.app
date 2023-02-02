@@ -173,7 +173,7 @@ function BusinessSettingsPanel() {
             <section>
               <div className='flex container sm:w-full overflow-x-auto'>
                 <div className='flex mr-4 sm:w-2/3 overflow-x-auto text-center border-2 justify-center items-center px-4 py-4'>
-                  {isLoadingGallery ? <LoadingSvg /> : gallery}
+                  {isLoadingGallery && <LoadingSvg />}
                   {gallery.length !== 0 ? gallery : 'Upload your image here'}
                 </div>
                 <Dropzone

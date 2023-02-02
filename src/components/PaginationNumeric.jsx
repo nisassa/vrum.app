@@ -24,7 +24,7 @@ function PaginationNumeric({
         return (
           <li key={index + link.label}>
             <Link
-              to={`/my-team/${index}`}
+              to={`/business/my-team/${index}`}
               onClick={() => handlePageClick(link.label)}
             >
               <span
@@ -47,7 +47,9 @@ function PaginationNumeric({
         <div className='ml-2'>
           <Link
             className='mr-2'
-            to={`/my-team/${currentPage !== 0 ? currentPage : currentPage - 1}`}
+            to={`/business/my-team/${
+              currentPage !== 0 ? currentPage : currentPage - 1
+            }`}
             onClick={() => handlePageClick(currentPage - 1)}
           >
             <span
@@ -70,7 +72,7 @@ function PaginationNumeric({
         </ul>
         <div className='ml-2'>
           <Link
-            to={`/my-team/${
+            to={`/business/my-team/${
               currentPage === totalPages ? currentPage : currentPage + 1
             }`}
             onClick={() => handlePageClick(currentPage + 1)}

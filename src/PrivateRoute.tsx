@@ -5,14 +5,21 @@ import Loading from './components/Loading';
 
 export const PrivateRoute = ({
   children,
-  mustBeProvider
+  mustBeProvider,
+  mustBeProviderManager
 }: {
   children: JSX.Element;
   mustBeProvider: Boolean;
+  mustBeProviderManager: Boolean;
 }) => {
   let location = useLocation();
 
-  const { isReady, isAuthenticated, isServiceProvider } = useProfile();
+  const {
+    isReady,
+    isAuthenticated,
+    isServiceProvider,
+    isServiceProviderManager
+  } = useProfile();
 
   if (!isReady) {
     return <Loading style='h-screen' />;
@@ -27,6 +34,10 @@ export const PrivateRoute = ({
   }
 
   if (isAuthenticated && !mustBeProvider && isServiceProvider) {
+    return <NotFound />;
+  }
+  console.log(isServiceProviderManager);
+  if (isAuthenticated && mustBeProviderManager && !isServiceProviderManager) {
     return <NotFound />;
   }
 

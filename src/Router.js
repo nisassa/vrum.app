@@ -86,7 +86,7 @@ export const Router = () => {
       <Route
         path='/settings/business'
         element={
-          <PrivateRoute mustBeProvider={true}>
+          <PrivateRoute mustBeProvider={true} mustBeProviderManager={true}>
             <BusinessSettings />
           </PrivateRoute>
         }
@@ -95,7 +95,7 @@ export const Router = () => {
         <Route
           index
           element={
-            <PrivateRoute mustBeProvider={true}>
+            <PrivateRoute mustBeProvider={true} mustBeProviderManager={true}>
               <MyTeam />
             </PrivateRoute>
           }
@@ -103,7 +103,7 @@ export const Router = () => {
         <Route
           path='/business/my-team/:page'
           element={
-            <PrivateRoute mustBeProvider={true}>
+            <PrivateRoute mustBeProvider={true} mustBeProviderManager={true}>
               <MyTeam />
             </PrivateRoute>
           }
@@ -118,9 +118,9 @@ export const Router = () => {
         }
       />
       <Route
-        path='/staff/user/:id'
+        path='/business/my-team/user/:id'
         element={
-          <PrivateRoute mustBeProvider={true}>
+          <PrivateRoute mustBeProvider={true} mustBeProviderManager={true}>
             <MemberPage />
           </PrivateRoute>
         }
@@ -128,7 +128,7 @@ export const Router = () => {
       <Route
         path='business/services'
         element={
-          <PrivateRoute mustBeProvider={true}>
+          <PrivateRoute mustBeProvider={true} mustBeProviderManager={true}>
             <ServicesPage />
           </PrivateRoute>
         }

@@ -19,6 +19,7 @@ interface IProfileContext {
   token: string | null;
   isAuthenticated: boolean | undefined;
   isServiceProvider: boolean;
+  isServiceProviderManager: boolean;
   isReady: boolean;
   saveUser: (user: any) => void;
   userLogin: (user: any) => void;
@@ -32,6 +33,7 @@ export const ProfileContext = createContext<IProfileContext>({
   token: null,
   isAuthenticated: undefined,
   isServiceProvider: false,
+  isServiceProviderManager: false,
   isReady: false,
   saveUser: () => {},
   userLogin: () => {},
@@ -88,6 +90,8 @@ export const ProfileProvider: FC<any> = ({ children }) => {
         isAuthenticated: typeof token === 'string' && token.length > 5,
         isServiceProvider:
           typeof user === 'object' && !isNaN(Number(user?.provider?.id)),
+        isServiceProviderManager:
+          typeof user === 'object' && user?.manager === 1,
         isReady,
         saveUser,
         userLogin,

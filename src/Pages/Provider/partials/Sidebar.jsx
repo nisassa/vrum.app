@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import { useProfile } from '../../../hooks/profile';
 import SidebarLinkGroup from './SidebarLinkGroup';
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -15,6 +15,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
   );
 
+  const { isServiceProviderManager } = useProfile();
+  console.log(isServiceProviderManager);
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -238,134 +240,138 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </NavLink>
               </li>
               {/* Business Settings */}
-              <SidebarLinkGroup activecondition={pathname.includes('business')}>
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href='#0'
-                        className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
-                          pathname.includes('business') &&
-                          'hover:text-slate-200'
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className='flex items-center justify-between'>
-                          <div className='flex items-center'>
-                            <svg
-                              className='shrink-0 h-6 w-6'
-                              viewBox='0 0 24 24'
-                            >
-                              <circle
-                                className={`fill-current text-slate-400 ${
-                                  pathname.includes('business') &&
-                                  'text-indigo-300'
-                                }`}
-                                cx='18.5'
-                                cy='5.5'
-                                r='4.5'
-                              />
-                              <circle
-                                className={`fill-current text-slate-600 ${
-                                  pathname.includes('business') &&
-                                  'text-indigo-500'
-                                }`}
-                                cx='5.5'
-                                cy='5.5'
-                                r='4.5'
-                              />
-                              <circle
-                                className={`fill-current text-slate-600 ${
-                                  pathname.includes('business') &&
-                                  'text-indigo-500'
-                                }`}
-                                cx='18.5'
-                                cy='18.5'
-                                r='4.5'
-                              />
-                              <circle
-                                className={`fill-current text-slate-400 ${
-                                  pathname.includes('business') &&
-                                  'text-indigo-300'
-                                }`}
-                                cx='5.5'
-                                cy='18.5'
-                                r='4.5'
-                              />
-                            </svg>
-                            <span className='text-sm font-medium ml-3  lg:opacity-100 2xl:opacity-100 duration-200'>
-                              My Business
-                            </span>
-                          </div>
-                          {/* Icon */}
-                          <div className='flex shrink-0 ml-2'>
-                            <svg
-                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
-                                open && 'rotate-180'
-                              }`}
-                              viewBox='0 0 12 12'
-                            >
-                              <path d='M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z' />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                      <div className=' lg:block 2xl:block'>
-                        <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
-                          <li className='mb-1 last:mb-0'>
-                            <NavLink
-                              end
-                              to='/settings/business'
-                              className={({ isActive }) =>
-                                'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
-                                (isActive ? '!text-indigo-500' : '')
-                              }
-                            >
-                              <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
-                                Business settings
+              {isServiceProviderManager && (
+                <SidebarLinkGroup
+                  activecondition={pathname.includes('business')}
+                >
+                  {(handleClick, open) => {
+                    return (
+                      <React.Fragment>
+                        <a
+                          href='#0'
+                          className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
+                            pathname.includes('business') &&
+                            'hover:text-slate-200'
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            sidebarExpanded
+                              ? handleClick()
+                              : setSidebarExpanded(true);
+                          }}
+                        >
+                          <div className='flex items-center justify-between'>
+                            <div className='flex items-center'>
+                              <svg
+                                className='shrink-0 h-6 w-6'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className={`fill-current text-slate-400 ${
+                                    pathname.includes('business') &&
+                                    'text-indigo-300'
+                                  }`}
+                                  cx='18.5'
+                                  cy='5.5'
+                                  r='4.5'
+                                />
+                                <circle
+                                  className={`fill-current text-slate-600 ${
+                                    pathname.includes('business') &&
+                                    'text-indigo-500'
+                                  }`}
+                                  cx='5.5'
+                                  cy='5.5'
+                                  r='4.5'
+                                />
+                                <circle
+                                  className={`fill-current text-slate-600 ${
+                                    pathname.includes('business') &&
+                                    'text-indigo-500'
+                                  }`}
+                                  cx='18.5'
+                                  cy='18.5'
+                                  r='4.5'
+                                />
+                                <circle
+                                  className={`fill-current text-slate-400 ${
+                                    pathname.includes('business') &&
+                                    'text-indigo-300'
+                                  }`}
+                                  cx='5.5'
+                                  cy='18.5'
+                                  r='4.5'
+                                />
+                              </svg>
+                              <span className='text-sm font-medium ml-3  lg:opacity-100 2xl:opacity-100 duration-200'>
+                                My Business
                               </span>
-                            </NavLink>
-                          </li>
-                          <li className='mb-1 last:mb-0'>
-                            <NavLink
-                              end
-                              to='/business/services'
-                              className={({ isActive }) =>
-                                'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
-                                (isActive ? '!text-indigo-500' : '')
-                              }
-                            >
-                              <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
-                                Services
-                              </span>
-                            </NavLink>
-                          </li>
+                            </div>
+                            {/* Icon */}
+                            <div className='flex shrink-0 ml-2'>
+                              <svg
+                                className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
+                                  open && 'rotate-180'
+                                }`}
+                                viewBox='0 0 12 12'
+                              >
+                                <path d='M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z' />
+                              </svg>
+                            </div>
+                          </div>
+                        </a>
+                        <div className=' lg:block 2xl:block'>
+                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                            <li className='mb-1 last:mb-0'>
+                              <NavLink
+                                end
+                                to='/settings/business'
+                                className={({ isActive }) =>
+                                  'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
+                                  (isActive ? '!text-indigo-500' : '')
+                                }
+                              >
+                                <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
+                                  Business settings
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className='mb-1 last:mb-0'>
+                              <NavLink
+                                end
+                                to='/business/services'
+                                className={({ isActive }) =>
+                                  'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
+                                  (isActive ? '!text-indigo-500' : '')
+                                }
+                              >
+                                <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
+                                  Services
+                                </span>
+                              </NavLink>
+                            </li>
 
-                          <li className='mb-1 last:mb-0'>
-                            <NavLink
-                              end
-                              to='/business/my-team'
-                              className={({ isActive }) =>
-                                'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
-                                (isActive ? '!text-indigo-500' : '')
-                              }
-                            >
-                              <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
-                                My team
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
+                            <li className='mb-1 last:mb-0'>
+                              <NavLink
+                                end
+                                to='/business/my-team'
+                                className={({ isActive }) =>
+                                  'block text-slate-400 hover:text-slate-200 transition duration-150 truncate ' +
+                                  (isActive ? '!text-indigo-500' : '')
+                                }
+                              >
+                                <span className='text-sm font-medium  lg:opacity-100 2xl:opacity-100 duration-200'>
+                                  My team
+                                </span>
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </div>
+                      </React.Fragment>
+                    );
+                  }}
+                </SidebarLinkGroup>
+              )}
 
               {/* Settings */}
               <SidebarLinkGroup activecondition={pathname.includes('settings')}>

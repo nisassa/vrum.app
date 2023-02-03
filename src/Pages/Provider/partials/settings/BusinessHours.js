@@ -69,30 +69,50 @@ function BusinessHours(props) {
                   onChange={(e) => changeIsActive(e, data.id)}
                 ></input>
                 <label
-                  className='form-check-label inline-block text-gray-800 mr-2 w-10'
+                  className='form-check-label inline-block text-gray-800 w-10 mr-2'
                   htmlFor={`${data}_business_days`}
                 >
-                  {data.day}
+                  {data.day}:
                 </label>
                 <div className='flex flex-nowrap'>
-                  {data.is_active !== 0 && <span>-</span>}
+                  <div className='flex justify-center'>
+                    <div className='timepicker relative form-floating mb-3 xl:w-96'>
+                      <input
+                        type='text'
+                        className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+                        placeholder='Select a date'
+                      />
+                      <label htmlFor='floatingInput' className='text-gray-700'>
+                        Select a time
+                      </label>
+                    </div>
+                  </div>
+                  {/* {data.is_active !== 0 && <span className='pr-2'>from</span>}
                   {data.is_active !== 0 ? (
                     <TimePicker
-                      className={'ml-2 mr-2 flex'}
+                      className={'flex'}
                       onChange={(t) => changeTime(t, data.id, 'start_at')}
                       value={data.start_at}
+                      disableClock
+                      autoFocus
+                      clockClassName={'flex'}
                     />
                   ) : (
-                    <div className={'flex'}></div>
+                    <div className={'flex form-input'}></div>
                   )}
+
+                  {data.is_active !== 0 && <span className='px-2'>to</span>}
                   {data.is_active !== 0 ? (
                     <TimePicker
                       onChange={(t) => changeTime(t, data.id, 'end_at')}
                       value={data.end_at}
+                      disableClock
+                      autoFocus
+                      clockClassName={'flex'}
                     />
                   ) : (
                     <div className={'flex'}></div>
-                  )}
+                  )} */}
                 </div>
               </div>
             );

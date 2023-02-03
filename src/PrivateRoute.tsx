@@ -36,7 +36,6 @@ export const PrivateRoute = ({
   if (isAuthenticated && !mustBeProvider && isServiceProvider) {
     return <NotFound />;
   }
-  console.log(isServiceProviderManager);
   if (isAuthenticated && mustBeProviderManager && !isServiceProviderManager) {
     return <NotFound />;
   }

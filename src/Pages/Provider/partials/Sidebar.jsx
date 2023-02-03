@@ -16,7 +16,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   );
 
   const { isServiceProviderManager } = useProfile();
-  console.log(isServiceProviderManager);
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {

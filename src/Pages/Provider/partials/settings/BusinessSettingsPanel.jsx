@@ -94,7 +94,7 @@ function BusinessSettingsPanel() {
     photoGallery !== undefined &&
     photoGallery.map((file) => {
       return (
-        <div className={'ml-2 relative group block'}>
+        <div className={'ml-2 relative group block'} key={file.id}>
           <img
             src={`${settings.storageUrl}${file.photo}`}
             width='120'

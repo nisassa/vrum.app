@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom/client';
 import './css/output.css';
 import './charts/ChartjsConfig';
 import App from './App';
-import 'tw-elements';
 
 import reportWebVitals from './reportWebVitals';
+import 'tw-elements';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

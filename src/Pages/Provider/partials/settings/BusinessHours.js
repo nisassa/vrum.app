@@ -4,27 +4,36 @@ import TimePicker from 'react-time-picker';
 function BusinessHours(props) {
   const { workingDays } = props;
   const [businessDays, setBusinessDays] = useState();
+  const [time, setTime] = useState({});
 
-  useEffect(() => {
-    setBusinessDays(workingDays);
-    props.setWorkingDays(workingDays);
-  }, [workingDays]);
-
-  const changeTime = (newTime, id, type) => {
+  const handleChange = (event, day, type, id) => {
+    setTime({
+      ...time,
+      [day]: {
+        ...time[day],
+        [type]: event.target.value
+      }
+    });
+    console.log(day);
     const newBusinessDays = businessDays.map((item) => {
       if (id === item.id) {
         return {
           ...item,
-          [type]: newTime
+          [type]: event.target.value
         };
       } else {
         return item;
       }
     });
+    console.log(newBusinessDays);
     setBusinessDays(newBusinessDays);
 
     props.setWorkingDays(newBusinessDays);
   };
+  useEffect(() => {
+    setBusinessDays(workingDays);
+    props.setWorkingDays(workingDays);
+  }, [workingDays]);
 
   const changeIsActive = (evt, id) => {
     const newBusinessDays = businessDays.map((item) => {
@@ -61,7 +70,7 @@ function BusinessHours(props) {
                 className='flex form-check justify-start mt-2 '
               >
                 <input
-                  className={`form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer`}
+                  className={` form-checkbox appearance-none h-4 w-4 border border-gray-300 focus:outline-none transition duration-200 mt-1 align-top float-left mr-2 cursor-pointer`}
                   type='checkbox'
                   input={''}
                   checked={data.is_active === 1}
@@ -74,29 +83,28 @@ function BusinessHours(props) {
                 >
                   {data.day}:
                 </label>
-                <div className='flex flex-nowrap'>
-                  {data.is_active !== 0 && <span className='pr-2'>from</span>}
+                <div className='flex w-60 justify-start'>
                   {data.is_active !== 0 ? (
-                    <TimePicker
-                      className={'flex'}
-                      onChange={(t) => changeTime(t, data.id, 'start_at')}
-                      value={data.start_at}
-                      disableClock
-                      autoFocus
-                      clockClassName={'flex'}
+                    <input
+                      type='time'
+                      value={data.start_at || ''}
+                      onChange={(e) =>
+                        handleChange(e, data.day, 'start_at', data.id)
+                      }
+                      className='form-input w-1/2 mx-2 rounded-md'
                     />
                   ) : (
-                    <div className={'flex form-input'}></div>
+                    <div className={'form-input'}></div>
                   )}
 
-                  {data.is_active !== 0 && <span className='px-2'>to</span>}
                   {data.is_active !== 0 ? (
-                    <TimePicker
-                      onChange={(t) => changeTime(t, data.id, 'end_at')}
-                      value={data.end_at}
-                      disableClock
-                      autoFocus
-                      clockClassName={'flex'}
+                    <input
+                      type='time'
+                      value={data.end_at || ''}
+                      onChange={(e) =>
+                        handleChange(e, data.id, 'end_at', data.id)
+                      }
+                      className='form-input w-1/2 mx-2 rounded-md'
                     />
                   ) : (
                     <div className={'flex'}></div>

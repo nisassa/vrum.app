@@ -147,7 +147,7 @@ function DisplayServices(props) {
         </span>
 
         <input
-          className='appearance-none bg-transparent border-indigo-500 w-20 h-5 text-indigo-500 border-b-2 py-1 px-2 leading-tight focus:outline-none'
+          className='appearance-none bg-transparent border-0 w-20 h-5 text-indigo-500 border-b-2 py-1 px-2 leading-tight focus:outline-none'
           type='text'
           value={service?.pivot_cost}
           onChange={(e) => {

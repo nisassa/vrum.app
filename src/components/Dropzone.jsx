@@ -11,7 +11,8 @@ export default function Dropzone(props) {
     setMyFiles([...acceptedFiles]);
   };
 
-  const { getRootProps, getInputProps, isDragActive, isFileDialogActive } = useDropzone({onDrop});
+  const { getRootProps, getInputProps, isDragActive, isFileDialogActive } =
+    useDropzone({ onDrop });
 
   const files = myFiles.map((file) => {
     return (
@@ -23,29 +24,34 @@ export default function Dropzone(props) {
 
   const removeAll = () => {
     if (typeof props.onRemove !== 'undefined') {
-      props.onRemove(null)
+      props.onRemove(null);
     }
     setMyFiles([]);
   };
 
-
-  if (props.hasOwnProperty('galleryImages')
-      && parseInt(props.galleryImages) >= parseInt(props.maxNrOfFiles)) {
-   return (
-       <section className='container sm:w-1/3 border-dashed border-2 border-gray-600 px-2 py-4'>
-         <div className='px-4 py-4 cursor-pointer bg-red-100'>
-           <p>You reached the number of files allowed!</p>
-         </div>
-       </section>
-   );
+  if (
+    props.hasOwnProperty('galleryImages') &&
+    parseInt(props.galleryImages) >= parseInt(props.maxNrOfFiles)
+  ) {
+    return (
+      <section className='container sm:w-1/3 border-dashed border-2 border-gray-600 px-2 py-4'>
+        <div className='px-4 py-4 cursor-pointer bg-red-100'>
+          <p>You reached the number of files allowed!</p>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section className='container sm:w-1/3 border-dashed border-2 border-gray-600 px-2 py-4'>
-      <div {...getRootProps({ className: 'dropzone' })}
-           className={`px-4 py-4 cursor-pointer ${ isDragActive || isFileDialogActive ? 'bg-green-100' : ''}
+      <div
+        {...getRootProps({ className: 'dropzone' })}
+        className={`px-4 py-4 cursor-pointer ${
+          isDragActive || isFileDialogActive ? 'bg-green-100' : ''
+        }
                 ${typeof props.onDrop !== 'undefined' ? 'h-full' : ''}
-           `}>
+           `}
+      >
         <input {...getInputProps()} />
         <p>Click to select/ Upload new photo</p>
       </div>

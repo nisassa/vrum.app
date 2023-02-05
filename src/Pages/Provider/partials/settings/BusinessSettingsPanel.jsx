@@ -189,7 +189,7 @@ function BusinessSettingsPanel() {
             </section>
             <section>
               <div className='sm:flex  space-y-4 sm:space-y-0 sm:space-x-4 mt-5'>
-                <div className='sm:w-1/3'>
+                <div className='md:w-full'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                     Business Info
                   </h3>
@@ -211,7 +211,7 @@ function BusinessSettingsPanel() {
                     setWorkingDays={setBusinessDays}
                   />
                 </div>
-                <div className='sm:w-1/3 contact-details px-3'>
+                <div className='md:w-full contact-details px-3'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                     Contact details
                   </h3>
@@ -389,7 +389,7 @@ function BusinessSettingsPanel() {
                       )}
                   </div>
                 </div>
-                <div className='sm:w-1/3'>
+                <div className='md:w-full'>
                   <h3 className='uppercase tracking-wide text-gray-700 text-md font-bold mb-3'>
                     Booking settings
                   </h3>

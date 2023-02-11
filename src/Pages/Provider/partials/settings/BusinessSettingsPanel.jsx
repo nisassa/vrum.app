@@ -81,11 +81,15 @@ function BusinessSettingsPanel() {
       upload(fd)
         .then((response) => {
           if (Array.isArray(response?.data?.message?.photo)) {
-            console.log(response?.data?.message?.photo[0]);
+            setToastData([
+              { type: 'error', msg: response?.data?.message?.photo[0] }
+            ]);
+            setToastOpen(true);
           }
         })
         .catch((e) => {
-          console.log(e);
+          setToastData([{ type: 'error', msg: e }]);
+          setToastOpen(true);
         });
     }
   };

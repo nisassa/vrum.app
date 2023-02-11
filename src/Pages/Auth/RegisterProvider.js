@@ -70,6 +70,7 @@ function RegisterProvider() {
                   last_name: '',
                   provider_name: '',
                   booking_by_specialist: false,
+                  type: '',
                   job_title: '',
                   phone: '',
                   email: '',
@@ -225,6 +226,37 @@ function RegisterProvider() {
                       </div>
                       <div className='text-sm text-slate-400 italic ml-2'>
                         {bookBy ? 'On' : 'Off'}
+                      </div>
+                    </div>
+
+                    <div className='flex flex-wrap -mx-3 mb-6 px-3 provider_type'>
+                      <label
+                        className='block uppercase tracking-wide text-back-700 text-xs font-bold mb-2'
+                        htmlFor='grid-state'
+                      >
+                        Type
+                      </label>
+                      <div className='w-full'>
+                        <Field
+                          name='provider_type'
+                          className={`form-input w-full ${
+                            apiErrors.hasOwnProperty('type') &&
+                            typeof apiErrors.country[0] !== 'undefined'
+                              ? `border-red-500`
+                              : `border-gray-300`
+                          }`}
+                          id='type'
+                          as='select'
+                        >
+                          <option>Auto Service</option>
+                          <option>Vulcanizare</option>
+                        </Field>
+                        {apiErrors.hasOwnProperty('type') &&
+                          typeof apiErrors.country[0] !== 'undefined' && (
+                            <p className='text-red-500 text-12'>
+                              {apiErrors.country[0]}
+                            </p>
+                          )}
                       </div>
                     </div>
                   </div>

@@ -156,6 +156,7 @@ function BusinessSettingsPanel() {
         <Formik
           initialValues={{
             name: user.provider.name,
+            type: user.provider.type,
             invoice_email: user.provider.invoice_email,
             postcode: user.provider.postcode,
             line_1: user.provider.line_1,
@@ -209,6 +210,38 @@ function BusinessSettingsPanel() {
                       name='name'
                       className='form-input w-full'
                     />
+                  </div>
+                  <div className='flex flex-wrap -mx-3 mb-6 px-3 type'>
+                    <label
+                      className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
+                      htmlFor='grid-state'
+                    >
+                      Type
+                    </label>
+                    <div className='w-full'>
+                      <Field
+                        name='type'
+                        className={`form-input w-full ${
+                          apiErrors &&
+                          apiErrors.hasOwnProperty('type') &&
+                          typeof apiErrors.country[0] !== 'undefined'
+                            ? `border-red-500`
+                            : `border-gray-300`
+                        }`}
+                        id='grid-state'
+                        as='select'
+                      >
+                        <option>Auto Service</option>
+                        <option>Vulcanizare</option>
+                      </Field>
+                    </div>
+                    {apiErrors &&
+                      apiErrors.hasOwnProperty('type') &&
+                      typeof apiErrors.country[0] !== 'undefined' && (
+                        <p className='text-red-500 text-12'>
+                          {apiErrors.country[0]}
+                        </p>
+                      )}
                   </div>
                   <BusinessHours
                     workingDays={user.provider.working_days}

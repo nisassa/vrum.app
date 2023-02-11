@@ -1,6 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, useParams } from 'react-router-dom';
 import ListingCard from '../components/ListingsCard';
+import Toast2 from '../components/Toast2';
+import Loading from '../components/Loading';
+import settings from '../config/settings';
+import {
+  useGetProviders,
+  useGetAllCategoriesServices,
+  useGetAllCities
+} from '../hooks/useBookings';
+
 function IndexPage() {
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const { page } = useParams();
+
+  const [pageNumb, setPageNumb] = useState(page ? page : '1');
+  const { data: cities } = useGetAllCities();
+  const { data: categories } = useGetAllCategoriesServices();
+  const {
+    data: providers,
+    isLoading,
+    refetch
+  } = useGetProviders(searchTerm, pageNumb);
+
+  useEffect(() => {
+    setSearchTerm(inputValue);
+
+    refetch();
+  }, [inputValue, pageNumb, refetch]);
+
+  useEffect(() => {
+    const hideToast = setTimeout(() => {
+      setToastOpen(false);
+    }, 8000);
+  }, [toastOpen]);
+  console.log(categories);
+
   return (
     <>
       <div className='md:container md:mx-auto  my-4 px-4'>
@@ -36,27 +75,53 @@ function IndexPage() {
               <div className='country flex-auto mx-2'>
                 <select id='country' className='form-select'>
                   <option>All cities</option>
-                  <option>Brasov</option>
-                  <option>Cluj</option>
-                  <option>Bucuresti</option>
+
+                  {cities !== undefined &&
+                    cities.map((data) => {
+                      return <option key={data.id}>{data.city}</option>;
+                    })}
                 </select>
               </div>
               <div className='services flex-auto mx-2'>
                 <select id='services' className='form-select'>
                   <option>All services</option>
-                  <option>Electric</option>
-                  <option>Engine</option>
-                  <option>Full diagnostic</option>
+                  {categories !== undefined &&
+                    categories.map((data) => {
+                      return <option key={data.id}>{data.name}</option>;
+                    })}
                 </select>
               </div>
             </form>
           </div>
           <div className='listings flex flex-wrap'>
             <div className='md:w-1/2 p-4 cards'>
-              <div className='grid grid-cols-12 gap-6'>
-                <ListingCard />
-                <ListingCard />
-                <ListingCard />
+              <div
+                className={
+                  providers === undefined
+                    ? 'flex justify-center h-100'
+                    : 'grid grid-cols-12 gap-6'
+                }
+              >
+                {providers === undefined ? <Loading /> : ''}
+
+                {providers !== undefined &&
+                  providers.data.map((provider) => {
+                    const imgPath = provider.photo_gallery.map((gallery) => {
+                      return gallery.photo !== null
+                        ? `${settings.storageUrl}${gallery.photo}`
+                        : 'Placeholder';
+                    });
+
+                    return (
+                      <ListingCard
+                        key={provider.id}
+                        id={provider.id}
+                        name={provider.name}
+                        image={imgPath}
+                        city={provider.city}
+                      />
+                    );
+                  })}
               </div>
             </div>
             <div className='md:w-1/2 p-4 map'>maps</div>

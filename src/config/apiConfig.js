@@ -18,14 +18,22 @@ export const endpoints = {
     getImages: () => `${settings.apiUrl}/api/provider/photo-gallery`,
     deleteImages: (id) => `${settings.apiUrl}/api/provider/photo-gallery/${id}`,
     staff: () => `${settings.apiUrl}/api/provider/staff`,
-    toggleStaffSkill: (user, skill) => `${settings.apiUrl}/api/provider/staff/toggle/service/${user}/${skill}`,
-    toggleMyService: (provider, skill) => `${settings.apiUrl}/api/provider/toggle/service/${provider}/${skill}`,
+    toggleStaffSkill: (user, skill) =>
+      `${settings.apiUrl}/api/provider/staff/toggle/service/${user}/${skill}`,
+    toggleMyService: (provider, skill) =>
+      `${settings.apiUrl}/api/provider/toggle/service/${provider}/${skill}`,
     paginate: () => `${settings.apiUrl}/api/provider/staff/paginate`,
     member: (id) => `${settings.apiUrl}/api/provider/staff/${id}`,
     services: () => `${settings.apiUrl}/api/provider/service-types/`,
     servicesByCat: () => `${settings.apiUrl}/api/services/groupby/categories`,
     myServices: () => `${settings.apiUrl}/api/provider/my-services`,
-    update_provider_service: () => `${settings.apiUrl}/api/provider/my-services/update`
+    update_provider_service: () =>
+      `${settings.apiUrl}/api/provider/my-services/update`
+  },
+  bookings: {
+    providersList: () => `${settings.apiUrl}/api/providers/paginate`,
+    cities: () => `${settings.apiUrl}/api/providers/cities`,
+    groupby: () => `${settings.apiUrl}/api/services/groupby/categories`
   },
 
   files: {

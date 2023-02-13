@@ -34,7 +34,12 @@ const useGetAllCities = () => {
   });
 };
 
-const useGetProviders = (searchTerm: any, page: any) => {
+const useGetProviders = (
+  searchTerm: any,
+  page: any,
+  city: any,
+  service_type: any
+) => {
   return useQuery<any>(
     [`getProvidersList`],
     async () => {
@@ -44,7 +49,11 @@ const useGetProviders = (searchTerm: any, page: any) => {
           '?q=' +
           searchTerm +
           '&page=' +
-          page,
+          page +
+          '&city=' +
+          city +
+          '&service_type=' +
+          service_type,
         method: 'GET',
         isProtected: true
       });

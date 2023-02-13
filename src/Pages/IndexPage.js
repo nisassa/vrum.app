@@ -3,6 +3,7 @@ import { BrowserRouter as Router, useParams } from 'react-router-dom';
 import ListingCard from '../components/ListingsCard';
 import Toast2 from '../components/Toast2';
 import Loading from '../components/Loading';
+import SearchForm from './Provider/partials/actions/SearchForm';
 import settings from '../config/settings';
 import {
   useGetProviders,
@@ -16,19 +17,21 @@ function IndexPage() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [servicesList, setservicesList] = useState(['Diagnostic', 'Service 2']);
+  const [servicesList, setservicesList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const { page } = useParams();
 
-  const [pageNumb, setPageNumb] = useState(page ? page : '1');
+  const [pageNumb, setPageNumb] = useState(page ? page : 1);
+  const [city, setCity] = useState('');
+  const [serviceType, setServiceType] = useState('3');
   const { data: cities } = useGetAllCities();
   const { data: categories } = useGetAllCategoriesServices();
   const {
     data: providers,
     isLoading,
     refetch
-  } = useGetProviders(searchTerm, pageNumb);
+  } = useGetProviders(searchTerm, pageNumb, city, serviceType);
 
   const handleChange = (event) => {
     const categoryId = parseInt(event.target.value, 10);
@@ -38,16 +41,18 @@ function IndexPage() {
       ? categories.filter((category) => category.id === categoryId)[0]
       : [];
     const service = category
-      ? category.services.map((service) => service.name)
+      ? category.services.map((service) => ({
+          id: service.id,
+          name: service.name
+        }))
       : [];
+
     setservicesList(service);
   };
 
   useEffect(() => {
-    setSearchTerm(inputValue);
-
     refetch();
-  }, [inputValue, pageNumb, refetch]);
+  }, [searchTerm, pageNumb, city, serviceType, refetch]);
 
   useEffect(() => {
     const hideToast = setTimeout(() => {
@@ -66,36 +71,24 @@ function IndexPage() {
           <div className='filters flex'>
             <form className='flex '>
               <div className='search flex-auto mx-2'>
-                <div className='relative'>
-                  <input
-                    id='form-search'
-                    className='form-input w-full pl-9'
-                    type='search'
-                  />
-                  <button
-                    className='absolute inset-0 right-auto group'
-                    type='submit'
-                    aria-label='Search'
-                  >
-                    <svg
-                      className='w-4 h-4 shrink-0 fill-current text-slate-400 group-hover:text-slate-500 ml-3 mr-2'
-                      viewBox='0 0 16 16'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path d='M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z' />
-                      <path d='M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z' />
-                    </svg>
-                  </button>
-                </div>
+                <SearchForm
+                  inputValue={searchTerm}
+                  setInputValue={setSearchTerm}
+                />
               </div>
               <div className='country flex-auto mx-2'>
-                <select id='country' className='form-select'>
-                  <option>All cities</option>
+                <select
+                  id='country'
+                  className='form-select'
+                  onChange={(event) => setCity(event.target.value)}
+                >
+                  <option value='all'>All cities</option>
 
                   {cities !== undefined &&
-                    cities.map((data) => {
-                      return <option key={data.id}>{data.city}</option>;
+                    cities.map((city) => {
+                      return <option key={city.id}>{city.city}</option>;
                     })}
+                  <option value='Bucurest'>Bucuresti</option>
                 </select>
               </div>
               <div className='categories flex-auto mx-2'>
@@ -106,10 +99,10 @@ function IndexPage() {
                 >
                   <option value='all'>All categories</option>
                   {categories !== undefined &&
-                    categories.map((data) => {
+                    categories.map((category) => {
                       return (
-                        <option key={data.id} value={data.id}>
-                          {data.name}
+                        <option key={category.id} value={category.id}>
+                          {category.name}
                         </option>
                       );
                     })}
@@ -117,11 +110,15 @@ function IndexPage() {
               </div>
               <div className='services flex-auto mx-2'>
                 {selectedCategory && selectedCategory !== 'all' && (
-                  <select id='services' className='form-select'>
+                  <select
+                    id='services'
+                    className='form-select'
+                    onChange={(event) => setServiceType(event.target.value)}
+                  >
                     <option value=''>Select a Service</option>
-                    {servicesList.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
+                    {servicesList.map((service) => (
+                      <option key={service.id} value={service.id}>
+                        {service.name}
                       </option>
                     ))}
                   </select>
@@ -149,16 +146,25 @@ function IndexPage() {
                     });
 
                     return (
-                      <ListingCard
-                        key={provider.id}
-                        id={provider.id}
-                        type={provider.type}
-                        name={provider.name}
-                        image={imgPath}
-                        city={provider.city}
-                      />
+                      <>
+                        <ListingCard
+                          key={provider.id}
+                          id={provider.id}
+                          type={provider.type}
+                          name={provider.name}
+                          image={imgPath}
+                          city={provider.city}
+                        />
+                      </>
                     );
                   })}
+              </div>
+              <div className='w-full text-center'>
+                {pageNumb && pageNumb !== 1 && (
+                  <button class='btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap px-10 mx-auto'>
+                    Load more
+                  </button>
+                )}
               </div>
             </div>
             <div className='md:w-1/2 p-4 map'>maps</div>

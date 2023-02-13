@@ -3,17 +3,19 @@ import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../hooks/useClient';
 import LoadingSvg from '../../components/LoadingSvg';
+import settings from '../../config/settings';
 
 function RegisterClient() {
   const navigate = useNavigate();
 
   const [apiErrors, setApiErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState(false);
-
+  const [location, setLocation] = useState({});
+  
   const { mutateAsync: registerClient, isLoading } = useRegister();
 
   const handleSubmit = async (values) => {
-    await registerClient(values)
+    await registerClient({...values, location})
       .then((i) => {
         setSuccessMessage('Thanks for Registering! You can go to login now!');
       })
@@ -35,13 +37,52 @@ function RegisterClient() {
       });
   };
 
+  const getUserGeolocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        
+
+        fetch(
+          `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${settings.geoApiKey}`
+        )
+          .then(response => response.json())
+          .then(data => {
+            
+            const city = data.results[0]?.components?.city;
+            const country = data.results[0]?.components?.country;
+            const road = data.results[0]?.components?.road;
+            const number = data.results[0]?.components?.house_number;
+            
+            setLocation({
+              city,
+              country,
+              road,
+              number,
+              latitude,
+              longitude
+            })
+
+          })
+          .catch(error => console.error(error));
+      },
+      error => console.error(error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
+
   useEffect(() => {
     if (successMessage !== false) {
       setTimeout(() => {
         navigate('/login');
       }, 3000);
     }
+    
+    getUserGeolocation()
+    
   }, [successMessage, navigate]);
+
+
 
   return (
     <>

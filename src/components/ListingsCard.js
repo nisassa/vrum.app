@@ -17,7 +17,7 @@ function ListingCard(props) {
           <img src={props.image} className=' rounded-lg h-full' />
           <div className='absolute mt-2 text-sm font-bold text-sm top-0 left-0 px-2'>
             <div className='bg-yellow-400  rounded-md px-1 type'>
-              Auto service
+              {props.type}
             </div>
           </div>
           <div className='absolute bottom-0 my-5 px-5'>

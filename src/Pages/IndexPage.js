@@ -16,6 +16,9 @@ function IndexPage() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [servicesList, setservicesList] = useState(['Diagnostic', 'Service 2']);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
   const { page } = useParams();
 
   const [pageNumb, setPageNumb] = useState(page ? page : '1');
@@ -27,6 +30,19 @@ function IndexPage() {
     refetch
   } = useGetProviders(searchTerm, pageNumb);
 
+  const handleChange = (event) => {
+    const categoryId = parseInt(event.target.value, 10);
+    setSelectedCategory(categoryId ? categoryId : 'all');
+    console.log(`Selected item with id: ${categoryId}`);
+    const category = categoryId
+      ? categories.filter((category) => category.id === categoryId)[0]
+      : [];
+    const service = category
+      ? category.services.map((service) => service.name)
+      : [];
+    setservicesList(service);
+  };
+
   useEffect(() => {
     setSearchTerm(inputValue);
 
@@ -37,8 +53,8 @@ function IndexPage() {
     const hideToast = setTimeout(() => {
       setToastOpen(false);
     }, 8000);
-  }, [toastOpen]);
-  console.log(categories);
+    console.log(servicesList);
+  }, [toastOpen, servicesList]);
 
   return (
     <>
@@ -82,14 +98,34 @@ function IndexPage() {
                     })}
                 </select>
               </div>
-              <div className='services flex-auto mx-2'>
-                <select id='services' className='form-select'>
-                  <option>All services</option>
+              <div className='categories flex-auto mx-2'>
+                <select
+                  id='categories'
+                  className='form-select'
+                  onChange={handleChange}
+                >
+                  <option value='all'>All categories</option>
                   {categories !== undefined &&
                     categories.map((data) => {
-                      return <option key={data.id}>{data.name}</option>;
+                      return (
+                        <option key={data.id} value={data.id}>
+                          {data.name}
+                        </option>
+                      );
                     })}
                 </select>
+              </div>
+              <div className='services flex-auto mx-2'>
+                {selectedCategory && selectedCategory !== 'all' && (
+                  <select id='services' className='form-select'>
+                    <option value=''>Select a Service</option>
+                    {servicesList.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
             </form>
           </div>
@@ -116,6 +152,7 @@ function IndexPage() {
                       <ListingCard
                         key={provider.id}
                         id={provider.id}
+                        type={provider.type}
                         name={provider.name}
                         image={imgPath}
                         city={provider.city}

@@ -8,10 +8,7 @@ import PaginationNumeric from '../../../../components/PaginationNumeric';
 import AddNewMemberModal from '../../manageTeam/addNewMemeberModal';
 import settings from '../../../../config/settings';
 import { useGetAllMembers } from '../../../../hooks/useProvider';
-import {
-  BrowserRouter as Router,
-  useParams
-} from 'react-router-dom';
+import { BrowserRouter as Router, useParams } from 'react-router-dom';
 
 function MyTeamPanel() {
   const [toastOpen, setToastOpen] = useState(false);

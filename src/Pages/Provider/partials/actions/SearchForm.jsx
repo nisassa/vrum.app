@@ -1,9 +1,17 @@
 import { set } from 'date-fns/esm';
 import React, { useState } from 'react';
 
-function SearchForm({ placeholder, inputValue, setInputValue }) {
+function SearchForm({
+  placeholder,
+  inputValue,
+  setInputValue,
+  setCity,
+  setServiceType
+}) {
   const handleSearch = (event) => {
     setInputValue(event.target.value);
+    setCity && setCity('');
+    setServiceType && setServiceType('');
   };
   return (
     <form className='relative'>

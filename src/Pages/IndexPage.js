@@ -46,7 +46,6 @@ function IndexPage() {
           name: service.name
         }))
       : [];
-
     setservicesList(service);
   };
 
@@ -74,6 +73,8 @@ function IndexPage() {
                 <SearchForm
                   inputValue={searchTerm}
                   setInputValue={setSearchTerm}
+                  setCity={setCity}
+                  setServiceType={setServiceType}
                 />
               </div>
               <div className='country flex-auto mx-2'>

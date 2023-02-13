@@ -24,7 +24,7 @@ function IndexPage() {
 
   const [pageNumb, setPageNumb] = useState(page ? page : 1);
   const [city, setCity] = useState('');
-  const [serviceType, setServiceType] = useState('3');
+  const [serviceType, setServiceType] = useState('');
   const { data: cities } = useGetAllCities();
   const { data: categories } = useGetAllCategoriesServices();
   const {
@@ -82,13 +82,12 @@ function IndexPage() {
                   className='form-select'
                   onChange={(event) => setCity(event.target.value)}
                 >
-                  <option value='all'>All cities</option>
+                  <option value=''>All cities</option>
 
                   {cities !== undefined &&
                     cities.map((city) => {
                       return <option key={city.id}>{city.city}</option>;
                     })}
-                  <option value='Bucurest'>Bucuresti</option>
                 </select>
               </div>
               <div className='categories flex-auto mx-2'>

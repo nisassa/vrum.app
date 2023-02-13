@@ -238,7 +238,7 @@ function RegisterProvider() {
                       </label>
                       <div className='w-full'>
                         <Field
-                          name='provider_type'
+                          name='type'
                           className={`form-input w-full ${
                             apiErrors.hasOwnProperty('type') &&
                             typeof apiErrors.country[0] !== 'undefined'

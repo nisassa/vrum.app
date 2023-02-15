@@ -22,6 +22,7 @@ interface IProfileContext {
   isServiceProviderManager: boolean;
   isReady: boolean;
   saveUser: (user: any) => void;
+  initLogOut: () => void;
   userLogin: (user: any) => void;
   restoreUserAndToken: () => void;
 }
@@ -36,6 +37,7 @@ export const ProfileContext = createContext<IProfileContext>({
   isServiceProviderManager: false,
   isReady: false,
   saveUser: () => {},
+  initLogOut: () => {},
   userLogin: () => {},
   restoreUserAndToken: () => {}
 }) as Context<IProfileContext>;
@@ -67,7 +69,11 @@ export const ProfileProvider: FC<any> = ({ children }) => {
     setToken(token);
     setIsReady(true);
   };
-
+  
+  const initLogOut = async () => {
+    setIsReady(false);
+  };
+  
   const saveUser = async (user: any) => {
     setUser(user);
     await storage.storeUser(user);
@@ -94,6 +100,7 @@ export const ProfileProvider: FC<any> = ({ children }) => {
           typeof user === 'object' && user?.manager === 1,
         isReady,
         saveUser,
+        initLogOut,
         userLogin,
         restoreUserAndToken
       }}

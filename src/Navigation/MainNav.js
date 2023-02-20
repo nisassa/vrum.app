@@ -8,14 +8,18 @@ import settings from '../config/settings';
 import UserAvatar from '../images/user-avatar-32.png';
 
 export default function MainNav() {
-  const { isAuthenticated, isServiceProvider, user, isReady } = useProfile();
+  const { isAuthenticated, isServiceProvider, user, isReady, initLogOut } = useProfile();
   const { mutateAsync: logout, isLoading } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
   const handleLogout = async () => {
+    initLogOut()
     await logout();
-    navigate('/');
+    
+    setTimeout(() => {
+      navigate('/');
+    }, 2000);
   };
 
   const [dropdownOpen, setDropdownOpen] = useState(false);

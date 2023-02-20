@@ -21,7 +21,7 @@ export const PrivateRoute = ({
     isServiceProviderManager
   } = useProfile();
 
-  if (!isReady) {
+  if (isReady !== true) {
     return <Loading style='h-screen' />;
   }
 
@@ -29,7 +29,7 @@ export const PrivateRoute = ({
     return <Navigate to='/login' state={{ from: location }} />;
   }
 
-  if (isAuthenticated && mustBeProvider && !isServiceProvider) {
+  if (isAuthenticated && mustBeProvider && !isServiceProvider ) {
     return <NotFound />;
   }
 
@@ -39,7 +39,7 @@ export const PrivateRoute = ({
   if (isAuthenticated && mustBeProviderManager && !isServiceProviderManager) {
     return <NotFound />;
   }
-
+  
   return children;
 };
 
@@ -52,7 +52,7 @@ export const RestrictedForProviderRoute = ({
 
   const { isReady, isAuthenticated, isServiceProvider } = useProfile();
 
-  if (!isReady) {
+  if (isReady !== true) {
     return <Loading style='h-screen' />;
   }
 

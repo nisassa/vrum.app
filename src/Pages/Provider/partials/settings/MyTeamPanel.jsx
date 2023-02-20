@@ -13,7 +13,7 @@ import { BrowserRouter as Router, useParams } from 'react-router-dom';
 function MyTeamPanel() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
-  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [addMemberModalOpen, setAddMemberModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const { page } = useParams();
@@ -61,7 +61,7 @@ function MyTeamPanel() {
                   className='btn bg-indigo-500 hover:bg-indigo-600 text-white'
                   onClick={(e) => {
                     e.stopPropagation();
-                    setFeedbackModalOpen(true);
+                    setAddMemberModalOpen(true);
                   }}
                 >
                   <svg
@@ -118,8 +118,8 @@ function MyTeamPanel() {
             </div>
 
             <AddNewMemberModal
-              feedbackModalOpen={feedbackModalOpen}
-              setFeedbackModalOpen={setFeedbackModalOpen}
+              feedbackModalOpen={addMemberModalOpen}
+              setFeedbackModalOpen={setAddMemberModalOpen}
               toastOpen={toastOpen}
               setToastOpen={setToastOpen}
               toastType={toastType}

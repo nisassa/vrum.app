@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ListingCard from '../components/ListingsCard';
 import Toast2 from '../components/Toast2';
 import Loading from '../components/Loading';
@@ -10,11 +10,12 @@ import {
   useGetAllCategoriesServices,
   useGetAllCities
 } from '../hooks/useBookings';
+import BookingRequestModal from './Client/Booking/BookingRequestModal';
 
 function IndexPage() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastData] = useState([{ type: '', msg: '' }]);
-  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [bookingRequest, setBookingRequest] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [servicesList, setservicesList] = useState([]);
@@ -48,7 +49,10 @@ function IndexPage() {
       : [];
     setservicesList(service);
   };
-
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
   useEffect(() => {
     refetch();
   }, [searchTerm, pageNumb, city, serviceType, refetch]);
@@ -154,6 +158,9 @@ function IndexPage() {
                           name={provider.name}
                           image={imgPath}
                           city={provider.city}
+                          bookingRequest={bookingRequest}
+                          setBookingRequest={setBookingRequest}
+                          handleClick={handleClick}
                         />
                       </>
                     );
@@ -167,9 +174,28 @@ function IndexPage() {
                 )}
               </div>
             </div>
-            <div className='md:w-1/2 p-4 map'>maps</div>
+            <div className='md:w-1/2 p-4 map'>
+              {' '}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setBookingRequest(true);
+                }}
+                className='btn text-white'
+              >
+                Book
+              </button>
+            </div>
           </div>
         </div>
+        <BookingRequestModal
+          bookingRequest={bookingRequest}
+          setBookingRequest={setBookingRequest}
+          toastOpen={toastOpen}
+          setToastOpen={setToastOpen}
+          toastType={toastType}
+          setToastData={setToastData}
+        />
       </div>
     </>
   );
